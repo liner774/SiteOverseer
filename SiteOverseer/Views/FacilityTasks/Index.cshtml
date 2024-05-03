@@ -1,0 +1,119 @@
+﻿@model IEnumerable<SiteOverseer.Models.FacilityTask>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FcilId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WbsdId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Budget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CntorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SelectionTyp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkstartDte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkendDte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwardedValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgpayId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllowSubmitExpense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskCompleteFlg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CmpyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RevdTetime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FcilId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WbsdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Budget)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CntorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectionTyp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkstartDte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkendDte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwardedValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgpayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllowSubmitExpense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskCompleteFlg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CmpyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RevdTetime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FciltskId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FciltskId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FciltskId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

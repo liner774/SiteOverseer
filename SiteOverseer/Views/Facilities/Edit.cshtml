@@ -1,0 +1,86 @@
+﻿@model SiteOverseer.Models.Facility
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Facility</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FcilId" />
+            <div class="form-group">
+                <label asp-for="FcilCde" class="control-label"></label>
+                <input asp-for="FcilCde" class="form-control" />
+                <span asp-validation-for="FcilCde" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FcilNme" class="control-label"></label>
+                <input asp-for="FcilNme" class="form-control" />
+                <span asp-validation-for="FcilNme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Township" class="control-label"></label>
+                <input asp-for="Township" class="form-control" />
+                <span asp-validation-for="Township" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <input asp-for="CityId" class="form-control" />
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FciltypId" class="control-label"></label>
+                <input asp-for="FciltypId" class="form-control" />
+                <span asp-validation-for="FciltypId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contractval" class="control-label"></label>
+                <input asp-for="Contractval" class="form-control" />
+                <span asp-validation-for="Contractval" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApproveDte" class="control-label"></label>
+                <input asp-for="ApproveDte" class="form-control" />
+                <span asp-validation-for="ApproveDte" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FcilstartDte" class="control-label"></label>
+                <input asp-for="FcilstartDte" class="form-control" />
+                <span asp-validation-for="FcilstartDte" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CmpyId" class="control-label"></label>
+                <input asp-for="CmpyId" class="form-control" />
+                <span asp-validation-for="CmpyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RevdTetime" class="control-label"></label>
+                <input asp-for="RevdTetime" class="form-control" />
+                <span asp-validation-for="RevdTetime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

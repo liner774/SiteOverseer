@@ -1,0 +1,60 @@
+﻿@model SiteOverseer.Models.TranTypeCode
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TranTypeCode</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrantypCde)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrantypCde)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TranNature)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TranNature)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContractorFlg)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContractorFlg)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RequireClaim)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RequireClaim)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CmpyId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CmpyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RevDtetime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RevDtetime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.TrantypId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

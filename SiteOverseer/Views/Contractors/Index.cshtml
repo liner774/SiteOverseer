@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SiteOverseer.Models.Contractor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CntorNme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FciltypId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgpayId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Establisheddte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BadStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CmpyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RevDtetime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CntorNme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FciltypId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgpayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Establisheddte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BadStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CmpyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RevDtetime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CntorId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CntorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CntorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
