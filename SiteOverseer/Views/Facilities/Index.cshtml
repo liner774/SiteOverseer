@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SiteOverseer.Models.Facility>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FcilCde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FcilNme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Township)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FciltypId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contractval)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApproveDte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FcilstartDte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CmpyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RevdTetime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FcilCde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FcilNme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Township)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FciltypId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contractval)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApproveDte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FcilstartDte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CmpyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RevdTetime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FcilId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FcilId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FcilId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
