@@ -18,6 +18,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+//comment by nyi lynn
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
