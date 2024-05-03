@@ -19,6 +19,9 @@ if (!app.Environment.IsDevelopment())
 }
 // commend by khin
 
+
+//comment by nyi lynn
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
