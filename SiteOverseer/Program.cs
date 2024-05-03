@@ -21,6 +21,7 @@ if (!app.Environment.IsDevelopment())
 
 
 //comment by nyi lynn
+//second comment
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
