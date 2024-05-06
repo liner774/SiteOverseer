@@ -1,71 +1,80 @@
 ﻿@model SiteOverseer.Models.City
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "City Details";
 }
 
 
-
-<h1>Details</h1>
 
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-6">
-                <h4>Transaction Reason Details</h4>
+                <h4>@ViewData["Title"]</h4>
             </div>
             <div class="col-6">
                 <div class="breadcrumb float-right active">
-                    <a asp-action="Create" class="btn btn-primary">Back to List<i class="fas fa-back"></i></a>
+                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<hr />
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CityId)
-    </dt>
 
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CityId)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CityCode)
-    </dt>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] Details </h3>
+            </div>
+            <div class="card-body">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CityId)
+                </dt>
 
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CityCode)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CityName)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CityName)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CmpyId)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CmpyId)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.RevDtetime)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.RevDtetime)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.UserId)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.UserId)
-    </dd>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CityId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CityCode)
+                </dt>
 
-</dl>
-</div>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CityCode)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CityName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CityName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CmpyId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CmpyId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.RevDtetime)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RevDtetime)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.UserId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.UserId)
+                </dd>
+
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 
 
