@@ -34,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=TranTypeReasons}/{action=Index}/{id?}");
+    pattern: "{controller=Companies}/{action=Index}/{id?}");
 
 app.Run();
