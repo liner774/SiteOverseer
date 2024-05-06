@@ -58,12 +58,14 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                menugp.RevdTetime = DateTime.Now; 
                 _context.Add(menugp);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(menugp);
         }
+
 
         // GET: Menugps/Edit/5
         public async Task<IActionResult> Edit(short? id)
