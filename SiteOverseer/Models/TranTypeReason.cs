@@ -9,7 +9,7 @@ namespace SiteOverseer.Models
         [DisplayName("Reason ID")]
         public short TranReasonId { get; set; }
         [StringLength(50)]
-        [DisplayName("Transaction Reason")]
+        [DisplayName("Reason")]
         public required string TranReasonDesc { get; set; }
         public short CmpyId { get; set; }
         public int UserId { get; set; }
