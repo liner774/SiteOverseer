@@ -58,6 +58,8 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                tranTypeReason.RevDtetime = DateTime.Now;
+
                 _context.Add(tranTypeReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -68,6 +70,8 @@ namespace SiteOverseer.Controllers
         // GET: TranTypeReasons/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
+            
+
             if (id == null)
             {
                 return NotFound();
@@ -77,7 +81,10 @@ namespace SiteOverseer.Controllers
             if (tranTypeReason == null)
             {
                 return NotFound();
+
             }
+
+            tranTypeReason.RevDtetime = DateTime.Now;
             return View(tranTypeReason);
         }
 
@@ -99,6 +106,7 @@ namespace SiteOverseer.Controllers
                 {
                     _context.Update(tranTypeReason);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,6 +121,8 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            tranTypeReason.RevDtetime = DateTime.Now;
             return View(tranTypeReason);
         }
 

@@ -4,15 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
+
+
 <h1>Details</h1>
 
-<div>
-    <h4>TranTypeReason</h4>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h4>Transaction Reason Details</h4>
+            </div>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Create" class="btn btn-primary">Back to List<i class="fas fa-back"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TranReasonId)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TranReasonId)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TranReasonDesc)
         </dt>
+
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TranReasonDesc)
         </dd>
@@ -22,21 +45,22 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CmpyId)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RevDtetime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RevDtetime)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UserId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.UserId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RevDtetime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RevDtetime)
-        </dd>
+        
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.TranReasonId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+            
