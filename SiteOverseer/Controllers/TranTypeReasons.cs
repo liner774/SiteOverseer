@@ -54,16 +54,16 @@ namespace SiteOverseer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MnugrpId,MnugrpNme,RevdTetime")] Menugp menugp)
+        public async Task<IActionResult> Create([Bind("TranReasonId,TranReasonDesc,CmpyId,UserId,RevDtetime")] TranTypeReason tranTypeReason)
         {
             if (ModelState.IsValid)
-            {
-                menugp.RevdTetime = DateTime.Now; // Corrected line
-                _context.Add(menugp);
+            { 
+                tranTypeReason.RevDtetime = DateTime.Now;
+                _context.Add(tranTypeReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(menugp);
+            return View(tranTypeReason);
         }
 
 

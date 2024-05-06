@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SiteOverseer.Models
 {
@@ -7,8 +8,10 @@ namespace SiteOverseer.Models
         [Key]
         public short TrantypId { get; set; }
         [StringLength(50)]
+        [DisplayName("Tran Type Code")]
         public required string TrantypCde { get; set; }
         [StringLength(1)]
+        [DisplayName("Tran Nature")]
         public required string TranNature { get; set; }
         public required Boolean ContractorFlg { get; set; }
         public required Boolean RequireClaim { get; set; }

@@ -58,6 +58,7 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                tranTypeCode.RevDtetime = DateTime.Now;
                 _context.Add(tranTypeCode);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -78,6 +79,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            tranTypeCode.RevDtetime = DateTime.Now;
             return View(tranTypeCode);
         }
 
