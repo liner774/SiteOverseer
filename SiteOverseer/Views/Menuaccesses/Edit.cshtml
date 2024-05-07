@@ -1,67 +1,41 @@
 ﻿@model SiteOverseer.Models.Menuaccess
 
 @{
-    ViewData["Title"] = "Menu Access ";
-
+    ViewData["Title"] = "Edit";
 }
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-6">
-                <h1>@ViewData["Title"]</h1>
-            </div>
-            <div class="col-6">
-                <div class="breadcrumb float-right active">
-                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
 
-                </div>
+<h1>Edit</h1>
+
+<h4>Menuaccess</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AccessId" />
+            <div class="form-group">
+                <label asp-for="MnugrpId" class="control-label"></label>
+                <input asp-for="MnugrpId" class="form-control" />
+                <span asp-validation-for="MnugrpId" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="BtnNme" class="control-label"></label>
+                <input asp-for="BtnNme" class="form-control" />
+                <span asp-validation-for="BtnNme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RevdTetime" class="control-label"></label>
+                <input asp-for="RevdTetime" class="form-control" />
+                <span asp-validation-for="RevdTetime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-gray">
-            <div class="card-header">
-                <h3 class="card-title">@ViewData["Title"] Edit</h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <form asp-action="Edit" enctype="multipart/form-data">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group text-danger">@ViewData["Msg"]</div>
-                            <input type="hidden" asp-for="MnugrpId" />
-                            <div class="form-group">
-                                <label asp-for="MnugrpId" class="control-label">Menu Group Name</label>
-                                <select asp-for="MnugrpId" class="form-control" asp-items="@ViewBag.MenuGpList">
-                                    <option value="">- Select One -</option>
-                                </select>
-                                <span asp-validation-for="MnugrpId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="BtnNme" class="control-label">Menu Name</label>
-                                <input asp-for="BtnNme" class="form-control" />
-                                <span asp-validation-for="BtnNme" class="text-danger"></span>
-                            </div>
+</div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-                            <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-
-}

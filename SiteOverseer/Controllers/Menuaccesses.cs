@@ -19,20 +19,13 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        
+        // GET: Menuaccesses
         public async Task<IActionResult> Index()
         {
-            var menuAccessList = await _context.MS_Menuaccess.ToListAsync();
-
-            foreach(var menuAccess in menuAccessList)
-            {
-                menuAccess.MnugrpNme = _context.MS_Menugp.Where(gp => gp.MnugrpId == menuAccess.MnugrpId).Select(gp => gp.MnugrpNme).FirstOrDefault();
-            }
-
-            return View(menuAccessList);
+            return View(await _context.MS_Menuaccess.ToListAsync());
         }
 
-       
+        // GET: Menuaccesses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,21 +43,21 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-      
+        // GET: Menuaccesses/Create
         public IActionResult Create()
         {
-            ViewData["MenuGpList"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpId", "MnugrpNme");
-            
             return View();
         }
 
+        // POST: Menuaccesses/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MnugrpId,BtnNme")] Menuaccess menuaccess)
+        public async Task<IActionResult> Create([Bind("AccessId,MnugrpId,BtnNme,RevdTetime")] Menuaccess menuaccess)
         {
             if (ModelState.IsValid)
             {
-                menuaccess.RevdTetime = DateTime.Now;
                 _context.Add(menuaccess);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,6 +65,7 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
+        // GET: Menuaccesses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,14 +78,15 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            ViewData["MenuGpList"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpId", "MnugrpNme");
             return View(menuaccess);
         }
 
-      
+        // POST: Menuaccesses/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AccessId,MnugrpId,BtnNme")] Menuaccess menuaccess)
+        public async Task<IActionResult> Edit(int id, [Bind("AccessId,MnugrpId,BtnNme,RevdTetime")] Menuaccess menuaccess)
         {
             if (id != menuaccess.AccessId)
             {
@@ -121,7 +116,7 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-      
+        // GET: Menuaccesses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,7 +134,7 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-     
+        // POST: Menuaccesses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
