@@ -1,21 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiteOverseer.Models
 {
     public class Contractor
     {
         [Key]
+        [DisplayName("Contractor ID")]
         public int CntorId { get; set; }
         [StringLength(100)]
+        [DisplayName("Contractor Name")]
         public required string CntorNme { get; set; }
+        [DisplayName("Faciliy Type")]
         public int FciltypId { get; set; }
+        [DisplayName("Progress Payment")]
         public int ProgpayId { get; set; }
+        [DisplayName("Established Date")]
         public DateTime? Establisheddte { get; set; }
+        [DisplayName("Bad Status")]
         public Boolean BadStatus { get; set; }
         public string? Remark { get; set; }
         public short CmpyId { get; set; }
         public int UserId { get; set; }
         public DateTime RevDtetime { get; set; }
 
+        //comment
+        
+        [DisplayName("Facility Type Code")]
+        [NotMapped]
+        public string? FciltypCde { get; set; }
     }
 }

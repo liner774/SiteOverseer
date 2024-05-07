@@ -1,70 +1,85 @@
 ﻿@model SiteOverseer.Models.Contractor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Contractor";
 }
 
-<h1>Create</h1>
 
-<h4>Contractor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CntorNme" class="control-label"></label>
-                <input asp-for="CntorNme" class="form-control" />
-                <span asp-validation-for="CntorNme" class="text-danger"></span>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1>@ViewData["Title"]</h1>
             </div>
-            <div class="form-group">
-                <label asp-for="FciltypId" class="control-label"></label>
-                <input asp-for="FciltypId" class="form-control" />
-                <span asp-validation-for="FciltypId" class="text-danger"></span>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ProgpayId" class="control-label"></label>
-                <input asp-for="ProgpayId" class="form-control" />
-                <span asp-validation-for="ProgpayId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Establisheddte" class="control-label"></label>
-                <input asp-for="Establisheddte" class="form-control" />
-                <span asp-validation-for="Establisheddte" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="BadStatus" /> @Html.DisplayNameFor(model => model.BadStatus)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Remark" class="control-label"></label>
-                <input asp-for="Remark" class="form-control" />
-                <span asp-validation-for="Remark" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CmpyId" class="control-label"></label>
-                <input asp-for="CmpyId" class="form-control" />
-                <span asp-validation-for="CmpyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RevDtetime" class="control-label"></label>
-                <input asp-for="RevDtetime" class="form-control" />
-                <span asp-validation-for="RevDtetime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] Create</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="CntorNme" class="control-label"></label>
+                                <input asp-for="CntorNme" class="form-control" />
+                                <span asp-validation-for="CntorNme" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FciltypId" class="control-label"></label>
+
+                                <select asp-for="FciltypId" class="form-control" asp-items="@ViewBag.FcliList">
+                                    <option value="">- Select One -</option>
+                                    
+                                </select>
+                                <span asp-validation-for="FciltypId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProgpayId" class="control-label"></label>
+                                <select asp-for="ProgpayId" class="form-control" >
+                                    <option value="">- Select One -</option>
+                                    <option value="1"> Option </option>
+                                </select>
+                                <span asp-validation-for="ProgpayId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Establisheddte" class="control-label"></label>
+                                <input asp-for="Establisheddte" class="form-control" />
+                                <span asp-validation-for="Establisheddte" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="BadStatus" /> @Html.DisplayNameFor(model => model.BadStatus)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Remark" class="control-label"></label>
+                                <input asp-for="Remark" class="form-control" />
+                                <span asp-validation-for="Remark" class="text-danger"></span>
+                            </div>
+                           
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
