@@ -88,7 +88,7 @@ namespace SiteOverseer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("TrantypId,TrantypCde,TranNature,ContractorFlg,RequireClaim,CmpyId,UserId,RevDtetime")] TranTypeCode tranTypeCode)
+        public async Task<IActionResult> Edit(short id, [Bind("TrantypId,TrantypCde,TranNature,ContractorFlg,RequireClaim,CmpyId,UserId")] TranTypeCode tranTypeCode)
         {
             if (id != tranTypeCode.TrantypId)
             {
@@ -99,6 +99,7 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    tranTypeCode.RevDtetime = DateTime.Now;
                     _context.Update(tranTypeCode);
                     await _context.SaveChangesAsync();
                 }
