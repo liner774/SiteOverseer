@@ -17,6 +17,7 @@ namespace SiteOverseer.Models
         public required Boolean RequireClaim { get; set; }
         public short CmpyId { get; set; }
         public int UserId { get; set; }
+        [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }
     }
 }

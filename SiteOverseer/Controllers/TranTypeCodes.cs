@@ -18,14 +18,13 @@ namespace SiteOverseer.Controllers
         {
             _context = context;
         }
-
-        // GET: TranTypeCodes
+        #region // Main Methods //
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_Trantypecode.ToListAsync());
         }
 
-        // GET: TranTypeCodes/Details/5
+ 
         public async Task<IActionResult> Details(short? id)
         {
             if (id == null)
@@ -43,30 +42,28 @@ namespace SiteOverseer.Controllers
             return View(tranTypeCode);
         }
 
-        // GET: TranTypeCodes/Create
+         
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: TranTypeCodes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TrantypId,TrantypCde,TranNature,ContractorFlg,RequireClaim,CmpyId,UserId,RevDtetime")] TranTypeCode tranTypeCode)
+        public async Task<IActionResult> Create([Bind("TrantypId,TrantypCde,TranNature,ContractorFlg,RequireClaim")] TranTypeCode tranTypeCode)
         {
             if (ModelState.IsValid)
             {
                 tranTypeCode.RevDtetime = DateTime.Now;
+                tranTypeCode.CmpyId = 1; // default
+                tranTypeCode.UserId = 1; //default
                 _context.Add(tranTypeCode);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(tranTypeCode);
         }
-
-        // GET: TranTypeCodes/Edit/5
+ 
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)
@@ -83,12 +80,10 @@ namespace SiteOverseer.Controllers
             return View(tranTypeCode);
         }
 
-        // POST: TranTypeCodes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("TrantypId,TrantypCde,TranNature,ContractorFlg,RequireClaim,CmpyId,UserId")] TranTypeCode tranTypeCode)
+        public async Task<IActionResult> Edit(short id, [Bind("TrantypId,TrantypCde,TranNature")] TranTypeCode tranTypeCode)
         {
             if (id != tranTypeCode.TrantypId)
             {
@@ -100,6 +95,8 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     tranTypeCode.RevDtetime = DateTime.Now;
+                    tranTypeCode.CmpyId = 1; // default
+                    tranTypeCode.UserId = 1; //default
                     _context.Update(tranTypeCode);
                     await _context.SaveChangesAsync();
                 }
@@ -119,7 +116,7 @@ namespace SiteOverseer.Controllers
             return View(tranTypeCode);
         }
 
-        // GET: TranTypeCodes/Delete/5
+
         public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
@@ -137,7 +134,6 @@ namespace SiteOverseer.Controllers
             return View(tranTypeCode);
         }
 
-        // POST: TranTypeCodes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short id)
@@ -156,5 +152,7 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Trantypecode.Any(e => e.TrantypId == id);
         }
+
+        #endregion
     }
 }
