@@ -28,6 +28,7 @@ namespace SiteOverseer.Models
         public DateOnly? FcilstartDte { get; set; }
         public short CmpyId { get; set; }
         public int UserId { get; set; }
+        [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
 
     }
