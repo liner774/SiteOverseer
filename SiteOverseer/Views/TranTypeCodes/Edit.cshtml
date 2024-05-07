@@ -40,7 +40,11 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="TranNature" class="control-label"></label>
-                                <input asp-for="TranNature" class="form-control" />
+                                <select asp-for="TranNature" class="form-control">
+                                    <option value="">Select Tran Nature</option>
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                </select>
                                 <span asp-validation-for="TranNature" class="text-danger"></span>
                             </div>
                             <div class="form-group form-check">

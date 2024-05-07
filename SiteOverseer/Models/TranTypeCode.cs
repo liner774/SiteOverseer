@@ -6,6 +6,7 @@ namespace SiteOverseer.Models
     public class TranTypeCode
     {
         [Key]
+        [DisplayName("Tran Type ID")]
         public short TrantypId { get; set; }
         [StringLength(50)]
         [DisplayName("Tran Type Code")]
