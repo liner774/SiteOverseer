@@ -19,13 +19,13 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: Menugps
+        #region // Main methods  //
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_Menugp.ToListAsync());
         }
 
-        // GET: Menugps/Details/5
         public async Task<IActionResult> Details(short? id)
         {
             if (id == null)
@@ -43,18 +43,14 @@ namespace SiteOverseer.Controllers
             return View(menugp);
         }
 
-        // GET: Menugps/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Menugps/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MnugrpId,MnugrpNme,RevdTetime")] Menugp menugp)
+        public async Task<IActionResult> Create([Bind("MnugrpNme")] Menugp menugp)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +63,6 @@ namespace SiteOverseer.Controllers
         }
 
 
-        // GET: Menugps/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)
@@ -83,22 +78,21 @@ namespace SiteOverseer.Controllers
             return View(menugp);
         }
 
-        // POST: Menugps/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("MnugrpId,MnugrpNme,RevdTetime")] Menugp menugp)
+        public async Task<IActionResult> Edit(short id, [Bind("MnugrpId,MnugrpNme")] Menugp menugp)
         {
             if (id != menugp.MnugrpId)
             {
                 return NotFound();
             }
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    menugp.RevdTetime = DateTime.Now;
                     _context.Update(menugp);
                     await _context.SaveChangesAsync();
                 }
@@ -118,7 +112,6 @@ namespace SiteOverseer.Controllers
             return View(menugp);
         }
 
-        // GET: Menugps/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
@@ -136,7 +129,6 @@ namespace SiteOverseer.Controllers
             return View(menugp);
         }
 
-        // POST: Menugps/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short id)
@@ -155,5 +147,9 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Menugp.Any(e => e.MnugrpId == id);
         }
+
+        #endregion
+
+
     }
 }
