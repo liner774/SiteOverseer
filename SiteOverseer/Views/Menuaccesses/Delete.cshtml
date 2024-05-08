@@ -29,25 +29,23 @@
                 </h3>
             </div>
            
-            <div class="card-body>
+            <div class="card-body">
                  <div class="row">
                     <div class="col-md-12 ">
-                        
-                        <span class="form-control" asp-for="MnugrpId"  asp-items="@ViewBag.MenuGpList"></span>
-                        <span asp-validation-for="AccessId" class="text-danger"></span>
-                       
+                   
                         <dl class="row">
-                            <dt class="col-sm-2" >
-                                @Html.DisplayNameFor(model => model.AccessId)
+                            <dt class="col-sm-2 ">
+                           @Html.DisplayNameFor(model => model.AccessId)
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.AccessId)
+                            @Html.DisplayFor(model => model.AccessId)
                             </dd>
+                        
                             <dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.MnugrpId)
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.MnugrpId)
+                                @Html.DisplayFor(model => model.MnugrpNme)
                             </dd>
                             <dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.BtnNme)
@@ -57,6 +55,7 @@
                             </dd>
 
                         </dl>
+                        </div>
 
                     </selection>
                 </span>

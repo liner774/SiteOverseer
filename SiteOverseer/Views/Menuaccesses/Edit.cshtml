@@ -31,7 +31,7 @@
                         <form asp-action="Edit" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group text-danger">@ViewData["Msg"]</div>
-                            <input type="hidden" asp-for="MnugrpId" />
+                            <input type="hidden" asp-for="AccessId" />
                             <div class="form-group">
                                 <label asp-for="MnugrpId" class="control-label">Menu Group Name</label>
                                 <select asp-for="MnugrpId" class="form-control" asp-items="@ViewBag.MenuGpList">
