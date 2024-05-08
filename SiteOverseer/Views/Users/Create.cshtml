@@ -1,65 +1,82 @@
 ﻿@model SiteOverseer.Models.User
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "User";
+
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] Create</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group text-danger">@ViewData["Msg"]</div>
+                            <div class="form-group">
+                                <label asp-for="UserCde" class="control-label">Menu Group Name</label>
+                                <input asp-for="UserCde" class="form-control" />
+                                <span asp-validation-for="UserCde" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserNme" class="control-label">Menu Group Name</label>
+                                <input asp-for="UserNme" class="form-control" />
+                                <span asp-validation-for="UserNme" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Position" class="control-label">Menu Group Name</label>
+                                <select asp-for="Position" class="form-control" asp-items="@ViewBag.MenuGpList">
+                                    <option value="">- Select One -</option>
+                                </select>
+                               
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label">Menu Group Name</label>
+                                <select asp-for="Position" class="form-control" asp-items="@ViewBag.MenuGpList">
+                                    <option value="">- Select One -</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
 }
 
-<h1>Create</h1>
-
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserCde" class="control-label"></label>
-                <input asp-for="UserCde" class="form-control" />
-                <span asp-validation-for="UserCde" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserNme" class="control-label"></label>
-                <input asp-for="UserNme" class="form-control" />
-                <span asp-validation-for="UserNme" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MnugrpId" class="control-label"></label>
-                <input asp-for="MnugrpId" class="form-control" />
-                <span asp-validation-for="MnugrpId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pwd" class="control-label"></label>
-                <input asp-for="Pwd" class="form-control" />
-                <span asp-validation-for="Pwd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CmpyId" class="control-label"></label>
-                <input asp-for="CmpyId" class="form-control" />
-                <span asp-validation-for="CmpyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RevdTetime" class="control-label"></label>
-                <input asp-for="RevdTetime" class="form-control" />
-                <span asp-validation-for="RevdTetime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

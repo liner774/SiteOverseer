@@ -19,13 +19,13 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: Users
+        #region //Main Method//
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_User.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,16 +43,13 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+       
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Position,Gender,MnugrpId,Pwd,CmpyId,RevdTetime")] User user)
         {
@@ -65,7 +62,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +78,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,Position,Gender,MnugrpId,Pwd,CmpyId,RevdTetime")] User user)
@@ -116,7 +111,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+      
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +129,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -153,5 +148,6 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_User.Any(e => e.UserId == id);
         }
+        #endregion
     }
 }

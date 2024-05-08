@@ -19,13 +19,13 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: Cities
+        #region// Main Method//
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_City.ToListAsync());
         }
 
-        // GET: Cities/Details/5
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,21 +45,21 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        // GET: Cities/Create
+       
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cities/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CityId,CityCode,CityName,CmpyId,UserId,RevDtetime")] City city)
+        public async Task<IActionResult> Create([Bind("CityId,CityCode,CityName")] City city)
         {
             if (ModelState.IsValid)
-               city.RevDtetime = DateTime.Now;
+            city.RevDtetime = DateTime.Now;
+            city.CmpyId = 1;//Default;
+            city.UserId = 1;//Default;
             {
                 _context.Add(city);
                 await _context.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        // GET: Cities/Edit/5
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,12 +84,10 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        // POST: Cities/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CityId,CityCode,CityName,CmpyId,UserId,RevDtetime")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("CityId,CityCode,CityName")] City city)
         {
             if (id != city.CityId)
             {
@@ -100,6 +98,10 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    city.RevDtetime = DateTime.Now;
+                    city.CmpyId = 1;//Default;
+                    city.UserId = 1;//Default;
+
                     _context.Update(city);
                     await _context.SaveChangesAsync();
                 }
@@ -119,7 +121,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        // GET: Cities/Delete/5
+       
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,7 +139,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        // POST: Cities/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -156,5 +158,6 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_City.Any(e => e.CityId == id);
         }
+        #endregion
     }
 }

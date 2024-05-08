@@ -19,7 +19,7 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        
+        #region //Main Method//
         public async Task<IActionResult> Index()
         {
             var menuAccessList = await _context.MS_Menuaccess.ToListAsync();
@@ -40,12 +40,12 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
-            var menuaccess = await _context.MS_Menuaccess
-                .FirstOrDefaultAsync(m => m.AccessId == id);
+            var menuaccess = await _context.MS_Menuaccess .FirstOrDefaultAsync(m => m.AccessId == id);
             if (menuaccess == null)
             {
                 return NotFound();
             }
+            menuaccess.MnugrpNme = _context.MS_Menugp.Where(gp => gp.MnugrpId == menuaccess.MnugrpId).Select(gp => gp.MnugrpNme).FirstOrDefault();
 
             return View(menuaccess);
         }
@@ -94,6 +94,7 @@ namespace SiteOverseer.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("AccessId,MnugrpId,BtnNme")] Menuaccess menuaccess)
         {
             if (id != menuaccess.AccessId)
+               
             {
                 return NotFound();
             }
@@ -102,6 +103,7 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    menuaccess.RevdTetime = DateTime.Now;
                     _context.Update(menuaccess);
                     await _context.SaveChangesAsync();
                 }
@@ -131,10 +133,13 @@ namespace SiteOverseer.Controllers
 
             var menuaccess = await _context.MS_Menuaccess
                 .FirstOrDefaultAsync(m => m.AccessId == id);
+
             if (menuaccess == null)
             {
                 return NotFound();
             }
+
+            menuaccess.MnugrpNme = _context.MS_Menugp.Where(gp => gp.MnugrpId == menuaccess.MnugrpId).Select(gp => gp.MnugrpNme).FirstOrDefault();
 
             return View(menuaccess);
         }
@@ -158,5 +163,6 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Menuaccess.Any(e => e.AccessId == id);
         }
+        #endregion
     }
 }
