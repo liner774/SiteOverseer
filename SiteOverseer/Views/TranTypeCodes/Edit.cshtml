@@ -1,61 +1,72 @@
 ﻿@model SiteOverseer.Models.TranTypeCode
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Transaction Code";
 }
 
-<h1>Edit</h1>
 
-<h4>TranTypeCode</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TrantypId" />
-            <div class="form-group">
-                <label asp-for="TrantypCde" class="control-label"></label>
-                <input asp-for="TrantypCde" class="form-control" />
-                <span asp-validation-for="TrantypCde" class="text-danger"></span>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1>@ViewData["Title"]</h1>
             </div>
-            <div class="form-group">
-                <label asp-for="TranNature" class="control-label"></label>
-                <input asp-for="TranNature" class="form-control" />
-                <span asp-validation-for="TranNature" class="text-danger"></span>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
+                </div>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ContractorFlg" /> @Html.DisplayNameFor(model => model.ContractorFlg)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RequireClaim" /> @Html.DisplayNameFor(model => model.RequireClaim)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="CmpyId" class="control-label"></label>
-                <input asp-for="CmpyId" class="form-control" />
-                <span asp-validation-for="CmpyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RevDtetime" class="control-label"></label>
-                <input asp-for="RevDtetime" class="form-control" />
-                <span asp-validation-for="RevDtetime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] Edit</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="TrantypId" />
+                            <div class="form-group">
+                                <label asp-for="TrantypCde" class="control-label"></label>
+                                <input asp-for="TrantypCde" class="form-control" />
+                                <span asp-validation-for="TrantypCde" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TranNature" class="control-label"></label>
+                                <select asp-for="TranNature" class="form-control">
+                                    <option value="">- Select One -</option>
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                </select>
+                                <span asp-validation-for="TranNature" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="ContractorFlg" /> @Html.DisplayNameFor(model => model.ContractorFlg)
+                                </label>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="RequireClaim" /> @Html.DisplayNameFor(model => model.RequireClaim)
+                                </label>
+                            </div>
+                            
+                           
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 

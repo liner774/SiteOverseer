@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/AdminLTE/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/lib/AdminLTE/dist/css/adminlte.min.css">
+    @await RenderSectionAsync("Links", required: false)
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
     <div class="wrapper">
@@ -34,7 +35,7 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="~/lib/AdminLTE3/dist/img/user8-128x128.jpg" class="elevation-3" alt="User Image">
+                        <img src="~/lib/AdminLTE/dist/img/user.png" class="elevation-3" alt="User Image">
                     </div>
                     <div class="info">
                         <a class="d-block">@ViewData["Username"]</a>
@@ -66,83 +67,142 @@
                                 <p>Facility Transaction Log</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
-                            <a href="../../Contractors/Index" class="nav-link">
-                                <i class="fas fa-file-contract nav-icon"></i>
-                                <p>Contractor</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hammer"></i>
+                                <p>
+                                    Setups
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../../Contractors/Index" class="nav-link">
+                                        <i class="fas fa-file-contract nav-icon"></i>
+                                        <p>Contractor</p>
+                                    </a>
+                                    
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-level-down-alt nav-icon"></i>
+                                        <p>Work Breakdown System</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Cities/Index" class="nav-link">
+                                        <i class="fas fa-city nav-icon"></i>
+                                        <p>City</p>
+                                    </a>
+
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-level-down-alt nav-icon"></i>
-                                <p>Work Breakdown System</p>
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>
+                                    Facility Setups
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../../FacilityTasks/Index" class="nav-link">
+                                        <i class="fas fa-tasks nav-icon"></i>
+                                        <p>Facility Task</p>
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Facilities/Index" class="nav-link">
+                                        <i class="far fa-clipboard nav-icon"></i>
+                                        <p>Facility</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../FacilityTypes/Index" class="nav-link">
+                                        <i class="fas fa-clipboard nav-icon"></i>
+                                        <p>Facility Type</p>
+                                    </a>
+
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../Cities/Index" class="nav-link">
-                                <i class="fas fa-city nav-icon"></i>
-                                <p>City</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fab fa-btc"></i>
+                                <p>
+                                    Tran Setups
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../../TranTypeCodes/Index" class="nav-link">
+                                        <i class="fas fa-dollar-sign nav-icon"></i>
+                                        <p>Tran Code</p>
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../TranTypeReasons/Index" class="nav-link">
+                                        <i class="fas fa-code-branch nav-icon"></i>
+                                        <p>Tran Reason</p>
+                                    </a>
+                                </li>
+                                
+                            </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a href="../../FacilityTasks/Index" class="nav-link">
-                                <i class="fas fa-tasks nav-icon"></i>
-                                <p>Facility Task</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>
+                                    User Setups
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../../Users/Index" class="nav-link">
+                                        <i class="fas fa-user nav-icon"></i>
+                                        <p>User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Menugps/Index" class="nav-link">
+                                        <i class="fas fa-folder nav-icon"></i>
+                                        <p>Menu Group</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Menuaccesses/Index" class="nav-link">
+                                        <i class="fas fa-folder-open nav-icon"></i>
+                                        <p>Menu Access</p>
+                                    </a>
+                                </li>
+                                
+                               
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="../../Facilities/Index" class="nav-link">
-                                <i class="far fa-clipboard nav-icon"></i>
-                                <p>Facility</p>
-                            </a>
-                        </li>
+                       
+                        
 
-                        <li class="nav-item">
-                            <a href="../../FacilityTypes/Index" class="nav-link">
-                                <i class="fas fa-clipboard nav-icon"></i>
-                                <p>Facility Type</p>
-                            </a>
-                        </li>
+                       
 
-                        <li class="nav-item">
-                            <a href="../../TranTypeCodes/Index" class="nav-link">
-                                <i class="fas fa-dollar-sign nav-icon"></i>
-                                <p>Tran Code</p>
-                            </a>
-                        </li>
+                      
 
-                        <li class="nav-item">
-                            <a href="../../TranTypeReasons/Index" class="nav-link">
-                                <i class="fas fa-code-branch nav-icon"></i>
-                                <p>Tran Reason</p>
-                            </a>
-                        </li>
+                        
 
-                        <li class="nav-item">
-                            <a href="../../Users/Index" class="nav-link">
-                                <i class="fas fa-user nav-icon"></i>
-                                <p>User</p>
-                            </a>
-                        </li>
+                        
 
-                         <li class="nav-item">
-                            <a href="../../Menugps/Index" class="nav-link">
-                                <i class="fas fa-folder nav-icon"></i>
-                                <p>Menu Group</p>
-                            </a>
-                        </li>
+                         
 
-                        <li class="nav-item">
-                            <a href="../../Menuaccesses/Index" class="nav-link">
-                                <i class="fas fa-folder-open nav-icon"></i>
-                                <p>Menu Access</p>
-                            </a>
-                        </li>
+                       
 
 
                         @if (new[] { "ACCESS_LEVEL" }.Contains(ViewData["Role"]?.ToString()))

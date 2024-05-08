@@ -19,13 +19,13 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: TranTypeReasons
+        #region // Main methods //
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_Trantypereason.ToListAsync());
         }
 
-        // GET: TranTypeReasons/Details/5
+        
         public async Task<IActionResult> Details(short? id)
         {
             if (id == null)
@@ -43,21 +43,22 @@ namespace SiteOverseer.Controllers
             return View(tranTypeReason);
         }
 
-        // GET: TranTypeReasons/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TranTypeReasons/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TranReasonId,TranReasonDesc,CmpyId,UserId,RevDtetime")] TranTypeReason tranTypeReason)
+        public async Task<IActionResult> Create([Bind("TranReasonDesc")] TranTypeReason tranTypeReason)
         {
             if (ModelState.IsValid)
-            {
+            { 
+                tranTypeReason.RevDtetime = DateTime.Now;
+                tranTypeReason.CmpyId = 1; //default
+                tranTypeReason.UserId = 1; //default
                 _context.Add(tranTypeReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -65,9 +66,10 @@ namespace SiteOverseer.Controllers
             return View(tranTypeReason);
         }
 
-        // GET: TranTypeReasons/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
+            
+
             if (id == null)
             {
                 return NotFound();
@@ -77,19 +79,20 @@ namespace SiteOverseer.Controllers
             if (tranTypeReason == null)
             {
                 return NotFound();
+
             }
+
+            tranTypeReason.RevDtetime = DateTime.Now;
             return View(tranTypeReason);
         }
 
-        // POST: TranTypeReasons/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("TranReasonId,TranReasonDesc,CmpyId,UserId,RevDtetime")] TranTypeReason tranTypeReason)
+        public async Task<IActionResult> Edit(short id, [Bind("TranReasonId,TranReasonDesc")] TranTypeReason tranTypeReason)
         {
             if (id != tranTypeReason.TranReasonId)
             {
+                
                 return NotFound();
             }
 
@@ -97,8 +100,12 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    tranTypeReason.RevDtetime = DateTime.Now;
+                    tranTypeReason.UserId = 1; //default
+                    tranTypeReason.CmpyId = 1; //default
                     _context.Update(tranTypeReason);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,10 +120,11 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            
             return View(tranTypeReason);
         }
 
-        // GET: TranTypeReasons/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
@@ -134,7 +142,6 @@ namespace SiteOverseer.Controllers
             return View(tranTypeReason);
         }
 
-        // POST: TranTypeReasons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short id)
@@ -153,5 +160,7 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Trantypereason.Any(e => e.TranReasonId == id);
         }
+
+        #endregion 
     }
 }

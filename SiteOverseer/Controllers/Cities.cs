@@ -59,6 +59,7 @@ namespace SiteOverseer.Controllers
         public async Task<IActionResult> Create([Bind("CityId,CityCode,CityName,CmpyId,UserId,RevDtetime")] City city)
         {
             if (ModelState.IsValid)
+               city.RevDtetime = DateTime.Now;
             {
                 _context.Add(city);
                 await _context.SaveChangesAsync();

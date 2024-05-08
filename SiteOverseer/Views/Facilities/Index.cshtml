@@ -1,101 +1,146 @@
 ﻿@model IEnumerable<SiteOverseer.Models.Facility>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Facility";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FcilCde)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FcilNme)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Township)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CityId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FciltypId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contractval)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApproveDte)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FcilstartDte)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CmpyId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RevdTetime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FcilCde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FcilNme)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Township)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CityId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FciltypId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contractval)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApproveDte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FcilstartDte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CmpyId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RevdTetime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FcilId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FcilId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FcilId">Delete</a>
-            </td>
-        </tr>
+@section links {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 }
-    </tbody>
-</table>
+
+@section scripts
+{
+    <!-- DataTables  & Plugins -->
+    <script src="~/lib/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 20,
+                "buttons": [{
+                    extend: 'copy',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                }],
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Create" class="btn btn-primary">Create New <i class="fas fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] List</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FcilCde)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FcilNme)
+                                    </th>
+                                    
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var counter = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FcilCde)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FcilNme)
+                                        </td>
+
+                                        <td style="text-align: center">
+                                            <a asp-action="Details" asp-route-id="@item.FcilId"><i class="fas fa-info-circle"></i></a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a asp-action="Edit" asp-route-id="@item.FcilId"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a asp-action="Delete" asp-route-id="@item.FcilId"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
