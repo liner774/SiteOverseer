@@ -22,6 +22,7 @@ namespace SiteOverseer.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+            //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
 
