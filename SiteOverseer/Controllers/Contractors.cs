@@ -19,13 +19,17 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: Contractors
+        #region // Main Methods //
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MS_Contractor.ToListAsync());
+            var facilityCodeList = await _context.MS_Contractor.ToListAsync();
+            foreach(var facilitCode in facilityCodeList)
+            {
+                facilitCode.FciltypCde = _context.MS_Facilitytype.Where(gp => gp.FciltypId == facilitCode.FciltypId).Select(gp => gp.FciltypCde).FirstOrDefault();
+            }
+            return View(facilityCodeList);
         }
-
-        // GET: Contractors/Details/5
+ 
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,29 +47,31 @@ namespace SiteOverseer.Controllers
             return View(contractor);
         }
 
-        // GET: Contractors/Create
+        
         public IActionResult Create()
         {
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View();
         }
 
-        // POST: Contractors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+   
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus,Remark,CmpyId,UserId,RevDtetime")] Contractor contractor)
+        public async Task<IActionResult> Create([Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus,Remark")] Contractor contractor)
         {
             if (ModelState.IsValid)
             {
+                contractor.RevDtetime = DateTime.Now;
+                contractor.CmpyId = 1; //default
+                contractor.UserId = 1; //default
                 _context.Add(contractor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View(contractor);
         }
-
-        // GET: Contractors/Edit/5
+ 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +84,12 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View(contractor);
         }
-
-        // POST: Contractors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus,Remark,CmpyId,UserId,RevDtetime")] Contractor contractor)
+        public async Task<IActionResult> Edit(int id, [Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus")] Contractor contractor)
         {
             if (id != contractor.CntorId)
             {
@@ -97,6 +100,9 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    contractor.RevDtetime = DateTime.Now;
+                    contractor.CmpyId = 1; //default
+                    contractor.UserId = 1; //default
                     _context.Update(contractor);
                     await _context.SaveChangesAsync();
                 }
@@ -116,7 +122,7 @@ namespace SiteOverseer.Controllers
             return View(contractor);
         }
 
-        // GET: Contractors/Delete/5
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +140,7 @@ namespace SiteOverseer.Controllers
             return View(contractor);
         }
 
-        // POST: Contractors/Delete/5
+ 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -153,5 +159,6 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Contractor.Any(e => e.CntorId == id);
         }
+        #endregion
     }
 }

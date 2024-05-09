@@ -19,12 +19,15 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
+
         #region //Main Method//
+
+     
         public async Task<IActionResult> Index()
         {
             var menuAccessList = await _context.MS_Menuaccess.ToListAsync();
 
-            foreach(var menuAccess in menuAccessList)
+            foreach (var menuAccess in menuAccessList)
             {
                 menuAccess.MnugrpNme = _context.MS_Menugp.Where(gp => gp.MnugrpId == menuAccess.MnugrpId).Select(gp => gp.MnugrpNme).FirstOrDefault();
             }
@@ -50,14 +53,14 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-      
+        
         public IActionResult Create()
         {
             ViewData["MenuGpList"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpId", "MnugrpNme");
-            
             return View();
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MnugrpId,BtnNme")] Menuaccess menuaccess)
@@ -65,13 +68,19 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 menuaccess.RevdTetime = DateTime.Now;
+                
                 _context.Add(menuaccess);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
+            ViewData["MenuGpList"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpId", "MnugrpNme");
+
             return View(menuaccess);
         }
 
+      
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,7 +97,7 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-      
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AccessId,MnugrpId,BtnNme")] Menuaccess menuaccess)
@@ -120,10 +129,12 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+           
+
             return View(menuaccess);
         }
 
-      
+       
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,14 +155,17 @@ namespace SiteOverseer.Controllers
             return View(menuaccess);
         }
 
-     
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             var menuaccess = await _context.MS_Menuaccess.FindAsync(id);
             if (menuaccess != null)
             {
+                menuaccess.MnugrpNme = _context.MS_Menugp.Where(gp => gp.MnugrpId == menuaccess.MnugrpId).Select(gp => gp.MnugrpNme).FirstOrDefault();
+
                 _context.MS_Menuaccess.Remove(menuaccess);
             }
 
@@ -161,6 +175,7 @@ namespace SiteOverseer.Controllers
 
         private bool MenuaccessExists(int id)
         {
+
             return _context.MS_Menuaccess.Any(e => e.AccessId == id);
         }
         #endregion

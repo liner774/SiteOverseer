@@ -29,15 +29,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <form asp-action="Create" enctype="multipart/form-data">
+
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="AccessId" />
+
                             <div class="form-group text-danger">@ViewData["Msg"]</div>
                             <div class="form-group">
                                 <label asp-for="MnugrpId" class="control-label">Menu Group Name</label>
-                                
+
                                 <select asp-for="MnugrpId" class="form-control" asp-items="@ViewBag.MenuGpList">
                                     <option value="">- Select One -</option>
                                 </select>
-                                <span asp-validation-for="MnugrpId" class=" text-danger"></span>
+                                <span asp-validation-for="MnugrpId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="BtnNme" class="control-label">Menu Name</label>
@@ -58,13 +61,4 @@
         </div>
     </div>
 </section>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-
-}
-
 

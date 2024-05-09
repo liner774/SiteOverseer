@@ -1,8 +1,7 @@
 ﻿@model SiteOverseer.Models.Menuaccess
 
 @{
-    ViewData["Title"] = "Menu Access";
-
+    ViewData["Title"] = "Delete";
 }
 
 <section class="content-header">
@@ -42,7 +41,7 @@
                             </dd>
                         
                             <dt class="col-sm-2">
-                                @Html.DisplayNameFor(model => model.MnugrpId)
+                                @Html.DisplayName("Menu Group Name")
                             </dt>
                             <dd class="col-sm-10">
                                 @Html.DisplayFor(model => model.MnugrpNme)

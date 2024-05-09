@@ -1,9 +1,10 @@
 ﻿@model SiteOverseer.Models.Menuaccess
 
 @{
-    ViewData["Title"] = "Menu Access";
+    ViewData["Title"] = "Menu Acess";
 }
 
+<h1>Details</h1>
 
 
 <section class="content-header">
@@ -38,7 +39,7 @@
                         @Html.DisplayFor(model => model.AccessId)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.MnugrpNme)
+                        @Html.DisplayName("Menu Group Name")
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.MnugrpNme)
@@ -63,6 +64,4 @@
     </div>
 </section>
 </section>
-
-
 
