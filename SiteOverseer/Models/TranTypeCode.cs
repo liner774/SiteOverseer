@@ -14,9 +14,13 @@ namespace SiteOverseer.Models
         [StringLength(1)]
         [DisplayName("Tran Nature")]
         public required string TranNature { get; set; }
+        [DisplayName("Is Contractor?")]
         public required Boolean ContractorFlg { get; set; }
+        [DisplayName("Require Claim?")]
         public required Boolean RequireClaim { get; set; }
+        [DisplayName("Company")]
         public short CmpyId { get; set; }
+        [DisplayName("User")]
         public int UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }

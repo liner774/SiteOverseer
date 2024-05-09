@@ -21,8 +21,11 @@ namespace SiteOverseer.Models
         [DisplayName("Bad Status")]
         public Boolean BadStatus { get; set; }
         public string? Remark { get; set; }
+        [DisplayName("Company")]
         public short CmpyId { get; set; }
+        [DisplayName("User")]
         public int UserId { get; set; }
+        [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }
 
         //comment

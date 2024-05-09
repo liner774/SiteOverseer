@@ -26,7 +26,9 @@ namespace SiteOverseer.Models
         public DateOnly? ApproveDte { get; set; }
         [DisplayName("Facility Start Date")]
         public DateOnly? FcilstartDte { get; set; }
+        [DisplayName("Company")]
         public short CmpyId { get; set; }
+        [DisplayName("User")]
         public int UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
