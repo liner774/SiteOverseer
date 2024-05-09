@@ -40,9 +40,10 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="FciltypId" class="control-label"></label>
-                                <select asp-for="FciltypId" class="form-control">
+
+                                <select asp-for="FciltypId" class="form-control" asp-items="@ViewBag.FcliList">
                                     <option value="">- Select One -</option>
-                                    <option value="1"> Option </option>
+
                                 </select>
                                 <span asp-validation-for="FciltypId" class="text-danger"></span>
                             </div>

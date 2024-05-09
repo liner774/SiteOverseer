@@ -22,6 +22,7 @@ namespace SiteOverseer.Controllers
         #region //Main Method//
         public async Task<IActionResult> Index()
         {
+            //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
 

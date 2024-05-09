@@ -19,15 +19,34 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        // GET: FacilityTasks
+        #region // Main Methods //
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MS_Facilitytask.ToListAsync());
+           
+            var facilityNameList = await _context.MS_Facilitytask.ToListAsync();
+            var contractorNameList = await _context.MS_Facilitytask.ToListAsync();
+
+
+            foreach (var facilityName in facilityNameList)
+            {
+               facilityName.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityName.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
+            }
+            
+            foreach (var contractorName in contractorNameList)
+            {
+                contractorName.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == contractorName.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
+            }
+
+            return View(facilityNameList);
+            return View(contractorNameList);
+            
+ 
+
         }
 
-        // GET: FacilityTasks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -35,37 +54,51 @@ namespace SiteOverseer.Controllers
 
             var facilityTask = await _context.MS_Facilitytask
                 .FirstOrDefaultAsync(m => m.FciltskId == id);
+
             if (facilityTask == null)
             {
                 return NotFound();
             }
 
+            facilityTask.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityTask.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
+            facilityTask.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityTask.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
+
             return View(facilityTask);
+
+
+
         }
 
-        // GET: FacilityTasks/Create
+
+
+
         public IActionResult Create()
         {
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             return View();
+
         }
 
-        // POST: FacilityTasks/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+  
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FciltskId,FcilId,WbsdId,Budget,CntorId,SelectionTyp,WorkstartDte,WorkendDte,AwardedValue,ProgpayId,AllowSubmitExpense,TaskCompleteFlg,Remark,CmpyId,UserId,RevdTetime")] FacilityTask facilityTask)
+        public async Task<IActionResult> Create([Bind("FciltskId,FcilId,WbsdId,Budget,CntorId,SelectionTyp,WorkstartDte,WorkendDte,AwardedValue,ProgpayId,AllowSubmitExpense,TaskCompleteFlg,Remark")] FacilityTask facilityTask)
         {
             if (ModelState.IsValid)
             {
+                facilityTask.RevdTetime = DateTime.Now;
+                facilityTask.CmpyId = 1; //default
+                facilityTask.UserId = 1; //default
                 _context.Add(facilityTask);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             return View(facilityTask);
         }
 
-        // GET: FacilityTasks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +111,14 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             return View(facilityTask);
         }
 
-        // POST: FacilityTasks/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FciltskId,FcilId,WbsdId,Budget,CntorId,SelectionTyp,WorkstartDte,WorkendDte,AwardedValue,ProgpayId,AllowSubmitExpense,TaskCompleteFlg,Remark,CmpyId,UserId,RevdTetime")] FacilityTask facilityTask)
+        public async Task<IActionResult> Edit(int id, [Bind("FciltskId,FcilId,WbsdId,Budget,CntorId,SelectionTyp,WorkstartDte,WorkendDte,AwardedValue,ProgpayId,AllowSubmitExpense,TaskCompleteFlg,Remark")] FacilityTask facilityTask)
         {
             if (id != facilityTask.FciltskId)
             {
@@ -97,6 +129,9 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    facilityTask.RevdTetime = DateTime.Now;
+                    facilityTask.CmpyId = 1; //default
+                    facilityTask.UserId = 1; //default
                     _context.Update(facilityTask);
                     await _context.SaveChangesAsync();
                 }
@@ -113,10 +148,12 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             return View(facilityTask);
         }
 
-        // GET: FacilityTasks/Delete/5
+ 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,11 +167,11 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-
+            facilityTask.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityTask.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
+            facilityTask.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityTask.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
             return View(facilityTask);
         }
-
-        // POST: FacilityTasks/Delete/5
+ 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -153,5 +190,6 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Facilitytask.Any(e => e.FciltskId == id);
         }
+#endregion
     }
 }

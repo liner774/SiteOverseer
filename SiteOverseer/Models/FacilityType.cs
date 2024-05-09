@@ -14,9 +14,9 @@ namespace SiteOverseer.Models
         [StringLength(30)]
         [DisplayName("Facility Type Desc")]
         public string? FciltypDesc { get; set; }
-        [DisplayName("Company ID")]
+        [DisplayName("Company")]
         public short CmpyId { get; set; }
-        [DisplayName("User ID")]
+        [DisplayName("User")]
         public int UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
