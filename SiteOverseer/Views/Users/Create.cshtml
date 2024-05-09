@@ -30,39 +30,38 @@
                     <div class="col-md-6">
                         <form asp-action="Create" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group text-danger">@ViewData["Msg"]</div>
+
                             <div class="form-group">
-                                <label asp-for="UserCde" class="control-label">Menu Group Name</label>
+                                <label asp-for="UserCde" class="control-label">User Code</label>
                                 <input asp-for="UserCde" class="form-control" />
                                 <span asp-validation-for="UserCde" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="UserNme" class="control-label">Menu Group Name</label>
+                                <label asp-for="UserNme" class="control-label">User Name</label>
                                 <input asp-for="UserNme" class="form-control" />
                                 <span asp-validation-for="UserNme" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Position" class="control-label">Menu Group Name</label>
-                                <select asp-for="Position" class="form-control" asp-items="@ViewBag.MenuGpList">
+                                <label asp-for="Position" class="control-label">Position</label>
+                                <select asp-for="Position" class="form-control">
                                     <option value="">- Select One -</option>
                                 </select>
-                               
+
                                 <span asp-validation-for="Position" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Gender" class="control-label">Menu Group Name</label>
-                                <select asp-for="Position" class="form-control" asp-items="@ViewBag.MenuGpList">
+                                <label asp-for="Gender" class="control-label">Gender</label>
+                                <select asp-for="Gender" class="form-control">
                                     <option value="">- Select One -</option>
                                 </select>
                                 <span asp-validation-for="Gender" class="text-danger"></span>
                             </div>
 
-
-
                             <div class="form-group">
                                 <input type="submit" value="Create" class="btn btn-primary" />
                             </div>
                         </form>
+
 
                     </div>
                 </div>
