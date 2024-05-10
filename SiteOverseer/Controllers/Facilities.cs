@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class Facilities : Controller
     {
         private readonly SiteDbContext _context;
@@ -154,7 +156,7 @@ namespace SiteOverseer.Controllers
         }
         #endregion
 
-        #region // Get ID //
+        #region // Global Methods (Important)  //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
