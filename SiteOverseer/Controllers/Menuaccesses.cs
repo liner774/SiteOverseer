@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+
     public class Menuaccesses : Controller
     {
         private readonly SiteDbContext _context;
@@ -177,6 +179,28 @@ namespace SiteOverseer.Controllers
         {
 
             return _context.MS_Menuaccess.Any(e => e.AccessId == id);
+        }
+        #endregion
+
+        #region//Grobal Method//
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+        protected short GetCmpyId()
+        {
+            var cmpyId = _context.MS_User
+                .Where(u => u.UserId == GetUserId())
+                .Select(u => u.CmpyId)
+                .FirstOrDefault();
+
+            return cmpyId;
         }
         #endregion
     }

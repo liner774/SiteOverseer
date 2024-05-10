@@ -1,12 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SiteOverseer.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add authentication dependency injection to authenticate log in user
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/LogIn/Index";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(240);
+    });
+
 
 var app = builder.Build();
 
@@ -17,23 +26,21 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-// comment by khin
-// second times
-//third times
-
-
-//comment by nyi lynn
-//second comment
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Cities}/{action=Index}/{id?}");
+    pattern: "{controller=LogIn}/{action=Index}/{id?}");
 
 app.Run();
+
+
+

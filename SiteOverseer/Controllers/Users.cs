@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    
     public class Users : Controller
     {
         private readonly SiteDbContext _context;
@@ -51,34 +53,37 @@ namespace SiteOverseer.Controllers
             return View();
         }
 
-        
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Position,Gender,Pwd,ConfirmPassword")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Pwd,Position,Gender")] User user)
         {
             if (ModelState.IsValid)
             {
-                if (Convert.ToBase64String(user.Pwd) == user.ConfirmPassword)
-                {
-                    
-                    // Passwords match, proceed with saving the user
-                    user.RevdTetime = DateTime.Now;
-                    user.CmpyId = 1; //default
-                    _context.Add(user);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                   
-                    ModelState.AddModelError("ConfirmPassword", "The password and confirm password do not match.");
-                }
+                user.RevdTetime = DateTime.Now;
+                user.UserId = 1;
+               
+                user.CmpyId = 1;
+
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            
+
             return View(user);
         }
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde== userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
 
-       
+            return userId;
+        }
+
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -167,5 +172,6 @@ namespace SiteOverseer.Controllers
             return _context.MS_User.Any(e => e.UserId == id);
         }
         #endregion
+
     }
 }

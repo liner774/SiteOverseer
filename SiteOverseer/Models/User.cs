@@ -15,19 +15,17 @@ namespace SiteOverseer.Models
         [DisplayName("User Name")]
         public required string UserNme { get; set; }
         [StringLength(100)]
+        [DisplayName("Position")]
         public required string Position { get; set; }
         [StringLength(24)]
         public required string Gender { get; set; }
         public short MnugrpId { get; set; }
         public required byte[] Pwd { get; set; }
         public short CmpyId { get; set; }
+        [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
 
-        //custom
-        [NotMapped]
-        [Required(ErrorMessage = "Please confirm your password.")]
-        [Compare(nameof(ConfirmPassword), ErrorMessage = "The password and confirmation password do not match.")]
-        public required string ConfirmPassword { get; set; }
+      
 
 
     }
