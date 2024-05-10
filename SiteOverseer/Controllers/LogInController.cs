@@ -29,6 +29,7 @@ namespace SiteOverseer.Controllers.PublicControllers
             {
                 ViewBag.AlertMessage = TempData["alert message"];
             }
+
             return View();
         }
 
@@ -42,7 +43,7 @@ namespace SiteOverseer.Controllers.PublicControllers
 
                 if (ModelState.IsValid)
                 {
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
+                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower() && u.Pwd == user.Pwd);
 
                     if (dbUser != null)
                     {
