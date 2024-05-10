@@ -12,7 +12,6 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-
     public class FacilityTypes : Controller
     {
         private readonly SiteDbContext _context;
@@ -158,7 +157,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region//Grobal Method//
+        #region // Grobal Method//
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

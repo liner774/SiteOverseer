@@ -165,7 +165,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Global Methods (Important)  //
+        #region // Get ID  //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
