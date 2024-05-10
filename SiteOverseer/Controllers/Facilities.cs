@@ -56,8 +56,8 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facility.RevdTetime = DateTime.Now;
-                facility.CmpyId = 1; //default
-                facility.UserId = 1; //default
+                facility.CmpyId = GetCmpyId(); 
+                facility.UserId = GetUserId(); 
                 _context.Add(facility);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,8 +95,8 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     facility.RevdTetime = DateTime.Now;
-                    facility.CmpyId = 1; //default
-                    facility.UserId = 1; //default
+                    facility.CmpyId = GetCmpyId(); 
+                    facility.UserId = GetUserId();
                     _context.Update(facility);
                     await _context.SaveChangesAsync();
                 }
@@ -151,6 +151,28 @@ namespace SiteOverseer.Controllers
         private bool FacilityExists(int id)
         {
             return _context.MS_Facility.Any(e => e.FcilId == id);
+        }
+        #endregion
+
+        #region // Get ID //
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+        protected short GetCmpyId()
+        {
+            var cmpyId = _context.MS_User
+                .Where(u => u.UserId == GetUserId())
+                .Select(u => u.CmpyId)
+                .FirstOrDefault();
+
+            return cmpyId;
         }
         #endregion
     }

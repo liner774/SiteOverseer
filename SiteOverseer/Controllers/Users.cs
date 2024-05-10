@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -51,14 +52,28 @@ namespace SiteOverseer.Controllers
         }
 
         
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Position,Gender,MnugrpId,Pwd,CmpyId,RevdTetime")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Position,Gender,Pwd,ConfirmPassword")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (Convert.ToBase64String(user.Pwd) == user.ConfirmPassword)
+                {
+                    
+                    // Passwords match, proceed with saving the user
+                    user.RevdTetime = DateTime.Now;
+                    user.CmpyId = 1; //default
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                   
+                    ModelState.AddModelError("ConfirmPassword", "The password and confirm password do not match.");
+                }
             }
             return View(user);
         }
@@ -82,7 +97,7 @@ namespace SiteOverseer.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,Position,Gender,MnugrpId,Pwd,CmpyId,RevdTetime")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,Position,Gender,Pwd")] User user)
         {
             if (id != user.UserId)
             {
@@ -93,6 +108,8 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    user.RevdTetime = DateTime.Now;
+                    user.CmpyId = 1; //default
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }

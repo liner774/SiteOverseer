@@ -36,6 +36,7 @@
                                 <input asp-for="UserCde" class="form-control" />
                                 <span asp-validation-for="UserCde" class="text-danger"></span>
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="UserNme" class="control-label">User Name</label>
                                 <input asp-for="UserNme" class="form-control" />
@@ -45,6 +46,7 @@
                                 <label asp-for="Position" class="control-label">Position</label>
                                 <select asp-for="Position" class="form-control">
                                     <option value="">- Select One -</option>
+                                    <option value="1"> Option 1</option>
                                 </select>
 
                                 <span asp-validation-for="Position" class="text-danger"></span>
@@ -53,8 +55,23 @@
                                 <label asp-for="Gender" class="control-label">Gender</label>
                                 <select asp-for="Gender" class="form-control">
                                     <option value="">- Select One -</option>
+                                    <option value="m"> Male </option>
+                                    <option value="f"> Female</option>
                                 </select>
                                 <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="Pwd" class="control-label">Password</label>
+                                <input asp-for="Pwd" class="form-control" />
+                                <span asp-validation-for="Pwd" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
@@ -70,12 +87,5 @@
     </div>
 </section>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-
-}
 
 

@@ -57,8 +57,8 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             { 
                 tranTypeReason.RevDtetime = DateTime.Now;
-                tranTypeReason.CmpyId = 1; //default
-                tranTypeReason.UserId = 1; //default
+                tranTypeReason.CmpyId = GetCmpyId();
+                tranTypeReason.UserId = GetUserId();
                 _context.Add(tranTypeReason);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,8 +101,8 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     tranTypeReason.RevDtetime = DateTime.Now;
-                    tranTypeReason.UserId = 1; //default
-                    tranTypeReason.CmpyId = 1; //default
+                    tranTypeReason.CmpyId = GetCmpyId();
+                    tranTypeReason.UserId = GetUserId();
                     _context.Update(tranTypeReason);
                     await _context.SaveChangesAsync();
 
@@ -161,6 +161,28 @@ namespace SiteOverseer.Controllers
             return _context.MS_Trantypereason.Any(e => e.TranReasonId == id);
         }
 
-        #endregion 
+        #endregion
+
+        #region // Get ID //
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+        protected short GetCmpyId()
+        {
+            var cmpyId = _context.MS_User
+                .Where(u => u.UserId == GetUserId())
+                .Select(u => u.CmpyId)
+                .FirstOrDefault();
+
+            return cmpyId;
+        }
+        #endregion
     }
 }

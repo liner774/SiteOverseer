@@ -88,8 +88,8 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facilityTask.RevdTetime = DateTime.Now;
-                facilityTask.CmpyId = 1; //default
-                facilityTask.UserId = 1; //default
+                facilityTask.CmpyId = GetCmpyId();
+                facilityTask.UserId = GetUserId();
                 _context.Add(facilityTask);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -130,8 +130,8 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     facilityTask.RevdTetime = DateTime.Now;
-                    facilityTask.CmpyId = 1; //default
-                    facilityTask.UserId = 1; //default
+                    facilityTask.CmpyId = GetCmpyId();
+                    facilityTask.UserId = GetUserId();
                     _context.Update(facilityTask);
                     await _context.SaveChangesAsync();
                 }
@@ -190,6 +190,29 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Facilitytask.Any(e => e.FciltskId == id);
         }
-#endregion
+        #endregion
+
+
+        #region // Get ID //
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+        protected short GetCmpyId()
+        {
+            var cmpyId = _context.MS_User
+                .Where(u => u.UserId == GetUserId())
+                .Select(u => u.CmpyId)
+                .FirstOrDefault();
+
+            return cmpyId;
+        }
+        #endregion
     }
 }

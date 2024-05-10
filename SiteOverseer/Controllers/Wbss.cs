@@ -18,7 +18,7 @@ namespace SiteOverseer.Controllers
         {
             _context = context;
         }
-
+        #region // Main Methods //
         // GET: Wbss
         public async Task<IActionResult> Index()
         {
@@ -153,5 +153,7 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Wbs.Any(e => e.WbsId == id);
         }
+
+        #endregion
     }
 }

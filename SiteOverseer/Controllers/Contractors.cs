@@ -62,8 +62,8 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 contractor.RevDtetime = DateTime.Now;
-                contractor.CmpyId = 1; //default
-                contractor.UserId = 1; //default
+                contractor.CmpyId = GetCmpyId(); //default
+                contractor.UserId = GetUserId(); //default
                 _context.Add(contractor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,8 +101,8 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     contractor.RevDtetime = DateTime.Now;
-                    contractor.CmpyId = 1; //default
-                    contractor.UserId = 1; //default
+                    contractor.CmpyId = GetCmpyId(); //default
+                    contractor.UserId = GetUserId(); //default
                     _context.Update(contractor);
                     await _context.SaveChangesAsync();
                 }
@@ -158,6 +158,28 @@ namespace SiteOverseer.Controllers
         private bool ContractorExists(int id)
         {
             return _context.MS_Contractor.Any(e => e.CntorId == id);
+        }
+        #endregion
+
+        #region // Get ID //
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+        protected short GetCmpyId()
+        {
+            var cmpyId = _context.MS_User
+                .Where(u => u.UserId == GetUserId())
+                .Select(u => u.CmpyId)
+                .FirstOrDefault();
+
+            return cmpyId;
         }
         #endregion
     }

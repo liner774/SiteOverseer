@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,8 +16,12 @@
     <link rel="stylesheet" href="~/lib/AdminLTE/dist/css/adminlte.min.css">
     @await RenderSectionAsync("Links", required: false)
 </head>
+
 <body class="hold-transition sidebar-mini sidebar-collapse">
+
     <div class="wrapper">
+
+
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -24,23 +29,24 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item ml-2">
-                    <a href="../../Home/Logout" class="btn btn-default m-1 text-truncate" onclick="return confirm('Are you sure you want to log out?')">LogOut</a>
+                    <a href="../../LogIn/Index" class="btn btn-default m-1 text-truncate" onclick="return confirm('Are you sure you want to log out?')">LogOut</a>
                 </li>
             </ul>
         </nav>
         <!-- Main Sidebar Container -->
+   
         <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-closed sidebar-collapsed">
-            <!-- Sidebar -->
-            <div class="sidebar sidebar-collapse">
-                <!-- Sidebar user (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="~/lib/AdminLTE/dist/img/user.png" class="elevation-3" alt="User Image">
+                <!-- Sidebar content -->
+                <div class="sidebar sidebar-collapse">
+                    <!-- Sidebar user (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="~/lib/AdminLTE/dist/img/user.png" class="elevation-3" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a class="d-block">@ViewData["Username"]</a>
+                        </div>
                     </div>
-                    <div class="info">
-                        <a class="d-block">@ViewData["Username"]</a>
-                    </div>
-                </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -189,21 +195,7 @@
                             </ul>
                         </li>
 
-                       
-                        
-
-                       
-
-                      
-
-                        
-
-                        
-
-                         
-
-                       
-
+                     
 
                         @if (new[] { "ACCESS_LEVEL" }.Contains(ViewData["Role"]?.ToString()))
                         {
@@ -265,7 +257,9 @@
             <strong>© 2024 Site Overseer - <a href="https://fortifiedcitymyanmar.com/">Fortified City</a></strong>
         </footer>
 
+        
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -278,4 +272,5 @@
     <script src="~/lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
