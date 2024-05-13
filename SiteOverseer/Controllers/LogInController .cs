@@ -29,13 +29,12 @@ namespace SiteOverseer.Controllers.PublicControllers
             {
                 ViewBag.AlertMessage = TempData["alert message"];
             }
-
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(LogInUser user)
+        public async Task<IActionResult> Index(User user)
         {
             try
             {
@@ -43,8 +42,7 @@ namespace SiteOverseer.Controllers.PublicControllers
 
                 if (ModelState.IsValid)
                 {
-                    
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
+                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower() && u.Pwd == user.Pwd);
 
                     if (dbUser != null)
                     {

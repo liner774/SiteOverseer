@@ -6,7 +6,7 @@ namespace SiteOverseer.Models
     public class LogIn
     {
         [NotMapped]
-        public required string UserCde { get; set; }
+        public string? UserCde { get; set; }
         [NotMapped]
         public required byte[] Pwd { get; set; }
     }
