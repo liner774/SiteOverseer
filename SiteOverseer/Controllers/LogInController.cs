@@ -43,7 +43,7 @@ namespace SiteOverseer.Controllers.PublicControllers
 
                 if (ModelState.IsValid)
                 {
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower() && u.Pwd == user.Pwd);
+                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
 
                     if (dbUser != null)
                     {

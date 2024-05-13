@@ -11,7 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-  
+
     public class Cities : Controller
     {
         private readonly SiteDbContext _context;
@@ -27,7 +27,7 @@ namespace SiteOverseer.Controllers
             return View(await _context.MS_City.ToListAsync());
         }
 
-       
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace SiteOverseer.Controllers
             var city = await _context.MS_City
                 .FirstOrDefaultAsync(m => m.CityId == id);
 
-            
+
             if (city == null)
             {
                 return NotFound();
@@ -47,28 +47,28 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-       
+
         public IActionResult Create()
         {
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CityId,CityCode,CityName")] City city)
         {
             if (ModelState.IsValid)
-         
             {
                 city.RevDtetime = DateTime.Now;
                 _context.Add(city);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            return View(city);
         }
 
-       
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,7 +84,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CityId,CityCode,CityName")] City city)
@@ -99,7 +99,7 @@ namespace SiteOverseer.Controllers
                 try
                 {
                     city.RevDtetime = DateTime.Now;
-                    
+
 
                     _context.Update(city);
                     await _context.SaveChangesAsync();
@@ -120,7 +120,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-       
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,7 +138,7 @@ namespace SiteOverseer.Controllers
             return View(city);
         }
 
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
