@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -56,8 +57,7 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facilityType.RevdTetime = DateTime.Now;
-                facilityType.CmpyId = GetCmpyId();
-                facilityType.UserId = GetUserId();
+               
                 _context.Add(facilityType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -157,12 +157,12 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Get ID //
+        #region // Grobal Method//
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
             var userId = (short)_context.MS_User
-                .Where(u => u.UserCde == userCde)
+                .Where(u => u.UserCde== userCde)
                 .Select(u => u.UserId)
                 .FirstOrDefault();
 

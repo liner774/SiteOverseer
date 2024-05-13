@@ -29,26 +29,26 @@
                 <div class="row">
                     <div class="col-md-6">
                         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AccessId" />
-            <div class="form-group text-danger">@ViewData["Msg"]</div>
-            <div class="form-group">
+                           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                           <input type="hidden" asp-for="AccessId" />
+                            <div class="form-group text-danger">@ViewData["Msg"]</div>
+                        <div class="form-group">
                                 <label asp-for="MnugrpId" class="control-label">Menu Group Name</label>
 
                                 <select asp-for="MnugrpId" class="form-control" asp-items="@ViewBag.MenuGpList">
                                     <option value="">- Select One -</option>
                                 </select>
                                 <span asp-validation-for="MnugrpId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BtnNme" class="control-label"></label>
-                <input asp-for="BtnNme" class="form-control" />
-                <span asp-validation-for="BtnNme" class="text-danger"></span>
-            </div>
+                        </div>
+                       <div class="form-group">
+                              <label asp-for="BtnNme" class="control-label"></label>
+                             <input asp-for="BtnNme" class="form-control" />
+                               <span asp-validation-for="BtnNme" class="text-danger"></span>
+                       </div>
           
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+                             <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
             </form>
 
                     </div>

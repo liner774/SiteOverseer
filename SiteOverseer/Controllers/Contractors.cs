@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class Contractors : Controller
     {
         private readonly SiteDbContext _context;
@@ -23,13 +25,13 @@ namespace SiteOverseer.Controllers
         public async Task<IActionResult> Index()
         {
             var facilityCodeList = await _context.MS_Contractor.ToListAsync();
-            foreach(var facilitCode in facilityCodeList)
+            foreach (var facilitCode in facilityCodeList)
             {
                 facilitCode.FciltypCde = _context.MS_Facilitytype.Where(gp => gp.FciltypId == facilitCode.FciltypId).Select(gp => gp.FciltypCde).FirstOrDefault();
             }
             return View(facilityCodeList);
         }
- 
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,22 +41,28 @@ namespace SiteOverseer.Controllers
 
             var contractor = await _context.MS_Contractor
                 .FirstOrDefaultAsync(m => m.CntorId == id);
+
             if (contractor == null)
             {
                 return NotFound();
             }
 
+            contractor.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == contractor.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
+            contractor.Company = _context.MS_Company.Where(c => c.CmpyId == contractor.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            contractor.User = _context.MS_User.Where(u => u.UserId == contractor.UserId).Select(u => u.UserNme).FirstOrDefault();
+
+
             return View(contractor);
         }
 
-        
+
         public IActionResult Create()
         {
             ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View();
         }
 
-   
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus,Remark")] Contractor contractor)
@@ -71,7 +79,7 @@ namespace SiteOverseer.Controllers
             ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View(contractor);
         }
- 
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,7 +130,7 @@ namespace SiteOverseer.Controllers
             return View(contractor);
         }
 
-        
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,10 +145,15 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
+            contractor.FciltypCde = await _context.MS_Facilitytype
+                .Where(ft => ft.FciltypId == contractor.FciltypId)
+                .Select(ft => ft.FciltypCde)
+                .FirstOrDefaultAsync();
+
             return View(contractor);
         }
 
- 
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -161,7 +174,8 @@ namespace SiteOverseer.Controllers
         }
         #endregion
 
-        #region // Get ID //
+
+        #region // Global Methods (Important)  //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
@@ -181,6 +195,7 @@ namespace SiteOverseer.Controllers
 
             return cmpyId;
         }
+
         #endregion
     }
 }

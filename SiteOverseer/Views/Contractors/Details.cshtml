@@ -42,10 +42,10 @@
                         @Html.DisplayFor(model => model.CntorNme)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.FciltypId)
+                        @Html.DisplayNameFor(model => model.FciltypCde)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.FciltypId)
+                        @Html.DisplayFor(model => model.FciltypCde)
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.ProgpayId)
@@ -57,7 +57,7 @@
                         @Html.DisplayNameFor(model => model.Establisheddte)
                     </dt>
                     <dd class="col-sm-10">
-                        @Convert.ToDateTime(Model.Establisheddte).ToString("dd MMMM yyyy hh:mm:yy tt")
+                        @Convert.ToDateTime(Model.Establisheddte).ToString("dd MMMM yyyy")
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.BadStatus)
@@ -72,10 +72,10 @@
                         @Html.DisplayFor(model => model.Remark)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.CmpyId)
+                        @Html.DisplayNameFor(model => model.Company)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.CmpyId)
+                        @Html.DisplayFor(model => model.Company)
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.RevDtetime)
@@ -84,10 +84,10 @@
                         @Convert.ToDateTime(Model.RevDtetime).ToString("dd MMMM yyyy hh:mm:yy tt")
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.UserId)
+                        @Html.DisplayNameFor(model => model.User)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.UserId)
+                        @Html.DisplayFor(model => model.User)
                     </dd>
                    
                 </dl>

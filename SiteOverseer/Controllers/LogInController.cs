@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SiteOverseer.Models;
 using SiteOverseer.Data;
+using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers.PublicControllers
 {
@@ -29,12 +29,13 @@ namespace SiteOverseer.Controllers.PublicControllers
             {
                 ViewBag.AlertMessage = TempData["alert message"];
             }
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(User user)
+        public async Task<IActionResult> Index(LogInUser user)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace SiteOverseer.Controllers.PublicControllers
 
                 if (ModelState.IsValid)
                 {
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower() && u.Pwd == user.Pwd);
+                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
 
                     if (dbUser != null)
                     {
