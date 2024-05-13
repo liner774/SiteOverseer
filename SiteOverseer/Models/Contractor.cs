@@ -33,5 +33,11 @@ namespace SiteOverseer.Models
         [DisplayName("Facility Type Code")]
         [NotMapped]
         public string? FciltypCde { get; set; }
+        [DisplayName("Company")]
+        [NotMapped]
+        public string? Company { get; set; }
+        [DisplayName("User")]
+        [NotMapped]
+        public string? User { get; set; }
     }
 }
