@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
 
-        #region// Main Method//
+        #region // Main Methods //
         public async Task<IActionResult> Index()
         {
             return View(await _context.MS_City.ToListAsync());
@@ -44,6 +45,8 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
+            city.Company = _context.MS_Company.Where(c => c.CmpyId == city.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            city.User = _context.MS_User.Where(u => u.UserId == city.UserId).Select(u => u.UserNme).FirstOrDefault();
             return View(city);
         }
 
@@ -60,6 +63,8 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                city.CmpyId = GetCmpyId();
+                city.UserId = GetUserId();
                 city.RevDtetime = DateTime.Now;
                 _context.Add(city);
                 await _context.SaveChangesAsync();
@@ -98,9 +103,9 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    city.CmpyId = GetCmpyId();
+                    city.UserId = GetUserId();
                     city.RevDtetime = DateTime.Now;
-
-
                     _context.Update(city);
                     await _context.SaveChangesAsync();
                 }
@@ -159,7 +164,8 @@ namespace SiteOverseer.Controllers
         }
         #endregion
 
-        #region//Grobal Method//
+
+        #region // Global Methods (Important) //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

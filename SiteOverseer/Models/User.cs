@@ -20,7 +20,7 @@ namespace SiteOverseer.Models
         [StringLength(24)]
         public required string Gender { get; set; }
         public short MnugrpId { get; set; }
-        public required byte[] Pwd { get; set; }
+        public byte[]? Pwd { get; set; }
         public short CmpyId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }

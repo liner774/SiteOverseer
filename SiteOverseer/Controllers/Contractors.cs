@@ -174,6 +174,7 @@ namespace SiteOverseer.Controllers
         }
         #endregion
 
+
         #region // Global Methods (Important)  //
         protected short GetUserId()
         {
@@ -194,6 +195,7 @@ namespace SiteOverseer.Controllers
 
             return cmpyId;
         }
+
         #endregion
     }
 }

@@ -28,7 +28,7 @@ namespace SiteOverseer.Models
         [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }
 
-        //comment
+        // Custom
         
         [DisplayName("Facility Type Code")]
         [NotMapped]
