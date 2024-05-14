@@ -97,7 +97,7 @@ namespace SiteOverseer.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus")] Contractor contractor)
+        public async Task<IActionResult> Edit(int id, [Bind("CntorId,CntorNme,FciltypId,ProgpayId,Establisheddte,BadStatus,Remark")] Contractor contractor)
         {
             if (id != contractor.CntorId)
             {
