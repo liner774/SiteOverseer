@@ -11,7 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-
+    [Authorize]
     public class Menugps : Controller
     {
         private readonly SiteDbContext _context;

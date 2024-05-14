@@ -12,7 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    
+    [Authorize]
     public class Users : Controller
     {
         private readonly SiteDbContext _context;

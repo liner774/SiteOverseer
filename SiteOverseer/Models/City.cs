@@ -7,7 +7,7 @@ namespace SiteOverseer.Models
     public class City
     {
         [Key]
-        [DisplayName("City ID")]
+        [DisplayName("CityID")]
         public int CityId { get; set; }
         [StringLength(20)]
         public required string CityCode { get; set; }
@@ -19,16 +19,11 @@ namespace SiteOverseer.Models
         public int UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }
-
         // Custom
+        [NotMapped]
         
-        [DisplayName("Company")]
+        public string? Company { get; internal set; }
         [NotMapped]
-        public string? Company { get; set; }
-        [DisplayName("User")]
-        [NotMapped]
-        public string? User { get; set; }
-
-
+        public string? User { get; internal set; }
     }
 }

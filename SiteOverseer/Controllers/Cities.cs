@@ -12,7 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-
+    [Authorize]
     public class Cities : Controller
     {
         private readonly SiteDbContext _context;
@@ -25,6 +25,7 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
+          
             return View(await _context.MS_City.ToListAsync());
         }
 
@@ -33,7 +34,7 @@ namespace SiteOverseer.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound();  
             }
 
             var city = await _context.MS_City

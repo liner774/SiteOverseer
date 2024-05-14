@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +13,11 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class FacilityTypes : Controller
     {
         private readonly SiteDbContext _context;
+        private IEnumerable<object> facilityTypeList;
 
         public FacilityTypes(SiteDbContext context)
         {
@@ -23,6 +26,7 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
+           
             return View(await _context.MS_Facilitytype.ToListAsync());
         }
 
@@ -57,7 +61,9 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facilityType.RevdTetime = DateTime.Now;
-               
+                facilityType.CmpyId = GetCmpyId(); //default
+                facilityType.UserId = GetUserId(); //default
+
                 _context.Add(facilityType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

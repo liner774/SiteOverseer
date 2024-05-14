@@ -28,16 +28,16 @@ namespace SiteOverseer.Models
         [DisplayName("Revised Datetime")]
         public DateTime RevDtetime { get; set; }
 
-        // Custom
+        //custom
         
         [DisplayName("Facility Type Code")]
         [NotMapped]
-        public string? FciltypCde { get; set; }
+        public string? FcilityCde{ get; internal set; }
         [DisplayName("Company")]
         [NotMapped]
-        public string? Company { get; set; }
+        public string? Company { get; internal set; }
         [DisplayName("User")]
         [NotMapped]
-        public string? User { get; set; }
+        public string? User { get; internal set; }
     }
 }
