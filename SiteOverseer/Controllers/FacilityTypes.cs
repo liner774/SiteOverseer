@@ -40,6 +40,10 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
+            facilityType.Company = _context.MS_Company.Where(c => c.CmpyId == facilityType.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            facilityType.User = _context.MS_User.Where(u => u.UserId == facilityType.UserId).Select(u => u.UserNme).FirstOrDefault();
+
+
             return View(facilityType);
         }
 
@@ -57,7 +61,9 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facilityType.RevdTetime = DateTime.Now;
-               
+                facilityType.CmpyId = GetCmpyId();
+                facilityType.UserId = GetUserId();
+
                 _context.Add(facilityType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -157,7 +163,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Grobal Method//
+        #region // Global Methods (Important)//
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

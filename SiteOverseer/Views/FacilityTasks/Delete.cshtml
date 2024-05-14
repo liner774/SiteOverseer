@@ -72,13 +72,13 @@
                         @Html.DisplayNameFor(model => model.WorkstartDte)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.WorkstartDte)
+                        @Convert.ToDateTime(Model.WorkstartDte).ToString("dd MMM yyyy")
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.WorkendDte)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.WorkendDte)
+                        @Convert.ToDateTime(Model.WorkendDte).ToString("dd MMM yyyy")
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.AwardedValue)
