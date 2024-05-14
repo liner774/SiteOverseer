@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiteOverseer.Models
 {
@@ -23,15 +24,24 @@ namespace SiteOverseer.Models
         [DisplayName("Contract Value")]
         public decimal? Contractval { get; set; }
         [DisplayName("Approved Date")]
-        public DateOnly? ApproveDte { get; set; }
+        public DateTime ApproveDte { get; set; }
         [DisplayName("Facility Start Date")]
-        public DateOnly? FcilstartDte { get; set; }
+        public DateTime FcilstartDte { get; set; }
         [DisplayName("Company")]
         public short CmpyId { get; set; }
         [DisplayName("User")]
         public int UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
+
+        //custom
+        [DisplayName("Company")]
+        [NotMapped]
+        public string? Company { get; set; }
+        [DisplayName("User")]
+        [NotMapped]
+        public string? User { get; set; }
+
 
     }
 }

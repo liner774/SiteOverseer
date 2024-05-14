@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,6 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
     public class Facilities : Controller
     {
         private readonly SiteDbContext _context;
@@ -40,6 +39,10 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+
+            facility.Company = _context.MS_Company.Where(c => c.CmpyId == facility.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            facility.User = _context.MS_User.Where(u => u.UserId == facility.UserId).Select(u => u.UserNme).FirstOrDefault();
+
 
             return View(facility);
         }
@@ -156,7 +159,7 @@ namespace SiteOverseer.Controllers
         }
         #endregion
 
-        #region // Global Methods (Important)  //
+        #region // Global Methods (Important) //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

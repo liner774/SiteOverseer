@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,11 +12,9 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
     public class FacilityTypes : Controller
     {
         private readonly SiteDbContext _context;
-        private IEnumerable<object> facilityTypeList;
 
         public FacilityTypes(SiteDbContext context)
         {
@@ -26,7 +23,6 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
-           
             return View(await _context.MS_Facilitytype.ToListAsync());
         }
 
@@ -43,6 +39,10 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+
+            facilityType.Company = _context.MS_Company.Where(c => c.CmpyId == facilityType.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            facilityType.User = _context.MS_User.Where(u => u.UserId == facilityType.UserId).Select(u => u.UserNme).FirstOrDefault();
+
 
             return View(facilityType);
         }
@@ -61,8 +61,8 @@ namespace SiteOverseer.Controllers
             if (ModelState.IsValid)
             {
                 facilityType.RevdTetime = DateTime.Now;
-                facilityType.CmpyId = GetCmpyId(); //default
-                facilityType.UserId = GetUserId(); //default
+                facilityType.CmpyId = GetCmpyId();
+                facilityType.UserId = GetUserId();
 
                 _context.Add(facilityType);
                 await _context.SaveChangesAsync();
@@ -163,7 +163,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Grobal Method//
+        #region // Global Methods (Important)//
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

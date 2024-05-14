@@ -44,5 +44,15 @@ namespace SiteOverseer.Models
         [NotMapped]
         [DisplayName("Contractor")]
         public string? CntorNme { get; set; }
+
+        [NotMapped]
+        public string? FciltypCde { get; set; }
+        [DisplayName("Company")]
+        [NotMapped]
+        public string? Company { get; set; }
+        [DisplayName("User")]
+        [NotMapped]
+        public string? User { get; set; }
+
     }
 }

@@ -81,13 +81,13 @@
                         @Html.DisplayNameFor(model => model.ApproveDte)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.ApproveDte)
+                        @Convert.ToDateTime(Model.ApproveDte).ToString("dd MMM yyyy")
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.FcilstartDte)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.FcilstartDte)
+                        @Convert.ToDateTime(Model.FcilstartDte).ToString("dd MMM yyyy")
                     </dd>
                    
                 </dl>

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using SiteOverseer.Models;
 using System.Diagnostics;
 
-
-
 namespace SiteOverseer.Controllers
 {
     

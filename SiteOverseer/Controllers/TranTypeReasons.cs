@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +43,8 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
+            tranTypeReason.Company = _context.MS_Company.Where(c => c.CmpyId == tranTypeReason.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            tranTypeReason.User = _context.MS_User.Where(u => u.UserId == tranTypeReason.UserId).Select(u => u.UserNme).FirstOrDefault();
             return View(tranTypeReason);
         }
 
@@ -165,7 +168,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Get ID  //
+        #region // Global Methods (Important)  //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;

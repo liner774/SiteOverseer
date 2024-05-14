@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,6 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
     public class TranTypeCodes : Controller
     {
         private readonly SiteDbContext _context;
@@ -41,6 +40,8 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
+            tranTypeCode.Company = _context.MS_Company.Where(c => c.CmpyId == tranTypeCode.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            tranTypeCode.User = _context.MS_User.Where(u => u.UserId == tranTypeCode.UserId).Select(u => u.UserNme).FirstOrDefault();
             return View(tranTypeCode);
         }
 
@@ -157,7 +158,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
-        #region // Global Methods (Important)  //
+        #region // Global Methods (Important) //
         protected short GetUserId()
         {
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
