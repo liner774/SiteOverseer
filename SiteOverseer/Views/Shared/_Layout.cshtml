@@ -29,7 +29,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item ml-2">
-                    <a href="../../LogIn/Index" class="btn btn-default m-1 text-truncate" onclick="return confirm('Are you sure you want to log out?')">LogOut</a>
+                    <a asp-controller="LogIn" asp-action="Index" class="btn btn-default m-1 text-truncate" onclick="return confirm('Are you sure you want to log out?')">LogOut</a>
                 </li>
             </ul>
         </nav>
@@ -90,7 +90,7 @@
                                     
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-controller="Home" asp-action="Index" class="nav-link">
+                                    <a asp-controller="Wbss" asp-action="Index" class="nav-link">
                                         <i class="fas fa-level-down-alt nav-icon"></i>
                                         <p>Work Breakdown System</p>
                                     </a>

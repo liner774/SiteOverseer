@@ -12,6 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class FacilityTypes : Controller
     {
         private readonly SiteDbContext _context;

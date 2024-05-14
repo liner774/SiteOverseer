@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     
     public class HomeController : Controller
     {

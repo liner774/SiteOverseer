@@ -27,7 +27,7 @@ namespace SiteOverseer.Controllers
             var facilityCodeList = await _context.MS_Contractor.ToListAsync();
             foreach (var facilitCode in facilityCodeList)
             {
-                facilitCode.FciltypCde = _context.MS_Facilitytype.Where(gp => gp.FciltypId == facilitCode.FciltypId).Select(gp => gp.FciltypCde).FirstOrDefault();
+                facilitCode.FcilityCde = _context.MS_Facilitytype.Where(gp => gp.FciltypId == facilitCode.FciltypId).Select(gp => gp.FciltypCde).FirstOrDefault();
             }
             return View(facilityCodeList);
         }
@@ -47,7 +47,7 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
-            contractor.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == contractor.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
+            contractor.FcilityCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == contractor.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
             contractor.Company = _context.MS_Company.Where(c => c.CmpyId == contractor.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             contractor.User = _context.MS_User.Where(u => u.UserId == contractor.UserId).Select(u => u.UserNme).FirstOrDefault();
 
@@ -145,7 +145,7 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
-            contractor.FciltypCde = await _context.MS_Facilitytype
+            contractor.FcilityCde = await _context.MS_Facilitytype
                 .Where(ft => ft.FciltypId == contractor.FciltypId)
                 .Select(ft => ft.FciltypCde)
                 .FirstOrDefaultAsync();
