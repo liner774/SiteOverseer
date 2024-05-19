@@ -9,61 +9,51 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using SiteOverseer.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace SiteOverseer.Controllers
 {
     public class LogInController : Controller
     {
-        private readonly ILogger<LogInController> _logger;
         private readonly SiteDbContext _context;
         private readonly EncryptDecryptService _encryptDecryptService;
 
-        // A mock user repository for demonstration
-        private static readonly Dictionary<string, string> UserStore = new Dictionary<string, string>();
-
-        public LogInController(EncryptDecryptService encryptDecryptService, ILogger<LogInController> logger, SiteDbContext context)
+        public LogInController(SiteDbContext context)
         {
-            _logger = logger;
             _context = context;
-            _encryptDecryptService = encryptDecryptService;
+            _encryptDecryptService = new EncryptDecryptService();
         }
 
 
         public IActionResult Index()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            if (claimUser.Identity != null && claimUser.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "SaleDashboard");
-            }
-            return RedirectToAction("LogIn", "Home"); // Use RedirectToAction instead of RedirectToActionResult
-        }
-
-        public IActionResult Login()
-        {
             return View();
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<LogInController> logIn(string uc, string p, LogInUser user)
+        public async Task<IActionResult> Index(LogInUser user)
         {
-            var userList = await _context.MS_User.ToListAsync();
-            if ((!string.IsNullOrEmpty(uc)) && (!string.IsNullOrEmpty(p)))
+            if ((!string.IsNullOrEmpty(user.UserCde)) && (!string.IsNullOrEmpty(user.Pwd)))
             {
                 try
                 {
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == u.UserCde.ToLower() && user.Pwd == user.Pwd);
+                    var dbUser = _context.MS_User.FirstOrDefault(u => u.UserCde.ToLower() == u.UserCde.ToLower());
 
-                    if (dbUser != null)
+                    if (dbUser != null && dbUser.Pwd != null)
                     {
-                        if (user.Pwd == p)
+                        string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
+
+                        var decryptedPwd = _encryptDecryptService.DecryptString(strbytes);
+
+                        if (user.Pwd == decryptedPwd)
                         {
                             try
                             {
                                 var claims = new List<Claim>() {
                                 new (ClaimTypes.NameIdentifier,user.UserCde)
-                            };
+                                };
 
                                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                                 var properties = new AuthenticationProperties()
@@ -78,10 +68,13 @@ namespace SiteOverseer.Controllers
                                 .Select(x => x.UserCde)
                                 .FirstOrDefaultAsync() ?? "";
 
+                                return View("Index", "Home");
+
                             }
                             catch (Exception ex)
                             {
                                 ViewBag.AlertMessage = ex.Message;
+                                return RedirectToAction("Index", "LogIn");
                             }
                         }
                         else
@@ -99,13 +92,16 @@ namespace SiteOverseer.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.AlertMessage = ex.Message;
+                    return View(user);
                 }
-             
+
             }
             else
             {
                 ViewBag.AlertMessage = "All fields must be filled!";
             }
+
+            return View(user);
 
         }
 

@@ -10,8 +10,6 @@ namespace SiteOverseer.Common.EncryptDecryptService
         private readonly string key = "tkbH1omfiqg13aqVusoCialf7pE6whfU";
         private readonly byte[] iv = new byte[16];
 
-        public object MS_User { get; internal set; }
-
         public string EncryptString(string plainInput)
         {
             byte[] array;
