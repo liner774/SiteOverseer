@@ -1,82 +1,114 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using SiteOverseer.Common;
+using SiteOverseer.Common.EncryptDecryptService;
 using SiteOverseer.Data;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using SiteOverseer.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace SiteOverseer.Controllers.PublicControllers
+namespace SiteOverseer.Controllers
 {
     public class LogInController : Controller
     {
-        private readonly SiteDbContext _dbContext;
+        private readonly ILogger<LogInController> _logger;
+        private readonly SiteDbContext _context;
+        private readonly EncryptDecryptService _encryptDecryptService;
 
-        public LogInController(SiteDbContext dbContext)
+        // A mock user repository for demonstration
+        private static readonly Dictionary<string, string> UserStore = new Dictionary<string, string>();
+
+        public LogInController(EncryptDecryptService encryptDecryptService, ILogger<LogInController> logger, SiteDbContext context)
         {
-            _dbContext = dbContext;
+            _logger = logger;
+            _context = context;
+            _encryptDecryptService = encryptDecryptService;
         }
 
-        // GET: User
+
         public IActionResult Index()
         {
             ClaimsPrincipal claimUser = HttpContext.User;
             if (claimUser.Identity != null && claimUser.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "SaleDashboard");
             }
-            if (TempData["alert message"] != null)
-            {
-                ViewBag.AlertMessage = TempData["alert message"];
-            }
+            return RedirectToAction("LogIn", "Home"); // Use RedirectToAction instead of RedirectToActionResult
+        }
 
+        public IActionResult Login()
+        {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(LogInUser user)
+        public async Task<LogInController> logIn(string uc, string p, LogInUser user)
         {
-            try
+            var userList = await _context.MS_User.ToListAsync();
+            if ((!string.IsNullOrEmpty(uc)) && (!string.IsNullOrEmpty(p)))
             {
-                var userList = await _dbContext.MS_User.ToListAsync();
-
-                if (ModelState.IsValid)
+                try
                 {
-                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
+                    var dbUser = userList.FirstOrDefault(u => u.UserCde.ToLower() == u.UserCde.ToLower() && user.Pwd == user.Pwd);
 
                     if (dbUser != null)
                     {
-                        var claims = new List<Claim>() {
-                            new Claim(ClaimTypes.NameIdentifier, user.UserCde)
-                        };
-
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        var properties = new AuthenticationProperties()
+                        if (user.Pwd == p)
                         {
-                            AllowRefresh = true
-                        };
+                            try
+                            {
+                                var claims = new List<Claim>() {
+                                new (ClaimTypes.NameIdentifier,user.UserCde)
+                            };
 
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+                                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                var properties = new AuthenticationProperties()
+                                {
+                                    AllowRefresh = true
+                                };
 
-                        return RedirectToAction("Index", "Home");
+                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+
+                                var puser = await _context.MS_User
+                                .Where(x => x.UserCde == user.UserCde)
+                                .Select(x => x.UserCde)
+                                .FirstOrDefaultAsync() ?? "";
+
+                            }
+                            catch (Exception ex)
+                            {
+                                ViewBag.AlertMessage = ex.Message;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertMessage = "Authentication failed. Please check your credentials.";
+                        }
+
                     }
                     else
                     {
                         ViewBag.AlertMessage = "Authentication failed. Please check your credentials.";
                     }
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.AlertMessage = "All fields must be filled!";
+                    ViewBag.AlertMessage = ex.Message;
                 }
+             
             }
-            catch (Exception ex)
+            else
             {
-                ViewBag.AlertMessage = ex.Message;
+                ViewBag.AlertMessage = "All fields must be filled!";
             }
-            return View(user);
+
         }
+
 
     }
 }
