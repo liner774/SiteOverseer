@@ -24,8 +24,12 @@ namespace SiteOverseer.Models
         public short CmpyId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime RevdTetime { get; set; }
+        [NotMapped]
+        public string Password { get; set; } = string.Empty;
+        [NotMapped]
+        public string ConfirmPassword { get; set; } = string.Empty;
 
-      
+
 
 
     }
