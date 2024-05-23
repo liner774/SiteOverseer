@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,13 @@ namespace SiteOverseer.Controllers
        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MS_Wbs.ToListAsync());
+            var WbsdCodeList = await _context.MS_Wbs.ToListAsync();
+            foreach (var WbsdCode in WbsdCodeList)
+            {
+                WbsdCode.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsId == WbsdCode.WbsId).Select(gp => gp.WbsdCde).FirstOrDefault();
+            }
+            return View(WbsdCodeList);
+
         }
 
    
@@ -39,13 +46,14 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-
+            wbs.WbsdCde = _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).FirstOrDefault();
             return View(wbs);
         }
 
         
         public IActionResult Create()
         {
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View();
         }
  
@@ -62,6 +70,7 @@ namespace SiteOverseer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
  
@@ -77,6 +86,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
  

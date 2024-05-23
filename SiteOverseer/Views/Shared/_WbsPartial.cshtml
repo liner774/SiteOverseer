@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SiteOverseer.Models.Wbs>
+
+@section Scripts {
+    <script src="~/js/showTable.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+}
+
+<div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="tableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <h1>@ViewData["Title"]</h1>
+                            </div>
+                            <div class="col-6">
+                                <div class="breadcrumb float-right active">
+                                    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fas fa-back"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card card-gray">
+                            <div class="card-header">
+                                <h3 class="card-title">@ViewData["Title"] List</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-12 text-right">
+                                        <a asp-action="Create" class="btn btn-primary" >Create New <i class="fas fa-plus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table id="detailsTable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Codes</th>
+                                                    <th style="width: 150px; text-align: center;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbo
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td><input type="text" class="form-control" name="Codes" /></td>
+                                                        <td style="text-align: center">
+                                                            <a asp-action="Delete" asp-route-id="@item.WbsId" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="saveButton" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
