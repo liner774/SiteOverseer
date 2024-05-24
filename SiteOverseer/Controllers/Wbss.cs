@@ -20,7 +20,7 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
         #region // Main Methods //
-       
+
         public async Task<IActionResult> Index()
         {
             var WbsdCodeList = await _context.MS_Wbs.ToListAsync();
@@ -30,9 +30,12 @@ namespace SiteOverseer.Controllers
             }
             return View(WbsdCodeList);
 
+            var wbsDetails = await _context.MS_Wbsdetail.ToListAsync();
+            return View(wbsDetails);
+
         }
 
-   
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,13 +53,13 @@ namespace SiteOverseer.Controllers
             return View(wbs);
         }
 
-        
+
         public IActionResult Create()
         {
             ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View();
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WbsId,WbsCde")] Wbs wbs)
@@ -73,7 +76,7 @@ namespace SiteOverseer.Controllers
             ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
- 
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,7 +92,7 @@ namespace SiteOverseer.Controllers
             ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("WbsId,WbsCde")] Wbs wbs)
@@ -124,7 +127,7 @@ namespace SiteOverseer.Controllers
             }
             return View(wbs);
         }
- 
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +144,7 @@ namespace SiteOverseer.Controllers
 
             return View(wbs);
         }
- 
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -184,5 +187,28 @@ namespace SiteOverseer.Controllers
             return cmpyId;
         }
         #endregion
+
+        [HttpGet]
+        public async Task<IEnumerable<WbsDetail>> GetWbsDetails(int id)
+        {
+            var wbsDetails = await _context.MS_Wbsdetail
+                .Where(d => d.WbsId == id)
+                .ToListAsync();
+
+            return wbsDetails;
+        }
+
+        [HttpPost]
+        public IActionResult SaveWbsDetails([FromBody] WbsDetail wbs)
+        {
+            if (ModelState.IsValid)
+            {
+                // Save wbs to the database
+                _context.MS_Wbsdetail.Add(wbs);
+                _context.SaveChanges();
+                return Ok(new { success = true });
+            }
+            return BadRequest(new { success = false, message = "Invalid data" });
+        }
     }
 }

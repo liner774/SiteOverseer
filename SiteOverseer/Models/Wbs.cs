@@ -7,9 +7,10 @@ namespace SiteOverseer.Models
     public class Wbs
     {
         [Key]
-        [DisplayName("Wbs ID")]
+        [DisplayName("WBS ID")]
         public int WbsId { get; set; }
         [StringLength(100)]
+        [DisplayName("WBS Name")]
         public required string WbsCde {  get; set; }
         [DisplayName("Company")]
         public short CmpyId { get; set; }
@@ -21,6 +22,7 @@ namespace SiteOverseer.Models
         //custom
         [NotMapped]
         [DisplayName("WBS Codes")]
-        public  string? WbsdCde { get; set; }
+        public string? WbsdCde { get; set; }
+
     }
 }

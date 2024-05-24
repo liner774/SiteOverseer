@@ -27,7 +27,7 @@
     <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
+    <script src="~/js/showTable.js"></script>
     <script>
         $(function () {
             $("#example1").DataTable({
@@ -68,6 +68,26 @@
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
+    <script>
+        $(function () {
+            $('#reportedDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+                "lengthMenu": [20, 50, 100],
+            });
+        });
+
+        $(function () {
+            setTimeout(() => {
+                $("#messageBox1, #messageBox2").fadeOut();
+            }, 3000);
+        });
+    </script>
 }
 
 <section class="content-header">
@@ -98,8 +118,13 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+
                                     <th>
                                         @Html.DisplayNameFor(model => model.WbsCde)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WbsdCde)
                                     </th>
                                    
                                     
@@ -116,9 +141,14 @@
                                 {
                                     <tr>
                                         <td>@counter</td>
-                                        
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.WbsCde)
+                                        </td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-primary showTableButton" onclick="editWBSCodes('@item.WbsId')">...</button>
+                                        
                                         </td>
                                         
 
@@ -143,3 +173,8 @@
     </div>
 </section>
 
+
+
+<div id="partialContainer">
+    <partial name="_WbsPartial" />
+</div>
