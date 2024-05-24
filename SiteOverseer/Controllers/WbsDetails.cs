@@ -58,6 +58,7 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                wbsDetail.RevdTetime = DateTime.Now;
                 _context.Add(wbsDetail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

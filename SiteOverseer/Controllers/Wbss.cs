@@ -197,18 +197,27 @@ namespace SiteOverseer.Controllers
 
             return wbsDetails;
         }
-
         [HttpPost]
-        public IActionResult SaveWbsDetails([FromBody] WbsDetail wbs)
+        public void SaveWbsDetails(int wbsId, string[][] wbsDetails)
         {
-            if (ModelState.IsValid)
+            
+            foreach (var item in wbsDetails)
             {
-                // Save wbs to the database
-                _context.MS_Wbsdetail.Add(wbs);
-                _context.SaveChanges();
-                return Ok(new { success = true });
+                var wbsDetail = new WbsDetail()
+                {
+                    CmpyId = GetCmpyId(),
+                    RevdTetime = DateTime.Now,
+                    UserId = GetUserId(),
+                    WbsId = wbsId,
+                    WbsdCde = item[0] ?? ""
+                };
+
+                _context.MS_Wbsdetail.Add(wbsDetail);
             }
-            return BadRequest(new { success = false, message = "Invalid data" });
+
+            _context.SaveChanges();
         }
+
+
     }
 }
