@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SiteOverseer.Common.EncryptDecryptService;
 using SiteOverseer.Data;
 using SiteOverseer.Models;
 
@@ -16,11 +17,14 @@ namespace SiteOverseer.Controllers
     public class Users : Controller
     {
         private readonly SiteDbContext _context;
+        private readonly EncryptDecryptService _encryptDecryptService;
 
         public Users(SiteDbContext context)
         {
             _context = context;
+            _encryptDecryptService = new EncryptDecryptService();
         }
+
 
         #region //Main Method//
         public async Task<IActionResult> Index()
@@ -28,8 +32,7 @@ namespace SiteOverseer.Controllers
             //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
-
-        
+     
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,41 +50,34 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-       
+
         public IActionResult Create()
         {
+            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserCde,UserNme,Pwd,Position,Gender")] User user)
+        public async Task<IActionResult> Create([Bind("UserCde,UserNme,CmpyId,Position,Gender,Password,ConfirmPassword")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Password ??= "User@123";
+                string encodedString = _encryptDecryptService.EncryptString(user.Password);
+                user.Pwd = Encoding.UTF8.GetBytes(encodedString);
                 user.RevdTetime = DateTime.Now;
-                user.UserId = 1;
-               
-                user.CmpyId = 1;
-
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
 
+            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
             return View(user);
         }
-        protected short GetUserId()
-        {
-            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var userId = (short)_context.MS_User
-                .Where(u => u.UserCde== userCde)
-                .Select(u => u.UserId)
-                .FirstOrDefault();
 
-            return userId;
-        }
 
 
         public async Task<IActionResult> Edit(int? id)
@@ -96,13 +92,16 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
             return View(user);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,Position,Gender,Pwd")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,CmpyId,Position,Gender")] User user)
         {
             if (id != user.UserId)
             {
@@ -113,10 +112,17 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
-                    user.RevdTetime = DateTime.Now;
-                    user.CmpyId = 1; //default
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    var oldUser = _context.MS_User.Where(u => u.UserId == user.UserId).FirstOrDefault(); // to get old password again
+                    if (oldUser != null)
+                    {
+                        oldUser.UserNme = user.UserNme;
+                        oldUser.CmpyId = user.CmpyId;
+                        oldUser.Position = user.Position;
+                        oldUser.Gender = user.Gender;
+                        oldUser.RevdTetime = DateTime.Now;
+                        _context.Update(oldUser);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,10 +137,13 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
             return View(user);
         }
 
-      
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,7 +161,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-       
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -167,10 +176,28 @@ namespace SiteOverseer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+    
+
         private bool UserExists(int id)
         {
             return _context.MS_User.Any(e => e.UserId == id);
         }
+        #endregion
+
+
+        #region // Global Methods //
+
+        protected short GetUserId()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var userId = (short)_context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserId)
+                .FirstOrDefault();
+
+            return userId;
+        }
+
         #endregion
 
     }

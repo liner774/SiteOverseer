@@ -25,6 +25,9 @@ namespace SiteOverseer.Controllers
         }
 
 
+        #region // Main Methods //
+
+
         public IActionResult Index()
         {
             return View();
@@ -37,16 +40,21 @@ namespace SiteOverseer.Controllers
         {
             if ((!string.IsNullOrEmpty(user.UserCde)) && (!string.IsNullOrEmpty(user.Pwd)))
             {
+
+                var encryptedPwd = _encryptDecryptService.EncryptString(user.Pwd);
                 try
                 {
-                    var dbUser = _context.MS_User.FirstOrDefault(u => u.UserCde.ToLower() == u.UserCde.ToLower());
+                    var dbUser = _context.MS_User.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
 
+                    //if (dbUser != null)
                     if (dbUser != null && dbUser.Pwd != null)
                     {
-                        string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
 
+                        string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
+                        
                         var decryptedPwd = _encryptDecryptService.DecryptString(strbytes);
 
+                        //if (user.Pwd != null)
                         if (user.Pwd == decryptedPwd)
                         {
                             try
@@ -68,13 +76,13 @@ namespace SiteOverseer.Controllers
                                 .Select(x => x.UserCde)
                                 .FirstOrDefaultAsync() ?? "";
 
-                                return View("Index", "Home");
+                                return RedirectToAction("Index", "Home");
 
                             }
                             catch (Exception ex)
                             {
                                 ViewBag.AlertMessage = ex.Message;
-                                return RedirectToAction("Index", "LogIn");
+                                return View(user);
                             }
                         }
                         else
@@ -104,6 +112,8 @@ namespace SiteOverseer.Controllers
             return View(user);
 
         }
+
+        #endregion
 
 
     }

@@ -36,36 +36,46 @@
                                 <input asp-for="UserCde" class="form-control" />
                                 <span asp-validation-for="UserCde" class="text-danger"></span>
                             </div>
-
                             <div class="form-group">
                                 <label asp-for="UserNme" class="control-label">User Name</label>
                                 <input asp-for="UserNme" class="form-control" />
                                 <span asp-validation-for="UserNme" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Position" class="control-label">Gender</label>
-                                <select asp-for="Position" class="form-control">
+                                <label asp-for="CmpyId" class="control-label">Company</label>
+                                <select asp-for="CmpyId" class="form-control form-select" asp-items="@ViewBag.Companies">
                                     <option value="">- Select One -</option>
-
-                                    <option value="1"> Option 1</option>
-
                                 </select>
                                 <span asp-validation-for="Position" class="text-danger"></span>
                             </div>
-                            
-                            
-
-                           
                             <div class="form-group">
-                                <label asp-for="Pwd" class="control-label"> Password</label>
-                                <input asp-for="Pwd" class="form-control" />
-                                <span asp-validation-for="Pwd" class="text-danger"></span>
+                                <label asp-for="Position" class="control-label"></label>
+                                <select asp-for="Position" class="form-control form-select" asp-items="@ViewBag.Positions">
+                                    <option value="">- Select One -</option>
+                                </select>
+                                <span asp-validation-for="Position" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Pwd" class="control-label">Comfrim Password</label>
+                                <label asp-for="Gender" class="control-label">Gender</label>
+                                <select asp-for="Gender" class="form-control form-select">
+                                    <option value="">- Select One -</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
 
-                                <input asp-for="Pwd" class="form-control" />
-                                <span asp-validation-for="Pwd" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label"> Password</label>
+                                <input type="password" asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword" class="control-label">Comfrim Password</label>
+
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
 
 
