@@ -32,8 +32,7 @@ namespace SiteOverseer.Controllers
             //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
-
-
+     
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -102,7 +101,7 @@ namespace SiteOverseer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,Position,Gender,Pwd")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,CmpyId,Position,Gender")] User user)
         {
             if (id != user.UserId)
             {
@@ -113,10 +112,17 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
-                    user.RevdTetime = DateTime.Now;
-                    user.CmpyId = 1; //default
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    var oldUser = _context.MS_User.Where(u => u.UserId == user.UserId).FirstOrDefault(); // to get old password again
+                    if (oldUser != null)
+                    {
+                        oldUser.UserNme = user.UserNme;
+                        oldUser.CmpyId = user.CmpyId;
+                        oldUser.Position = user.Position;
+                        oldUser.Gender = user.Gender;
+                        oldUser.RevdTetime = DateTime.Now;
+                        _context.Update(oldUser);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -169,6 +175,8 @@ namespace SiteOverseer.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+    
 
         private bool UserExists(int id)
         {
