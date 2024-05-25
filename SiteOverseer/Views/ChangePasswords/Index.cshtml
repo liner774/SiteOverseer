@@ -101,27 +101,27 @@
                                     <th>
                                         @Html.DisplayNameFor(modelItem => modelItem.UserCde)
                                     </th>
-                                  
+
                                     <th>
                                         @Html.DisplayNameFor(modelItem => modelItem.UserNme)
                                     </th>
-                                   
+
                                     <th>
                                         @Html.DisplayNameFor(modelItem => modelItem.Position)
                                     </th>
-                                 
+
                                     <th>
                                         @Html.DisplayNameFor(modelItem => modelItem.Gender)
                                     </th>
 
                                     <th></th>
                                     <th></th>
-                                    <th></th>                                
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                                 @{
                                     var counter = 1;
                                 }
@@ -137,13 +137,13 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.UserNme)
                                         </td>
-                                         <td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.Position)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Gender)
                                         </td>
-                                        
+
 
                                         <td style="text-align: center">
                                             <a asp-action="Details" asp-route-id="@item.UserId"><i class="fas fa-info-circle"></i></a>
@@ -157,7 +157,7 @@
                                         <td style="text-align: center">
                                             <a asp-controller="ChangePasswords" asp-action="ChangePassword" asp-route-id="@item.UserId"><i class="fas fa-key"></i></a>
                                         </td>
-                                     
+
                                     </tr>
                                     counter++;
                                 }

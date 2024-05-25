@@ -58,7 +58,7 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
-            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "WbsdCde");
             return View();
         }
 

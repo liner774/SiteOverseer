@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,22 @@ namespace SiteOverseer.Controllers
             _context = context;
         }
         #region // Main Methods //
-       
+
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MS_Wbs.ToListAsync());
+            var WbsdCodeList = await _context.MS_Wbs.ToListAsync();
+            foreach (var WbsdCode in WbsdCodeList)
+            {
+                WbsdCode.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsId == WbsdCode.WbsId).Select(gp => gp.WbsdCde).FirstOrDefault();
+            }
+            return View(WbsdCodeList);
+
+            var wbsDetails = await _context.MS_Wbsdetail.ToListAsync();
+            return View(wbsDetails);
+
         }
 
-   
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,16 +49,17 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-
+            wbs.WbsdCde = _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).FirstOrDefault();
             return View(wbs);
         }
 
-        
+
         public IActionResult Create()
         {
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View();
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WbsId,WbsCde")] Wbs wbs)
@@ -62,9 +73,10 @@ namespace SiteOverseer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
- 
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,9 +89,10 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            ViewData["WbsdList"] = new SelectList(_context.MS_Wbsdetail.ToList());
             return View(wbs);
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("WbsId,WbsCde")] Wbs wbs)
@@ -114,7 +127,7 @@ namespace SiteOverseer.Controllers
             }
             return View(wbs);
         }
- 
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,7 +144,7 @@ namespace SiteOverseer.Controllers
 
             return View(wbs);
         }
- 
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -174,5 +187,37 @@ namespace SiteOverseer.Controllers
             return cmpyId;
         }
         #endregion
+
+        [HttpGet]
+        public async Task<IEnumerable<WbsDetail>> GetWbsDetails(int id)
+        {
+            var wbsDetails = await _context.MS_Wbsdetail
+                .Where(d => d.WbsId == id)
+                .ToListAsync();
+
+            return wbsDetails;
+        }
+        [HttpPost]
+        public void SaveWbsDetails(int wbsId, string[][] wbsDetails)
+        {
+            
+            foreach (var item in wbsDetails)
+            {
+                var wbsDetail = new WbsDetail()
+                {
+                    CmpyId = GetCmpyId(),
+                    RevdTetime = DateTime.Now,
+                    UserId = GetUserId(),
+                    WbsId = wbsId,
+                    WbsdCde = item[0] ?? ""
+                };
+
+                _context.MS_Wbsdetail.Add(wbsDetail);
+            }
+
+            _context.SaveChanges();
+        }
+
+
     }
 }

@@ -51,6 +51,7 @@ namespace SiteOverseer.Controllers
                     {
 
                         string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
+                        
                         var decryptedPwd = _encryptDecryptService.DecryptString(strbytes);
 
                         //if (user.Pwd != null)
