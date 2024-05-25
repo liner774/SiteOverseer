@@ -73,6 +73,7 @@ public class ChangePasswords : Controller
                             oldUser.Pwd = Encoding.UTF8.GetBytes(encryptedPwd);
                             _context.Update(oldUser);
                             await _context.SaveChangesAsync();
+                            return RedirectToAction("Index", "Users");
                         }
                         else
                         {
