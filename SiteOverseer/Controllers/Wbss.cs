@@ -197,10 +197,12 @@ namespace SiteOverseer.Controllers
 
             return wbsDetails;
         }
+
         [HttpPost]
         public void SaveWbsDetails(int wbsId, string[][] wbsDetails)
         {
-            
+            _context.MS_Wbsdetail.Where(wd => wd.WbsId == wbsId).ExecuteDelete(); // Delete first for not data redundancy
+
             foreach (var item in wbsDetails)
             {
                 var wbsDetail = new WbsDetail()
@@ -214,10 +216,8 @@ namespace SiteOverseer.Controllers
 
                 _context.MS_Wbsdetail.Add(wbsDetail);
             }
-
             _context.SaveChanges();
         }
-
 
     }
 }

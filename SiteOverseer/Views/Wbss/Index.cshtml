@@ -90,6 +90,44 @@
     </script>
 }
 
+<!-- Package Items Modal -->
+<div class="modal" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="tableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@ViewData["Title"] List <span id="spanId"></span><span id="hiddenId" hidden></span></h5>
+                <button type="button" class="close" onclick="closePackageItemModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive" style="max-height: 550px">
+                <button class="btn btn-info m-1" style="background-color: #047cfb;color: white" onclick="addWBSCodes()">
+                    New
+                </button>
+                @* <div id="tableLoadingScreen" class="loading-text">Loading...</div> *@
+                <input type="hidden" id="wbsid"/>
+                <table id="packageItemsTable" class="table table-bordered">
+                    <thead class="text-md-center">
+                        <tr style="font-size: 12px">
+                            <th style="text-align: left">
+                                @Html.DisplayNameFor(model => model.WbsdCde)
+                            </th>
+                            <th ></th>
+                        </tr>
+                    </thead>
+                    <tbody id="wbsCodesBodyId" class="text-md-left" style="font-size: 14px">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+               <button id="modelCloseBtnId" class="btn" onclick="saveWBSCodes()" style="background-color: #047cfb;color: white">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -147,11 +185,8 @@
                                         </td>
 
                                         <td>
-                                            <button type="button" class="btn btn-primary showTableButton" onclick="editWBSCodes('@item.WbsId')">...</button>
-                                        
+                                            <a type="button" style="color: #31849B" onclick="editWBSCodes('@item.WbsId')">...</a>
                                         </td>
-                                        
-
                                         <td style="text-align: center">
                                             <a asp-action="Details" asp-route-id="@item.WbsId"><i class="fas fa-info-circle"></i></a>
                                         </td>
@@ -175,6 +210,6 @@
 
 
 
-<div id="partialContainer">
+@* <div id="partialContainer">
     <partial name="_WbsPartial" />
-</div>
+</div> *@
