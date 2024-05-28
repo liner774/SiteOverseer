@@ -77,7 +77,8 @@ public class ChangePasswords : Controller
                         }
                         else
                         {
-                            ModelState.AddModelError("ConfirmPassword", "The new password and confirmation password do not match.");
+                            ModelState.AddModelError("NewPassword", "The new password and confirm password do not match.");
+                            ModelState.AddModelError("ConfirmPassword", "The new password and confirm password do not match.");
                             return View(model);
                         }
                     }
@@ -94,17 +95,29 @@ public class ChangePasswords : Controller
             }
             return View(model);
         }
+      
         return View(model);
     }
 
 
-    //private string HashPassword(string password)
-    //{
-    //    using (var sha256 = SHA256.Create())
-    //    {
-    //        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-    //        return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-    //    }
-    //}
+    public async Task<IActionResult> ResetPassword(int id)
+    {
+        var msUser = _context.MS_User.FirstOrDefault(x => x.UserId == id);
+        
+        if (msUser != null)
+        {
+            string defaultPwd = "User@123"; // Default
+            string encryptedPwd = _encryptDecryptService.EncryptString(defaultPwd);
+            msUser.Pwd = Encoding.UTF8.GetBytes(encryptedPwd);
+            msUser.RevdTetime = DateTime.Now;
+
+            _context.Update(msUser);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index","Users");
+        }
+
+        return RedirectToAction("Index", "Users");
+    }
 
 }
