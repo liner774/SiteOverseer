@@ -16,7 +16,7 @@ function addWBSCodes() {
         height: '30px',
         width: '100%',
         border: 'none',
-        color: 'black',
+        color: '#31849B',
         textAlign: 'center',
         backgroundColor: 'white'
     };
@@ -27,7 +27,7 @@ function addWBSCodes() {
     };
 
     // Create new row
-    const $newRow = $('<tr>').css({ 'font-size': '14px', 'text-align': 'center' });
+    const $newRow = $('<tr>').css({ 'color': '#31849B', 'font-size': '14px', 'text-align': 'center' });
 
     // Input WBSCode
     const $inputWBSCode = $('<input>').css(leftColumnStyles);
@@ -131,11 +131,6 @@ function saveWBSCodes() {
             if (wbsCode) {
                 wbsCodes.push(wbsCode);
             }
-        }
-
-        if (wbsCodes.length === 0) {
-            alert('No data to save. Please add WBSCodes.');
-            return;
         }
 
         const wbsId = $('#wbsid').val();
