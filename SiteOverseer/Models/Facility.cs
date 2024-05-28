@@ -18,15 +18,19 @@ namespace SiteOverseer.Models
         [StringLength(50)]
         public string? Township { get; set; }
         [DisplayName("City")]
-        public int CityId { get; set; }
+        [Required(ErrorMessage = "Please Choose City")]
+        public int? CityId { get; set; }
         [DisplayName("Facility Type")]
-        public int FciltypId { get; set; }
+        [Required(ErrorMessage = "Please Choose Facility Type")]
+        public int? FciltypId { get; set; }
         [DisplayName("Contract Value")]
         public decimal? Contractval { get; set; }
         [DisplayName("Approved Date")]
-        public DateTime ApproveDte { get; set; }
+        [Required(ErrorMessage = "Approved Date is required")]
+        public DateTime? ApproveDte { get; set; }
         [DisplayName("Facility Start Date")]
-        public DateTime FcilstartDte { get; set; }
+        [Required(ErrorMessage = "Facility Start Date is required")]
+        public DateTime? FcilstartDte { get; set; }
         [DisplayName("Company")]
         public short CmpyId { get; set; }
         [DisplayName("User")]
@@ -41,6 +45,12 @@ namespace SiteOverseer.Models
         [DisplayName("User")]
         [NotMapped]
         public string? User { get; set; }
+        [NotMapped]
+        [StringLength(30)]
+        public string? CityName { get; set; }
+        [DisplayName("Facility Type")]
+        [NotMapped]
+        public string? FciltypCde { get; internal set; }
 
 
     }
