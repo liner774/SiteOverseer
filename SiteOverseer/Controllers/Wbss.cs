@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class Wbss : Controller
     {
         private readonly SiteDbContext _context;
@@ -29,9 +31,6 @@ namespace SiteOverseer.Controllers
                 WbsdCode.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsId == WbsdCode.WbsId).Select(gp => gp.WbsdCde).FirstOrDefault();
             }
             return View(WbsdCodeList);
-
-            var wbsDetails = await _context.MS_Wbsdetail.ToListAsync();
-            return View(wbsDetails);
 
         }
 

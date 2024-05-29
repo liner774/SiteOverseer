@@ -14,7 +14,8 @@ namespace SiteOverseer.Models
         public required string TrantypCde { get; set; }
         [StringLength(1)]
         [DisplayName("Tran Nature")]
-        public required string TranNature { get; set; }
+        [Required(ErrorMessage = "Please choose Tran Nature")]
+        public string? TranNature { get; set; }
         [DisplayName("Is Contractor?")]
         public required Boolean ContractorFlg { get; set; }
         [DisplayName("Require Claim?")]

@@ -13,9 +13,11 @@ namespace SiteOverseer.Models
         [DisplayName("Contractor Name")]
         public required string CntorNme { get; set; }
         [DisplayName("Faciliy Type")]
-        public int FciltypId { get; set; }
+        [Required(ErrorMessage = "Please Choose Facility Type")]
+        public int? FciltypId { get; set; }
         [DisplayName("Progress Payment")]
-        public int ProgpayId { get; set; }
+        [Required(ErrorMessage = "Please Choose Progress Payment")]
+        public int? ProgpayId { get; set; }
         [DisplayName("Established Date")]
         public DateTime? Establisheddte { get; set; }
         [DisplayName("Bad Status")]
