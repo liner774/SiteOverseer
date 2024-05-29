@@ -6,6 +6,35 @@
 
 
 
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var wbsCodeDropdown = document.getElementById("wbsCodeDropdown");
+            var wbsDetailDropdown = document.getElementById("wbsDetailDropdown");
+
+            wbsCodeDropdown.addEventListener("change", function () {
+                var selectedWbsId = wbsCodeDropdown.value;
+
+                // Clear existing options
+                wbsDetailDropdown.innerHTML = '<option value="">- Select One -</option>';
+  
+                // Fetch WBS Details based on selected WBS Code
+                fetch(`/FacilityTasks/GetWbsDetails?wbsId=${selectedWbsId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(function (wbsDetail) {
+                            var option = document.createElement("option");
+                            option.value = wbsDetail.value;
+                            option.textContent = wbsDetail.text;
+                            wbsDetailDropdown.appendChild(option);
+                        });
+                    });
+            });
+        });
+    </script>
+   
+}
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -44,13 +73,26 @@
                                 </select>
                                 <span asp-validation-for="FcilId" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="WbsdId" class="control-label"></label>
-                                <select asp-for="WbsdId" class="form-select" asp-items="@ViewBag.WbsdCdeList">
-                                    <option value="">- Select One -</option>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label asp-for="WbsId" class="control-label">WBS Code:</label>
+                                        <select asp-for="WbsId" class="form-select" id="wbsCodeDropdown" asp-items="@ViewBag.WbsCdeList">
+                                            <option value="">- Select One -</option>
+                                        </select>
+                                        <span asp-validation-for="WbsId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="WbsdId" class="control-label">WBS Detail:</label>
+                                        <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown" asp-items="@ViewBag.WbsDtlList">
+                                            <option value="">- Select One -</option>
+                                        </select>
+                                        <span asp-validation-for="WbsdId" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                                </select>
-                                <span asp-validation-for="WbsdId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Budget" class="control-label"></label>

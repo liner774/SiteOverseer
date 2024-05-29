@@ -48,7 +48,8 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            wbs.WbsdCde = _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).FirstOrDefault();
+            wbs.WbsdCde = string.Join(", ", _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).ToList());
+
             return View(wbs);
         }
 

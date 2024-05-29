@@ -56,7 +56,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-
+            facilityTask.WbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
             facilityTask.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == facilityTask.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
             facilityTask.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
             facilityTask.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityTask.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
@@ -73,8 +73,7 @@ namespace SiteOverseer.Controllers
         public IActionResult Create()
         {
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
-            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
-            ViewData["WbsdCdeList"] = new SelectList(_context.MS_Wbsdetail.ToList(), "WbsdId", "WbsdCde");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             return View();
 
@@ -95,8 +94,7 @@ namespace SiteOverseer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
-            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
-            ViewData["WbsdCdeList"] = new SelectList(_context.MS_Wbsdetail.ToList(), "WbsdId", "WbsdCde");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             return View(facilityTask);
         }
@@ -113,12 +111,17 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+
+            var wbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
+            facilityTask.WbsId = wbsId;
+
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
-            ViewData["WbsdCdeList"] = new SelectList(_context.MS_Wbsdetail.ToList(), "WbsdId", "WbsdCde");
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["WbsDtlList"] = new SelectList(_context.MS_Wbsdetail.Where(d => d.WbsId == wbsId).ToList(),"WbsdId","WbsdCde");
             return View(facilityTask);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -153,9 +156,7 @@ namespace SiteOverseer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
-            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
-            ViewData["WbsdCdeList"] = new SelectList(_context.MS_Wbsdetail.ToList(), "WbsdId", "WbsdCde");
-            ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbsdetail.ToList(), "WbsId", "WbsCde");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             return View(facilityTask);
         }
@@ -174,10 +175,14 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            facilityTask.WbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
+            facilityTask.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == facilityTask.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
+            facilityTask.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
             facilityTask.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityTask.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
             facilityTask.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityTask.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
-            facilityTask.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityTask.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
-            facilityTask.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == facilityTask.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
+            facilityTask.Company = _context.MS_Company.Where(c => c.CmpyId == facilityTask.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            facilityTask.User = _context.MS_User.Where(u => u.UserId == facilityTask.UserId).Select(u => u.UserNme).FirstOrDefault();
+
             return View(facilityTask);
         }
  

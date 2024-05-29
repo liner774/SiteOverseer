@@ -11,8 +11,8 @@ namespace SiteOverseer.Models
         public int FciltskId { get; set; }
         [Required(ErrorMessage = "Please choose Facility")]
         public int? FcilId { get; set; }
-        [DisplayName("WBSD Code")]
-        [Required(ErrorMessage = "WBSD Code is required")]
+        [DisplayName("WBS Detail")]
+        [Required(ErrorMessage = "Please choose WBS Detail")]
         public int? WbsdId { get; set; }
         [Required(ErrorMessage = "Budget is required")]
         public decimal? Budget { get; set; }
@@ -68,7 +68,7 @@ namespace SiteOverseer.Models
         [NotMapped]
         public string? WbsCde { get; set; }
         [NotMapped]
-        [DisplayName("WBS Code")]
+        [DisplayName("WBS Code")]       
         public int? WbsId { get; set; }
     }
 }
