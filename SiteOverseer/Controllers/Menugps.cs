@@ -16,6 +16,7 @@ namespace SiteOverseer.Controllers
     {
         private readonly SiteDbContext _context;
 
+        // Test by Ko Kg
         public Menugps(SiteDbContext context)
         {
             _context = context;
@@ -56,7 +57,7 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
-                menugp.RevdTetime = DateTime.Now; 
+                menugp.RevdTetime = DateTime.Now;
                 _context.Add(menugp);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,7 +89,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            
+
 
             if (ModelState.IsValid)
             {
@@ -151,6 +152,7 @@ namespace SiteOverseer.Controllers
         }
 
         #endregion
+
 
         #region//Grobal Method//
         protected short GetUserId()

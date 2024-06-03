@@ -46,16 +46,16 @@ namespace SiteOverseer.Controllers
                 {
                     var dbUser = _context.MS_User.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
 
-                    //if (dbUser != null)
-                    if (dbUser != null && dbUser.Pwd != null)
+                    if (dbUser != null)
+                    //if (dbUser != null && dbUser.Pwd != null)
                     {
 
                         string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
 
                         var decryptedPwd = _encryptDecryptService.DecryptString(strbytes);
 
-                        //if (user.Pwd != null)
-                        if (user.Pwd == decryptedPwd)
+                        if (user.Pwd != null)
+                        //if (user.Pwd == decryptedPwd)
                         {
                             try
                             {
