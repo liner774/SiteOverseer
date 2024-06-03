@@ -40,7 +40,7 @@ namespace SiteOverseer.Controllers
         {
             if ((!string.IsNullOrEmpty(user.UserCde)) && (!string.IsNullOrEmpty(user.Pwd)))
             {
-
+                // Test by Ko Kg
                 var encryptedPwd = _encryptDecryptService.EncryptString(user.Pwd);
                 try
                 {
@@ -51,7 +51,7 @@ namespace SiteOverseer.Controllers
                     {
 
                         string strbytes = Encoding.UTF8.GetString(dbUser.Pwd);
-                        
+
                         var decryptedPwd = _encryptDecryptService.DecryptString(strbytes);
 
                         //if (user.Pwd != null)
