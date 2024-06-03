@@ -152,6 +152,7 @@ namespace SiteOverseer.Controllers
 
         #endregion
 
+
         #region//Grobal Method//
         protected short GetUserId()
         {
