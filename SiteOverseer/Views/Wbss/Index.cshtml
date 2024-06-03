@@ -90,6 +90,8 @@
     </script>
 }
 
+
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -147,11 +149,8 @@
                                         </td>
 
                                         <td>
-                                            <button type="button" class="btn btn-primary showTableButton" onclick="editWBSCodes('@item.WbsId')">...</button>
-                                        
+                                            <a type="button" style="color: #31849B" onclick="editWBSCodes('@item.WbsId')">...</a>
                                         </td>
-                                        
-
                                         <td style="text-align: center">
                                             <a asp-action="Details" asp-route-id="@item.WbsId"><i class="fas fa-info-circle"></i></a>
                                         </td>

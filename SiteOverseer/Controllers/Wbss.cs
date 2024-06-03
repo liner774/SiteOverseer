@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
+    [Authorize]
     public class Wbss : Controller
     {
         private readonly SiteDbContext _context;
@@ -30,9 +32,6 @@ namespace SiteOverseer.Controllers
             }
             return View(WbsdCodeList);
 
-            var wbsDetails = await _context.MS_Wbsdetail.ToListAsync();
-            return View(wbsDetails);
-
         }
 
 
@@ -49,7 +48,8 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            wbs.WbsdCde = _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).FirstOrDefault();
+            wbs.WbsdCde = string.Join(", ", _context.MS_Wbsdetail.Where(ft => ft.WbsId == wbs.WbsId).Select(ft => ft.WbsdCde).ToList());
+
             return View(wbs);
         }
 
@@ -197,10 +197,12 @@ namespace SiteOverseer.Controllers
 
             return wbsDetails;
         }
+
         [HttpPost]
         public void SaveWbsDetails(int wbsId, string[][] wbsDetails)
         {
-            
+            _context.MS_Wbsdetail.Where(wd => wd.WbsId == wbsId).ExecuteDelete(); // Delete first for not data redundancy
+
             foreach (var item in wbsDetails)
             {
                 var wbsDetail = new WbsDetail()
@@ -214,10 +216,8 @@ namespace SiteOverseer.Controllers
 
                 _context.MS_Wbsdetail.Add(wbsDetail);
             }
-
             _context.SaveChanges();
         }
-
 
     }
 }

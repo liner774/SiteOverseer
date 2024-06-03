@@ -9,21 +9,30 @@ namespace SiteOverseer.Models
         [Key]
         [DisplayName("Facility Task ID")]
         public int FciltskId { get; set; }
-        public int FcilId { get; set; }
-        public int WbsdId { get; set; }
-        public required decimal Budget { get; set; }
-        public int CntorId { get; set; }
+        [Required(ErrorMessage = "Please choose Facility")]
+        public int? FcilId { get; set; }
+        [DisplayName("WBS Detail")]
+        [Required(ErrorMessage = "Please choose WBS Detail")]
+        public int? WbsdId { get; set; }
+        [Required(ErrorMessage = "Budget is required")]
+        public decimal? Budget { get; set; }
+        [Required(ErrorMessage = "Please choose Contractor")]
+        public int? CntorId { get; set; }
         [StringLength(50)]
         [DisplayName("Selection Type")]
+        [Required(ErrorMessage = "Selection Type is required")]
         public required string SelectionTyp { get; set; }
         [DisplayName("Work Start Date")]
-        public DateTime WorkstartDte { get; set; }
+        [Required(ErrorMessage = "Work Start Date is required")]
+        public DateTime? WorkstartDte { get; set; }
         [DisplayName("Work End Date")]
+        [Required(ErrorMessage = "Work End Date is required")]
         public DateTime? WorkendDte { get; set; }
         [DisplayName("Awarded Value")]
         public decimal? AwardedValue { get; set; }
         [DisplayName("Progress Payment")]
-        public int ProgpayId { get; set; }
+        [Required(ErrorMessage = "Progress Payment is required")]
+        public int? ProgpayId { get; set; }
         [DisplayName("Allow Submit Expense")]
         public required Boolean AllowSubmitExpense { get; set; }
         [DisplayName("Task Complete")]
@@ -53,6 +62,13 @@ namespace SiteOverseer.Models
         [DisplayName("User")]
         [NotMapped]
         public string? User { get; set; }
-
+        
+        [NotMapped]
+        public  string? WbsdCde { get; set; }
+        [NotMapped]
+        public string? WbsCde { get; set; }
+        [NotMapped]
+        [DisplayName("WBS Code")]       
+        public int? WbsId { get; set; }
     }
 }
