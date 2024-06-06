@@ -23,12 +23,14 @@ public class ChangePasswords : Controller
 
     public IActionResult Index()
     {
+        SetLayOutData();
         return View();
     }
 
 
     public async Task<IActionResult> ChangePassword(int? id)
     {
+        SetLayOutData();
         if (id == null)
         {
             return NotFound();
@@ -55,6 +57,7 @@ public class ChangePasswords : Controller
     [AutoValidateAntiforgeryToken]
     public async Task<IActionResult> ChangePassword(int id, [Bind("UserId,UserCde,UserNme,Password,ConfirmPassword,NewPassword")] ChangePassword model)
     {
+        SetLayOutData();
         if (ModelState.IsValid)
         {
             try
@@ -102,6 +105,7 @@ public class ChangePasswords : Controller
 
     public async Task<IActionResult> ResetPassword(int id)
     {
+        SetLayOutData();
         var msUser = _context.MS_User.FirstOrDefault(x => x.UserId == id);
         
         if (msUser != null)
@@ -118,6 +122,20 @@ public class ChangePasswords : Controller
         }
 
         return RedirectToAction("Index", "Users");
+    }
+
+    protected void SetLayOutData()
+    {
+        var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+        if (userCde != null)
+        {
+            var userName = _context.MS_User
+                .Where(u => u.UserCde == userCde)
+                .Select(u => u.UserNme)
+                .FirstOrDefault();
+
+            ViewData["Username"] = userName;
+        }
     }
 
 }

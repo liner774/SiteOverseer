@@ -29,12 +29,14 @@ namespace SiteOverseer.Controllers
         #region //Main Method//
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
             //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
      
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +55,7 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
+            SetLayOutData();
             ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
             ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
             return View();
@@ -62,6 +65,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserCde,UserNme,CmpyId,Position,Gender,Password,ConfirmPassword")] User user)
         {
+            SetLayOutData();
             if (ModelState.IsValid)
             {
                 user.Password ??= "User@123";
@@ -82,6 +86,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -103,6 +108,8 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,UserCde,UserNme,CmpyId,Position,Gender")] User user)
         {
+            SetLayOutData();
+
             if (id != user.UserId)
             {
                 return NotFound();
@@ -146,6 +153,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -166,6 +174,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            SetLayOutData();
             var user = await _context.MS_User.FindAsync(id);
             if (user != null)
             {
@@ -181,6 +190,20 @@ namespace SiteOverseer.Controllers
         private bool UserExists(int id)
         {
             return _context.MS_User.Any(e => e.UserId == id);
+        }
+
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
         #endregion
 
