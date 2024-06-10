@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SiteOverseer.Common.EncryptDecryptService;
 using SiteOverseer.Data;
@@ -13,7 +14,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    
+    [Authorize]
     public class Users : Controller
     {
         private readonly SiteDbContext _context;
@@ -66,7 +67,9 @@ namespace SiteOverseer.Controllers
         public async Task<IActionResult> Create([Bind("UserCde,UserNme,CmpyId,Position,Gender,Password,ConfirmPassword")] User user)
         {
             SetLayOutData();
-            if (ModelState.IsValid)
+
+
+            if (ModelState.IsValid && user.Password == user.ConfirmPassword)
             {
                 user.Password ??= "User@123";
                 string encodedString = _encryptDecryptService.EncryptString(user.Password);
@@ -76,10 +79,15 @@ namespace SiteOverseer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
-            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
-            return View(user);
+            else 
+            {
+                ModelState.AddModelError("NewPassword", "The new password and confirm password do not match.");
+                ModelState.AddModelError("ConfirmPassword", "The new password and confirm password do not match.");
+                ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+                ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
+                return View(user);
+            }                        
+            
         }
 
 
