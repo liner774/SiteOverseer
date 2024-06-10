@@ -13,7 +13,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
+    
     public class Users : Controller
     {
         private readonly SiteDbContext _context;
@@ -53,7 +53,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-
+        
         public IActionResult Create()
         {
             SetLayOutData();
