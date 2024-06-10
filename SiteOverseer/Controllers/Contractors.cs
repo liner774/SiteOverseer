@@ -24,6 +24,7 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
             var facilityCodeList = await _context.MS_Contractor.ToListAsync();
             foreach (var facilitCode in facilityCodeList)
             {
@@ -34,6 +35,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -58,6 +60,7 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
+            SetLayOutData();
             ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "WbsdCde");
             return View();
         }
@@ -69,6 +72,7 @@ namespace SiteOverseer.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 contractor.RevDtetime = DateTime.Now;
                 contractor.CmpyId = GetCmpyId(); //default
                 contractor.UserId = GetUserId(); //default
@@ -82,6 +86,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -133,6 +138,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -195,7 +201,21 @@ namespace SiteOverseer.Controllers
 
             return cmpyId;
         }
+       protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
+        }
 
         #endregion
     }
 }
+

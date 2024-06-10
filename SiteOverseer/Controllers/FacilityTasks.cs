@@ -25,7 +25,7 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
-           
+            SetLayOutData();
             var facilityNameList = await _context.MS_Facilitytask.ToListAsync();
             
             foreach (var facilityName in facilityNameList)
@@ -43,7 +43,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -72,6 +72,7 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
+            SetLayOutData();
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
@@ -101,6 +102,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -164,6 +166,7 @@ namespace SiteOverseer.Controllers
  
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -226,6 +229,20 @@ namespace SiteOverseer.Controllers
                 .FirstOrDefault();
 
             return cmpyId;
+        }
+
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
         #endregion
 

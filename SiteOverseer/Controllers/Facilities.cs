@@ -24,6 +24,7 @@ namespace SiteOverseer.Controllers
         #region // Main Methods //
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
             var facilityList = await _context.MS_Facility.ToListAsync();
 
             foreach (var facility in facilityList)
@@ -38,6 +39,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -61,6 +63,7 @@ namespace SiteOverseer.Controllers
  
         public IActionResult Create()
         {
+            SetLayOutData();
             ViewData["CityList"] = new SelectList(_context.MS_City.ToList(), "CityId", "CityName");
             ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
             return View();
@@ -88,6 +91,7 @@ namespace SiteOverseer.Controllers
  
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -141,6 +145,7 @@ namespace SiteOverseer.Controllers
  
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -198,6 +203,19 @@ namespace SiteOverseer.Controllers
                 .FirstOrDefault();
 
             return cmpyId;
+        }
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
         #endregion
     }

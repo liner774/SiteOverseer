@@ -24,12 +24,14 @@ namespace SiteOverseer.Controllers
         // GET: WbsDetails
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
             return View(await _context.MS_Wbsdetail.ToListAsync());
         }
 
         // GET: WbsDetails/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +50,7 @@ namespace SiteOverseer.Controllers
         // GET: WbsDetails/Create
         public IActionResult Create()
         {
+            SetLayOutData();
             return View();
         }
 
@@ -71,6 +74,7 @@ namespace SiteOverseer.Controllers
         // GET: WbsDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -122,6 +126,7 @@ namespace SiteOverseer.Controllers
         // GET: WbsDetails/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -155,6 +160,20 @@ namespace SiteOverseer.Controllers
         private bool WbsDetailExists(int id)
         {
             return _context.MS_Wbsdetail.Any(e => e.WbsdId == id);
+        }
+
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
     }
 }

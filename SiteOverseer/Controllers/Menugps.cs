@@ -26,11 +26,13 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
             return View(await _context.MS_Menugp.ToListAsync());
         }
 
         public async Task<IActionResult> Details(short? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +50,7 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
+            SetLayOutData();
             return View();
         }
 
@@ -55,6 +58,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MnugrpNme")] Menugp menugp)
         {
+            SetLayOutData();
             if (ModelState.IsValid)
             {
                 menugp.RevdTetime = DateTime.Now;
@@ -68,6 +72,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Edit(short? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -85,6 +90,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(short id, [Bind("MnugrpId,MnugrpNme")] Menugp menugp)
         {
+            SetLayOutData();
             if (id != menugp.MnugrpId)
             {
                 return NotFound();
@@ -117,6 +123,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Delete(short? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -136,6 +143,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short id)
         {
+            SetLayOutData();
             var menugp = await _context.MS_Menugp.FindAsync(id);
             if (menugp != null)
             {
@@ -148,7 +156,21 @@ namespace SiteOverseer.Controllers
 
         private bool MenugpExists(short id)
         {
+            SetLayOutData();
             return _context.MS_Menugp.Any(e => e.MnugrpId == id);
+        }
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
 
         #endregion

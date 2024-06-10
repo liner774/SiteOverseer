@@ -27,6 +27,8 @@ namespace SiteOverseer.Controllers
      
         public async Task<IActionResult> Index()
         {
+            SetLayOutData();
+
             var menuAccessList = await _context.MS_Menuaccess.ToListAsync();
 
             foreach (var menuAccess in menuAccessList)
@@ -40,6 +42,7 @@ namespace SiteOverseer.Controllers
        
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -58,6 +61,7 @@ namespace SiteOverseer.Controllers
         
         public IActionResult Create()
         {
+            SetLayOutData();
             ViewData["MenuGpList"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpId", "MnugrpNme");
             return View();
         }
@@ -67,6 +71,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MnugrpId,BtnNme")] Menuaccess menuaccess)
         {
+            SetLayOutData();
             if (ModelState.IsValid)
             {
                 menuaccess.RevdTetime = DateTime.Now;
@@ -85,6 +90,7 @@ namespace SiteOverseer.Controllers
       
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -104,6 +110,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AccessId,MnugrpId,BtnNme")] Menuaccess menuaccess)
         {
+            SetLayOutData();
             if (id != menuaccess.AccessId)
                
             {
@@ -139,6 +146,7 @@ namespace SiteOverseer.Controllers
        
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -162,6 +170,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            SetLayOutData();
 
             var menuaccess = await _context.MS_Menuaccess.FindAsync(id);
             if (menuaccess != null)
@@ -177,8 +186,21 @@ namespace SiteOverseer.Controllers
 
         private bool MenuaccessExists(int id)
         {
-
+            SetLayOutData();
             return _context.MS_Menuaccess.Any(e => e.AccessId == id);
+        }
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var userName = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => u.UserNme)
+                    .FirstOrDefault();
+
+                ViewData["Username"] = userName;
+            }
         }
         #endregion
 
