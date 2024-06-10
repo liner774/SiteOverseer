@@ -19,6 +19,7 @@ namespace SiteOverseer.Controllers
         private readonly SiteDbContext _context;
         private readonly EncryptDecryptService _encryptDecryptService;
 
+        // for github push
         public Users(SiteDbContext context)
         {
             _context = context;
@@ -33,7 +34,7 @@ namespace SiteOverseer.Controllers
             //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
-     
+
         public async Task<IActionResult> Details(int? id)
         {
             SetLayOutData();
@@ -185,7 +186,7 @@ namespace SiteOverseer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-    
+
 
         private bool UserExists(int id)
         {
