@@ -1,0 +1,224 @@
+﻿@model IEnumerable<SiteOverseer.Models.FacilityProgress>
+
+@{
+    ViewData["Title"] = "Facility Progress";
+}
+
+
+@section links {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section scripts
+{
+    <!-- DataTables  & Plugins -->
+    <script src="~/lib/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 20,
+                "buttons": [{
+                    extend: 'copy',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: window.csvButtonTrans,
+                    title: "Facility",
+                    exportOptions: {
+                        columns: ':not(:nth-last-child(-n + 3))'
+                    }
+                }],
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-6">
+                <div class="breadcrumb float-right active">
+                    <a asp-action="Create" class="btn btn-primary">Create New <i class="fas fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] List</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FcilNme)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CntorNme)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WbsId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkstartDte)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkendDte)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Day(s) Remain")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TaskCompleteFlg)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ProgPercent)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubmitDte)
+                                    </th>
+                                    
+                                    <th></th>
+                                    <th></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var counter = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FcilCde) |
+                                            @Html.DisplayFor(modelItem => item.FcilNme)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CntorNme)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WbsCde) |
+                                            @Html.DisplayFor(modelItem => item.WbsdCde)
+                                        </td>
+                                        <td>
+                                            @Convert.ToDateTime(item.WorkstartDte).ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            @Convert.ToDateTime(item.WorkendDte).ToString("dd/MM/yyyy")
+                                        </td>
+                                        
+                                        <td>
+                                                @{
+                                                    var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
+                                                    if (daysRemain < 0)
+                                                    {
+                                                    <span>Overdue</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    <span>@daysRemain</span>
+                                                    }
+                                                }
+                                        </td>
+
+                                        <td>
+                                            @if (item.TaskCompleteFlg)
+                                            {
+                                                <span>Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span>No</span>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <div class="progress mb-3" style="background-color: #6c757d;">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="@item.ProgPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.ProgPercent%; background-color: #047cfb;">
+                                                    @item.ProgPercent%
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            @Convert.ToDateTime(item.SubmitDte).ToString("dd/MM/yyyy")
+                                        </td>
+
+
+
+                                        <td style="text-align: center">
+                                            <a asp-action="Edit" asp-route-id="@item.ProgId">
+                                                <button type="button" class="btn btn-primary btn-sm" style="display: flex; align-items: center;">
+                                                    Update <i class="fas fa-edit" style="margin-left: 5px;"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a asp-action="Details" asp-route-id="@item.ProgId">
+                                                <button type="button" class="btn btn-secondary btn-sm" style="display: flex; align-items: center;">
+                                                    View <i class="far fa-images" style="margin-left: 5px;"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                        
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
