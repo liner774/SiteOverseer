@@ -159,19 +159,29 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
-                    foreach (var image in images)
+                    if (images.Count > 0)
                     {
-
-                        if (image != null && image.Length > 0)
+                        foreach (var image in images)
                         {
-                            using (var memoryStream = new MemoryStream())
+                            if (image != null && image.Length > 0)
                             {
-                                await image.CopyToAsync(memoryStream);
-                                facilityProgress.ImageData = memoryStream.ToArray();
-                                facilityProgress.ImageName = image.FileName;
-                                facilityProgress.ImageContentType = image.ContentType;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    await image.CopyToAsync(memoryStream);
+                                    facilityProgress.ImageData = memoryStream.ToArray();
+                                    facilityProgress.ImageName = image.FileName;
+                                    facilityProgress.ImageContentType = image.ContentType;
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        // Retain existing image data if no new image is uploaded
+                        var existingFacilityProgress = await _context.PMS_Facilityprogress.AsNoTracking().FirstOrDefaultAsync(fp => fp.ProgId == id);
+                        facilityProgress.ImageData = existingFacilityProgress.ImageData;
+                        facilityProgress.ImageName = existingFacilityProgress.ImageName;
+                        facilityProgress.ImageContentType = existingFacilityProgress.ImageContentType;
                     }
 
                     facilityProgress.RevDteTime = DateTime.Now;

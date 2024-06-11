@@ -16,8 +16,7 @@
             var numberInput = document.getElementById('progressValue');
             numberInput.value = Math.max(numberInput.min, Math.min(numberInput.max, value));
         }
-    </script>
-    <script>
+
         document.getElementById('imageUpload').addEventListener('change', function (event) {
             const files = event.target.files;
             const imageError = document.getElementById('imageError');
@@ -76,7 +75,7 @@
                             <input asp-for="ProgId" type="hidden" />
                             <input asp-for="FcilTskId" type="hidden" />
                             <div class="form-group">
-                                <button class="btn btn-primary" onclick=" ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <button class="btn btn-primary" onclick="ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                     View Facility Task Detail
                                 </button>
                                 <div class="collapse" id="collapseExample">
@@ -116,6 +115,19 @@
                                     <label class="custom-file-label" for="imageUpload">Choose images</label>
                                 </div>
                                 <span id="imageError" class="text-danger"></span>
+                                @if (Model.ImageData != null)
+                                {
+                                    <div class="mt-2">
+                                        <label>Current Image(s)</label>
+                                        <div style="border: 3px solid #adb5bd;border-radius:10px; padding: 5px; max-width: 200px; max-height: 200px; overflow: hidden;">
+                                            <img src="data:@Model.ImageContentType;base64,@Convert.ToBase64String(Model.ImageData)" alt="Current Image"
+                                            style="width: 100%; height: 100%; object-fit: cover;"/>
+                                        </div>
+                                        <input type="hidden" asp-for="ImageData" />
+                                        <input type="hidden" asp-for="ImageName" />
+                                        <input type="hidden" asp-for="ImageContentType" />
+                                    </div>
+                                }
                             </div>
 
                             <div class="form-group">
