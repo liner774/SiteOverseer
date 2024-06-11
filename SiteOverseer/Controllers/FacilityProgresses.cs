@@ -148,7 +148,7 @@ namespace SiteOverseer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, FacilityProgress facilityProgress, IFormFile image)
+        public async Task<IActionResult> Edit(long id, FacilityProgress facilityProgress, List<IFormFile> images)
         {
             if (id != facilityProgress.ProgId)
             {
@@ -159,14 +159,18 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
-                    if (image != null && image.Length > 0)
+                    foreach (var image in images)
                     {
-                        using (var memoryStream = new MemoryStream())
+
+                        if (image != null && image.Length > 0)
                         {
-                            await image.CopyToAsync(memoryStream);
-                            facilityProgress.ImageData = memoryStream.ToArray();
-                            facilityProgress.ImageName = image.FileName;
-                            facilityProgress.ImageContentType = image.ContentType;
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await image.CopyToAsync(memoryStream);
+                                facilityProgress.ImageData = memoryStream.ToArray();
+                                facilityProgress.ImageName = image.FileName;
+                                facilityProgress.ImageContentType = image.ContentType;
+                            }
                         }
                     }
 
