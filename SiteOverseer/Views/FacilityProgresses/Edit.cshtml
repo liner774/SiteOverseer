@@ -3,9 +3,6 @@
 @{
     ViewData["Title"] = "Facility Progress";
 }
-@{
-    var minProgress = Model.ProgPercent; 
-}
 
 @section scripts
 {
@@ -29,22 +26,19 @@
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
 
-                
                 if (!file.type.startsWith('image/')) {
                     imageError.textContent = 'Only image files are allowed.';
-                    event.target.value = ''; 
+                    event.target.value = '';
                     return;
                 }
 
-                
                 if (file.size > 1048576) {
                     imageError.textContent = 'Each image must be under 1 MB.';
-                    event.target.value = '';  
+                    event.target.value = '';
                     return;
                 }
             }
 
-            
             const fileNames = Array.from(files).map(file => file.name).join(', ');
             document.querySelector('.custom-file-label').textContent = fileNames;
         });
@@ -76,15 +70,16 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        
-                        <form asp-action="Edit">
+                        <form asp-action="Edit" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input asp-for="ProgId" type="hidden" />
+                            <input asp-for="ProgId" type="hidden" />
+                            <input asp-for="FcilTskId" type="hidden" />
                             <div class="form-group">
                                 <button class="btn btn-primary" onclick=" ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                     View Facility Task Detail
                                 </button>
-                                <div class="collapse" id="collapseExample" >
+                                <div class="collapse" id="collapseExample">
                                     <div class="card card-body">
                                         <div id="partialContainer">
                                             <partial name="_FcilTskPartial" />
@@ -106,18 +101,18 @@
                                 <label asp-for="ProgPercent" class="control-label">Progress Percent</label>
                                 <div class="d-flex align-items-center">
                                     <input asp-for="ProgPercent" id="progressValue" type="number" class="form-control" style="width: 70px;"
-                                           min="@minProgress" max="100" step="1" oninput="updateRangeValue(this.value)" />
+                                           min="@Model.ProgPercent" max="100" step="1" oninput="updateRangeValue(this.value)" />
                                     <span class="ml-1">%</span>
 
-                                    <input asp-for="ProgPercent" type="range" class="form-control-range ml-2" min="@minProgress" max="100" step="1"
-                                           value="@minProgress" oninput="updateNumberValue(this.value)" />
+                                    <input asp-for="ProgPercent" type="range" class="form-control-range ml-2" min="@Model.ProgPercent" max="100" step="1"
+                                           value="@Model.ProgPercent" oninput="updateNumberValue(this.value)" />
                                 </div>
                                 <span asp-validation-for="ProgPercent" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label for="imageUpload">Select Image(s)</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="imageUpload" name="files" accept="image/*" multiple>
+                                    <input type="file" class="custom-file-input" id="imageUpload" name="image" accept="image/*" multiple>
                                     <label class="custom-file-label" for="imageUpload">Choose images</label>
                                 </div>
                                 <span id="imageError" class="text-danger"></span>

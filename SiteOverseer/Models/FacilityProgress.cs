@@ -23,7 +23,9 @@ namespace SiteOverseer.Models
         public int? UserId { get; set; }
         [DisplayName("Revised Datetime")]
         public DateTime? RevDteTime { get; set; }
-        
+        public byte[]? ImageData { get; set; }
+        public string? ImageName { get; set; }
+        public string? ImageContentType { get; set; }
 
         //Custom
         [NotMapped]

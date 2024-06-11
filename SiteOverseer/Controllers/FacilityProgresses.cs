@@ -62,7 +62,9 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            
+            facilityProgress.Company = _context.MS_Company.Where(c => c.CmpyId == facilityProgress.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            facilityProgress.User = _context.MS_User.Where(u => u.UserId == facilityProgress.UserId).Select(u => u.UserNme).FirstOrDefault();
+
             return View(facilityProgress);
         }
 
@@ -74,16 +76,25 @@ namespace SiteOverseer.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProgId,FcilTskId,ProgPercent,SubmitDte,Longitude,Latitude,CmpyId,UserId,RevDteTime")] FacilityProgress facilityProgress)
+        public async Task<IActionResult> Create(FacilityProgress facilityProgress, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        facilityProgress.ImageData = memoryStream.ToArray();
+                        facilityProgress.ImageName = image.FileName;
+                        facilityProgress.ImageContentType = image.ContentType;
+                    }
+                
+
                 facilityProgress.RevDteTime = DateTime.Now;
-                facilityProgress.Longitude = 0;//default
-                facilityProgress.Latitude = 0;//default
+                facilityProgress.Longitude = 0; // default
+                facilityProgress.Latitude = 0; // default
                 facilityProgress.UserId = GetUserId();
                 facilityProgress.CmpyId = GetCmpyId();
                 _context.Add(facilityProgress);
@@ -93,7 +104,7 @@ namespace SiteOverseer.Controllers
             return View(facilityProgress);
         }
 
-       
+
         public async Task<IActionResult> Edit(long? id)
         {
             SetLayOutData();
@@ -135,10 +146,9 @@ namespace SiteOverseer.Controllers
             return View(facilityProgress);
         }
 
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ProgId,FcilTskId,SubmitDte,Longitude,Latitude,CmpyId,UserId,RevDteTime")] FacilityProgress facilityProgress)
+        public async Task<IActionResult> Edit(long id, FacilityProgress facilityProgress, IFormFile image)
         {
             if (id != facilityProgress.ProgId)
             {
@@ -149,9 +159,20 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
+                    if (image != null && image.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await image.CopyToAsync(memoryStream);
+                            facilityProgress.ImageData = memoryStream.ToArray();
+                            facilityProgress.ImageName = image.FileName;
+                            facilityProgress.ImageContentType = image.ContentType;
+                        }
+                    }
+
                     facilityProgress.RevDteTime = DateTime.Now;
-                    facilityProgress.Longitude = 0;//default
-                    facilityProgress.Latitude = 0;//default
+                    facilityProgress.Longitude = 0; // default
+                    facilityProgress.Latitude = 0; // default
                     facilityProgress.UserId = GetUserId();
                     facilityProgress.CmpyId = GetCmpyId();
                     _context.Update(facilityProgress);
@@ -173,7 +194,6 @@ namespace SiteOverseer.Controllers
             return View(facilityProgress);
         }
 
-       
         public async Task<IActionResult> Delete(long? id)
         {
             SetLayOutData();
