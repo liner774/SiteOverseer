@@ -161,11 +161,11 @@
                                                     var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
                                                     if (daysRemain < 0)
                                                     {
-                                                    <span>Overdue</span>
+                                                    <span>Overdue by @daysRemain days</span>
                                                     }
                                                     else
                                                     {
-                                                    <span>@daysRemain</span>
+                                                    <span>@daysRemain days</span>
                                                     }
                                                 }
                                         </td>

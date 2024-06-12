@@ -26,6 +26,7 @@ namespace SiteOverseer.Models
         public byte[]? ImageData { get; set; }
         public string? ImageName { get; set; }
         public string? ImageContentType { get; set; }
+        public ICollection<FacilityProgressImage> Images { get; set; } = new List<FacilityProgressImage>();
 
         //Custom
         [NotMapped]

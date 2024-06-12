@@ -57,7 +57,8 @@ namespace SiteOverseer.Controllers
             }
 
             var facilityProgress = await _context.PMS_Facilityprogress
-                .FirstOrDefaultAsync(m => m.ProgId == id);
+                  .Include(fp => fp.Images)
+                  .FirstOrDefaultAsync(fp => fp.ProgId == id);
             if (facilityProgress == null)
             {
                 return NotFound();
@@ -79,41 +80,67 @@ namespace SiteOverseer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FacilityProgress facilityProgress, IFormFile image)
+        public async Task<IActionResult> Create(FacilityProgress facilityProgress, List<IFormFile> images)
         {
             if (ModelState.IsValid)
             {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await image.CopyToAsync(memoryStream);
-                        facilityProgress.ImageData = memoryStream.ToArray();
-                        facilityProgress.ImageName = image.FileName;
-                        facilityProgress.ImageContentType = image.ContentType;
-                    }
-                
+                try
+                {
+                    facilityProgress.RevDteTime = DateTime.Now;
+                    facilityProgress.Longitude = 0; // default
+                    facilityProgress.Latitude = 0; // default
+                    facilityProgress.UserId = GetUserId();
+                    facilityProgress.CmpyId = GetCmpyId();
+                    _context.Add(facilityProgress);
+                    await _context.SaveChangesAsync();
 
-                facilityProgress.RevDteTime = DateTime.Now;
-                facilityProgress.Longitude = 0; // default
-                facilityProgress.Latitude = 0; // default
-                facilityProgress.UserId = GetUserId();
-                facilityProgress.CmpyId = GetCmpyId();
-                _context.Add(facilityProgress);
-                await _context.SaveChangesAsync();
+                    if (images != null && images.Count > 0)
+                    {
+                        facilityProgress.Images = new List<FacilityProgressImage>();
+                        foreach (var image in images)
+                        {
+                            if (image != null && image.Length > 0)
+                            {
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    await image.CopyToAsync(memoryStream);
+                                    var facilityProgressImage = new FacilityProgressImage
+                                    {
+                                        FacilityProgressId = facilityProgress.ProgId,
+                                        ImageData = memoryStream.ToArray(),
+                                        ImageName = image.FileName,
+                                        ImageContentType = image.ContentType
+                                    };
+                                    _context.Add(facilityProgressImage);
+                                }
+                            }
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FacilityProgressExists(facilityProgress.ProgId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(facilityProgress);
         }
 
 
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(long id)
         {
-            SetLayOutData();
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var facilityProgress = await _context.PMS_Facilityprogress
+                .Include(fp => fp.Images)
+                .FirstOrDefaultAsync(fp => fp.ProgId == id);
 
-            var facilityProgress = await _context.PMS_Facilityprogress.FindAsync(id);
             if (facilityProgress == null)
             {
                 return NotFound();
@@ -148,7 +175,7 @@ namespace SiteOverseer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, FacilityProgress facilityProgress, List<IFormFile> images)
+        public async Task<IActionResult> Edit(int id, FacilityProgress facilityProgress, IFormFileCollection images)
         {
             if (id != facilityProgress.ProgId)
             {
@@ -159,37 +186,40 @@ namespace SiteOverseer.Controllers
             {
                 try
                 {
-                    if (images.Count > 0)
+                    var existingProgress = await _context.PMS_Facilityprogress
+                                                         .Include(fp => fp.Images)
+                                                         .FirstOrDefaultAsync(fp => fp.ProgId == id);
+
+                    if (existingProgress == null)
                     {
+                        return NotFound();
+                    }
+
+                    // Update other properties
+                    existingProgress.Longitude = facilityProgress.Longitude;
+                    existingProgress.Latitude = facilityProgress.Latitude;
+                    existingProgress.ProgPercent = facilityProgress.ProgPercent;
+
+                    // Handle image upload
+                    if (images != null && images.Count > 0)
+                    {
+                        existingProgress.Images.Clear();
+
                         foreach (var image in images)
                         {
-                            if (image != null && image.Length > 0)
+                            using (var memoryStream = new MemoryStream())
                             {
-                                using (var memoryStream = new MemoryStream())
+                                await image.CopyToAsync(memoryStream);
+                                existingProgress.Images.Add(new FacilityProgressImage
                                 {
-                                    await image.CopyToAsync(memoryStream);
-                                    facilityProgress.ImageData = memoryStream.ToArray();
-                                    facilityProgress.ImageName = image.FileName;
-                                    facilityProgress.ImageContentType = image.ContentType;
-                                }
+                                    ImageData = memoryStream.ToArray(),
+                                    ImageContentType = image.ContentType
+                                });
                             }
                         }
                     }
-                    else
-                    {
-                        // Retain existing image data if no new image is uploaded
-                        var existingFacilityProgress = await _context.PMS_Facilityprogress.AsNoTracking().FirstOrDefaultAsync(fp => fp.ProgId == id);
-                        facilityProgress.ImageData = existingFacilityProgress.ImageData;
-                        facilityProgress.ImageName = existingFacilityProgress.ImageName;
-                        facilityProgress.ImageContentType = existingFacilityProgress.ImageContentType;
-                    }
 
-                    facilityProgress.RevDteTime = DateTime.Now;
-                    facilityProgress.Longitude = 0; // default
-                    facilityProgress.Latitude = 0; // default
-                    facilityProgress.UserId = GetUserId();
-                    facilityProgress.CmpyId = GetCmpyId();
-                    _context.Update(facilityProgress);
+                    _context.Update(existingProgress);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
