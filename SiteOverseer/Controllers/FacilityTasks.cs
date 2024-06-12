@@ -63,6 +63,7 @@ namespace SiteOverseer.Controllers
             facilityTask.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityTask.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
             facilityTask.Company = _context.MS_Company.Where(c => c.CmpyId == facilityTask.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             facilityTask.User = _context.MS_User.Where(u => u.UserId == facilityTask.UserId).Select(u => u.UserNme).FirstOrDefault();
+            facilityTask.Currcde = _context.MS_Progresspayment.Where(p => p.Progpayid == facilityTask.ProgpayId).Select(p => p.Currcde).FirstOrDefault();
            
             return View(facilityTask);
         }
@@ -76,6 +77,7 @@ namespace SiteOverseer.Controllers
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View();
 
         }
@@ -97,6 +99,7 @@ namespace SiteOverseer.Controllers
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(facilityTask);
         }
 
@@ -121,6 +124,7 @@ namespace SiteOverseer.Controllers
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             ViewData["WbsDtlList"] = new SelectList(_context.MS_Wbsdetail.Where(d => d.WbsId == wbsId).ToList(),"WbsdId","WbsdCde");
+            ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(facilityTask);
         }
 
@@ -159,7 +163,8 @@ namespace SiteOverseer.Controllers
             }
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");            
-            ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");            
+            ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(facilityTask);
         }
 
@@ -185,6 +190,7 @@ namespace SiteOverseer.Controllers
             facilityTask.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityTask.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
             facilityTask.Company = _context.MS_Company.Where(c => c.CmpyId == facilityTask.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             facilityTask.User = _context.MS_User.Where(u => u.UserId == facilityTask.UserId).Select(u => u.UserNme).FirstOrDefault();
+            facilityTask.Currcde = _context.MS_Progresspayment.Where(p => p.Progpayid == facilityTask.ProgpayId).Select(p => p.Currcde).FirstOrDefault();
 
             return View(facilityTask);
         }

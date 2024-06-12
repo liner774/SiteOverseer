@@ -41,5 +41,9 @@ namespace SiteOverseer.Models
         [DisplayName("User")]
         [NotMapped]
         public string? User { get; internal set; }
+        [DisplayName("Currency Code")]
+        [NotMapped]
+        public string? Currcde { get; internal set; }
+
     }
 }

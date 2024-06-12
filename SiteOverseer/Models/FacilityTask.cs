@@ -70,5 +70,8 @@ namespace SiteOverseer.Models
         [NotMapped]
         [DisplayName("WBS Code")]       
         public int? WbsId { get; set; }
+        [DisplayName("Currency Code")]
+        [NotMapped]
+        public string? Currcde { get; set; }
     }
 }

@@ -49,12 +49,13 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="ProgpayId" class="control-label"></label>
-                                <select asp-for="ProgpayId" class="form-select">
+
+                                <select asp-for="ProgpayId" class="form-select" asp-items="@ViewBag.Progid">
                                     <option value="">- Select One -</option>
-                                    <option value="1"> Progress Payment 1</option>
+
                                 </select>
                                 <span asp-validation-for="ProgpayId" class="text-danger"></span>
-                            </div>
+                            </div>                           
                             <div class="form-group">
                                 <label asp-for="Establisheddte" class="control-label"></label>
                                 <input type="Date" asp-for="Establisheddte" class="form-control" />
