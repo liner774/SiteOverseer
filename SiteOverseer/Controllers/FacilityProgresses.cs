@@ -177,6 +177,9 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, FacilityProgress facilityProgress, IFormFileCollection images)
         {
+            ModelState.Remove("FcilTskId");
+            ModelState.Remove("ProgPercent");
+            ModelState.Remove("SubmitDte"); 
             if (id != facilityProgress.ProgId)
             {
                 return NotFound();

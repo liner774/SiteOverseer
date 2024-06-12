@@ -109,7 +109,10 @@
                                 <span asp-validation-for="ProgPercent" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label for="imageUpload">Select Image(s)</label>
+                                <label for="imageUpload" class="d-flex justify-content-between align-items-center">
+                                    <span>Select Image(s)</span>
+                                    <span class="text-primary" style="font-size: 14px;">Note: Each image size must be smaller than 1MB</span>
+                                </label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="imageUpload" name="images" accept="image/*" multiple />
                                     <label class="custom-file-label" for="imageUpload">Choose files</label>

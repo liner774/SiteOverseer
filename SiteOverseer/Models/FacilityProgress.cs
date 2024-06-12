@@ -13,7 +13,7 @@ namespace SiteOverseer.Models
         [Required(ErrorMessage = "Please choose Facility")]
         public int?  FcilTskId { get; set; }
         [DisplayName("Progress Percent")]
-        [Required(ErrorMessage = "Please choose Progress Percent")]
+        [Required(ErrorMessage = "Please select Progress Percent")]
         public short? ProgPercent { get; set; }
         [DisplayName("Submitted Date")]
         [Required(ErrorMessage = "Please choose Submitted Date")]
