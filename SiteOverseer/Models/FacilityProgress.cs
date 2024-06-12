@@ -10,11 +10,14 @@ namespace SiteOverseer.Models
         [DisplayName("Progress ID")]
         public long ProgId { get; set; }
         [DisplayName("Facility Task ID")]
-        public required int  FcilTskId { get; set; }
+        [Required(ErrorMessage = "Please choose Facility")]
+        public int?  FcilTskId { get; set; }
         [DisplayName("Progress Percent")]
-        public required short ProgPercent { get; set; }
+        [Required(ErrorMessage = "Please choose Progress Percent")]
+        public short? ProgPercent { get; set; }
         [DisplayName("Submitted Date")]
-        public DateTime SubmitDte { get; set; }
+        [Required(ErrorMessage = "Please choose Submitted Date")]
+        public DateTime? SubmitDte { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set;}
         [DisplayName("Company")]
