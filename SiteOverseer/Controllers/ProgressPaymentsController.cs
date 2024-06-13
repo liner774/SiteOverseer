@@ -142,8 +142,8 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-           progressPayment.CmpyNme = _context.MS_Company.Where(c => c.CmpyId == progressPayment.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
-           progressPayment.UserNme = _context.MS_User.Where(u => u.UserId == progressPayment.UserId).Select(u => u.UserNme).FirstOrDefault();
+            progressPayment.CmpyNme = _context.MS_Company.Where(c => c.CmpyId == progressPayment.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
+            progressPayment.UserNme = _context.MS_User.Where(u => u.UserId == progressPayment.UserId).Select(u => u.UserNme).FirstOrDefault();
 
             return View(progressPayment);
         }
