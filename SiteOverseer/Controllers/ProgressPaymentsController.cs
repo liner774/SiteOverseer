@@ -29,6 +29,7 @@ namespace SiteOverseer.Controllers
         // GET: ProgressPayments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +50,7 @@ namespace SiteOverseer.Controllers
         // GET: ProgressPayments/Create
         public IActionResult Create()
         {
+            SetLayOutData();
             return View();
         }
 
@@ -56,6 +58,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Currcde,Currate")] ProgressPayment progressPayment)
         {
+            SetLayOutData();
             if (ModelState.IsValid)
             {
                 progressPayment.RevdTetime = DateTime.Now;
@@ -71,6 +74,7 @@ namespace SiteOverseer.Controllers
         // GET: ProgressPayments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -91,6 +95,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Progpayid,Currcde,Currate,")] ProgressPayment progressPayment)
         {
+            SetLayOutData();
             if (id != progressPayment.Progpayid)
             {
                 return NotFound();
@@ -125,6 +130,7 @@ namespace SiteOverseer.Controllers
         // GET: ProgressPayments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            SetLayOutData();
             if (id == null)
             {
                 return NotFound();
@@ -147,6 +153,7 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            SetLayOutData();
             var progressPayment = await _context.MS_Progresspayment.FindAsync(id);
             if (progressPayment != null)
             {
