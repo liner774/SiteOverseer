@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -193,7 +194,6 @@ namespace SiteOverseer.Controllers
                 {
                     var existingProgress = await _context.PMS_Facilityprogress
                                                          .Include(fp => fp.Images)
-                                                         .Include(fp => fp.ProgressHistory)
                                                          .FirstOrDefaultAsync(fp => fp.ProgId == id);
 
                     if (existingProgress == null)
@@ -201,19 +201,37 @@ namespace SiteOverseer.Controllers
                         return NotFound();
                     }
 
-                    // Create a new history entry before updating
-                    var historyEntry = new FacilityProgressHistory
+                    // Check if ProgPercent has changed
+                    if (existingProgress.ProgPercent != facilityProgress.ProgPercent)
                     {
-                        FacilityProgressId = existingProgress.ProgId,
-                        ProgPercent = existingProgress.ProgPercent ?? 0,
-                        UpdatedAt = DateTime.Now,
-                        ImageData = existingProgress.Images.FirstOrDefault()?.ImageData,
-                        ImageName = existingProgress.Images.FirstOrDefault()?.ImageName,
-                        ImageContentType = existingProgress.Images.FirstOrDefault()?.ImageContentType
-                    };
-                    _context.Add(historyEntry);
+                        // Serialize images
+                        string serializedImageData = string.Empty;
+                        string serializedImageNames = string.Empty;
+                        string serializedImageContentTypes = string.Empty;
 
-                    // Update other properties
+                        if (existingProgress.Images != null && existingProgress.Images.Any())
+                        {
+                            foreach (var image in existingProgress.Images)
+                            {
+                                serializedImageData += Convert.ToBase64String(image.ImageData) + ";";
+                                serializedImageNames += image.ImageName + ";";
+                                serializedImageContentTypes += image.ImageContentType + ";";
+                            }
+                        }
+
+                        // Create a new history entry before updating
+                        var historyEntry = new FacilityProgressHistory
+                        {
+                            FacilityProgressId = existingProgress.ProgId,
+                            ProgPercent = existingProgress.ProgPercent ?? 0,
+                            UpdatedAt = DateTime.Now,
+                            ImageData = serializedImageData.Length > 0 ? Encoding.UTF8.GetBytes(serializedImageData) : null,
+                            ImageName = serializedImageNames,
+                            ImageContentType = serializedImageContentTypes
+                        };
+                        _context.Add(historyEntry);
+                    }
+
                     existingProgress.Longitude = facilityProgress.Longitude;
                     existingProgress.Latitude = facilityProgress.Latitude;
                     existingProgress.ProgPercent = facilityProgress.ProgPercent;

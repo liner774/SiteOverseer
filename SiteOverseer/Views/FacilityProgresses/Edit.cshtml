@@ -7,16 +7,6 @@
 @section scripts
 {
     <script>
-        function updateRangeValue(value) {
-            var rangeInput = document.querySelector('input[type=range]');
-            rangeInput.value = Math.max(rangeInput.min, Math.min(rangeInput.max, value));
-        }
-
-        function updateNumberValue(value) {
-            var numberInput = document.getElementById('progressValue');
-            numberInput.value = Math.max(numberInput.min, Math.min(numberInput.max, value));
-        }
-
         document.getElementById('imageUpload').addEventListener('change', function (event) {
             const files = event.target.files;
             const imageError = document.getElementById('imageError');
@@ -36,6 +26,36 @@
                     event.target.value = '';
                     return;
                 }
+            }
+
+            const uploadedImagesContainer = document.getElementById('uploadedImagesContainer');
+            uploadedImagesContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imgElement = document.createElement('img');
+                    imgElement.className = 'img-thumbnail';
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = '100%';
+                    imgElement.style.objectFit = 'cover';
+                    imgElement.src = e.target.result;
+
+                    const divElement = document.createElement('div');
+                    divElement.className = 'col-md-4';
+                    divElement.style.borderRadius = '10px';
+                    divElement.style.padding = '5px';
+                    divElement.style.maxWidth = '200px';
+                    divElement.style.maxHeight = '200px';
+                    divElement.style.overflow = 'hidden';
+                    divElement.appendChild(imgElement);
+
+                    uploadedImagesContainer.appendChild(divElement);
+                };
+
+                reader.readAsDataURL(file);
             }
 
             const fileNames = Array.from(files).map(file => file.name).join(', ');
@@ -125,8 +145,8 @@
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <label>Uploaded Images</label>
-                        <div class="row">
+                        <label>Selected Image(s)</label>
+                        <div class="row" id="uploadedImagesContainer">
                             @foreach (var image in Model.Images)
                             {
                                 <div class="col-md-4" style="border-radius:10px; padding: 5px; max-width: 200px; max-height: 200px; overflow: hidden;">
@@ -135,6 +155,7 @@
                             }
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
