@@ -30,9 +30,11 @@ namespace SiteOverseer.Models
         public string? ImageName { get; set; }
         public string? ImageContentType { get; set; }
         public ICollection<FacilityProgressImage> Images { get; set; } = new List<FacilityProgressImage>();
+        public ICollection<FacilityProgressHistory> ProgressHistory { get; set; } = new List<FacilityProgressHistory>();
+    
 
-        //Custom
-        [NotMapped]
+    //Custom
+    [NotMapped]
         public int? FcilId { get; set; }
         [NotMapped]
         [DisplayName("Facility")]

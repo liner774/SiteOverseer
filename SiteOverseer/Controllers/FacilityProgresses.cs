@@ -41,10 +41,12 @@ namespace SiteOverseer.Controllers
                 prog.WorkstartDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkstartDte).FirstOrDefault();
                 prog.WorkendDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkendDte).FirstOrDefault();
                 prog.Budget = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.Budget).FirstOrDefault();
-                
+
             }
 
             return View(progList);
+
+
         }
 
        
@@ -179,7 +181,7 @@ namespace SiteOverseer.Controllers
         {
             ModelState.Remove("FcilTskId");
             ModelState.Remove("ProgPercent");
-            ModelState.Remove("SubmitDte"); 
+            ModelState.Remove("SubmitDte");
             if (id != facilityProgress.ProgId)
             {
                 return NotFound();
@@ -191,12 +193,25 @@ namespace SiteOverseer.Controllers
                 {
                     var existingProgress = await _context.PMS_Facilityprogress
                                                          .Include(fp => fp.Images)
+                                                         .Include(fp => fp.ProgressHistory)
                                                          .FirstOrDefaultAsync(fp => fp.ProgId == id);
 
                     if (existingProgress == null)
                     {
                         return NotFound();
                     }
+
+                    // Create a new history entry before updating
+                    var historyEntry = new FacilityProgressHistory
+                    {
+                        FacilityProgressId = existingProgress.ProgId,
+                        ProgPercent = existingProgress.ProgPercent ?? 0,
+                        UpdatedAt = DateTime.Now,
+                        ImageData = existingProgress.Images.FirstOrDefault()?.ImageData,
+                        ImageName = existingProgress.Images.FirstOrDefault()?.ImageName,
+                        ImageContentType = existingProgress.Images.FirstOrDefault()?.ImageContentType
+                    };
+                    _context.Add(historyEntry);
 
                     // Update other properties
                     existingProgress.Longitude = facilityProgress.Longitude;
@@ -216,7 +231,8 @@ namespace SiteOverseer.Controllers
                                 existingProgress.Images.Add(new FacilityProgressImage
                                 {
                                     ImageData = memoryStream.ToArray(),
-                                    ImageContentType = image.ContentType
+                                    ImageContentType = image.ContentType,
+                                    ImageName = image.FileName
                                 });
                             }
                         }
