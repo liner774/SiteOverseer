@@ -72,6 +72,34 @@
             numberInput.value = Math.max(numberInput.min, Math.min(numberInput.max, value));
         }
     </script>
+    <script>
+        // Function to update the TaskCompleteFlg checkbox
+        function updateTaskCompleteFlg() {
+            var progressValue = document.getElementById('progressValue').value;
+            var taskCompleteFlg = document.getElementById('TaskCompleteFlg');
+
+            if (progressValue == 100) {
+                taskCompleteFlg.checked = true;
+            } else {
+                taskCompleteFlg.checked = false;
+            }
+        }
+
+        document.getElementById('progressValue').addEventListener('input', updateTaskCompleteFlg);
+
+        function updateRangeValue(value) {
+            var rangeInput = document.querySelector('input[type=range]');
+            rangeInput.value = Math.max(rangeInput.min, Math.min(rangeInput.max, value));
+            updateTaskCompleteFlg();
+        }
+
+        function updateNumberValue(value) {
+            var numberInput = document.getElementById('progressValue');
+            numberInput.value = Math.max(numberInput.min, Math.min(numberInput.max, value));
+            updateTaskCompleteFlg();
+        }
+    </script>
+
 }
 
 <section class="content-header">

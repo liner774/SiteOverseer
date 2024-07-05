@@ -59,15 +59,15 @@ namespace SiteOverseer.Models
         public string? CntorNme { get; set; }
 
         [NotMapped]
-        [DisplayName("Work Start Date")]
+        [DisplayName("Work Planned Start Date")]
         public DateTime? WorkstartDte { get; set; }
         [NotMapped]
-        [DisplayName("Work End Date")]
+        [DisplayName("Work Expected End Date")]
         public DateTime? WorkendDte { get; set; }
 
         [NotMapped]
 
-        [DisplayName("Task Complete")]
+        [DisplayName("Task Complete?")]
         public bool TaskCompleteFlg { get; set; }
         [NotMapped]
         public decimal? Budget { get; set; }

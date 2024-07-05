@@ -42,7 +42,7 @@ namespace SiteOverseer.Controllers
                 prog.WorkstartDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkstartDte).FirstOrDefault();
                 prog.WorkendDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkendDte).FirstOrDefault();
                 prog.Budget = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.Budget).FirstOrDefault();
-
+                prog.TaskCompleteFlg = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.TaskCompleteFlg).FirstOrDefault();
             }
 
             return View(progList);
@@ -265,20 +265,6 @@ namespace SiteOverseer.Controllers
                     existingProgress.Latitude = facilityProgress.Latitude;
                     existingProgress.ProgPercent = facilityProgress.ProgPercent;
 
-
-                    /*existingProgress.FcilId = facilityProgress.FcilId;
-                    existingProgress.WbsId = facilityProgress.WbsId;
-                    existingProgress.WbsdId = facilityProgress.WbsdId;
-                    existingProgress.Budget = facilityProgress.Budget;
-                    existingProgress.CntorId = facilityProgress.CntorId;
-                    existingProgress.SelectionTyp = facilityProgress.SelectionTyp;
-                    existingProgress.WorkstartDte = facilityProgress.WorkstartDte;
-                    existingProgress.WorkendDte = facilityProgress.WorkendDte;
-                    existingProgress.AwardedValue = facilityProgress.AwardedValue;
-                    existingProgress.ProgpayId = facilityProgress.ProgpayId;
-                    existingProgress.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
-                    existingProgress.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
-                    existingProgress.Remark = facilityProgress.Remark;*/
                     #endregion
 
                     // Handle image upload
@@ -320,7 +306,7 @@ namespace SiteOverseer.Controllers
                 var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
                 
                     facilityTask.FcilId = facilityProgress.FcilId;
-                    facilityTask.WbsId = facilityProgress.WbsId;
+                    facilityTask.WbsdId = facilityProgress.WbsdId;
                     facilityTask.Budget = facilityProgress.Budget;
                     facilityTask.CntorId = facilityProgress.CntorId;
                     facilityTask.SelectionTyp = facilityProgress.SelectionTyp;
@@ -334,6 +320,7 @@ namespace SiteOverseer.Controllers
 
 
                     _context.Update(facilityTask);
+                await _context.SaveChangesAsync();
                 
 
                 return RedirectToAction(nameof(Index));

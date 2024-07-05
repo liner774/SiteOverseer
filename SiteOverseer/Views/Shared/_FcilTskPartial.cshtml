@@ -31,20 +31,21 @@
 
         <div class="form-group row">
             <label asp-for="WbsId" class="col-sm-3 col-form-label control-label">WBS Code/Detail</label>
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-md-4">
                 <select asp-for="WbsId" class="form-select" id="wbsCodeDropdown" onchange="changeWBSDetails()" asp-items="@ViewBag.WbsCdeList">
                     <option value="">- Select One -</option>
                 </select>
                 <span asp-validation-for="WbsId" class="text-danger"></span>
             </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-9 col-md-5 mt-3 mt-sm-0">
                 <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown" asp-items="@ViewBag.WbsDtlList">
                     <option value="">- Select One -</option>
                 </select>
                 <span asp-validation-for="WbsdId" class="text-danger"></span>
             </div>
         </div>
+
 
         <div class="form-group row">
             <label asp-for="Budget" class="col-sm-3 col-form-label control-label"></label>
@@ -117,10 +118,12 @@
             <label asp-for="TaskCompleteFlg" class="col-sm-3 col-form-label control-label">@Html.DisplayNameFor(model => model.TaskCompleteFlg)</label>
             <div class="col-sm-9">
                 <div class="form-check">
-                    <input class="form-check-input" asp-for="TaskCompleteFlg" />
+            <input class="form-check-input" asp-for="TaskCompleteFlg" id="TaskCompleteFlg" onclick="return false;" />
+            <span class="text-primary" style="font-size: 14px;">Note: Read Only</span>
                 </div>
             </div>
         </div>
+
 
         <div class="form-group row">
             <label asp-for="Remark" class="col-sm-3 col-form-label control-label"></label>

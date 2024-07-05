@@ -67,6 +67,7 @@
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
+    
 }
 
 <section class="content-header">
@@ -120,9 +121,6 @@
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.ProgPercent)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.SubmitDte)
                                     </th>
                                     
                                     <th></th>
@@ -188,12 +186,6 @@
                                                 </div>
                                             </div>
                                         </td>
-
-
-                                        <td>
-                                            @Convert.ToDateTime(item.SubmitDte).ToString("dd/MM/yyyy")
-                                        </td>
-
 
                                         <td style="text-align: center">
                                             <a asp-action="Edit" asp-route-id="@item.ProgId">
