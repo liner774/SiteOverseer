@@ -102,6 +102,7 @@
                                 }
                             </div>
                         </div>
+
                     }
                     else
                     {
@@ -113,5 +114,67 @@
                 </div>
             </div>
         </div>
+
+        <div class="card card-gray">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"] History Images</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if (Model.ProgressHistory != null && Model.ProgressHistory.Any())
+                    {
+                        var groupedImages = Model.ProgressHistory
+                            .OrderByDescending(ph => ph.ProgPercent) 
+                            .GroupBy(ph => ph.ProgPercent);
+
+                        int groupId = 0; 
+
+                        @foreach (var group in groupedImages)
+                        {
+                            var collapseId = $"collapse-{groupId}";
+
+                            <div class="col-12 mb-4">
+                                <h4>
+                                    <a class="btn btn-link" data-toggle="collapse" href="#@collapseId" role="button" aria-expanded="false" aria-controls="@collapseId">
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-caret-down"></i>
+                                            View Progress Percent: @group.Key%
+                                       </button>
+                                    </a>
+                                </h4>
+                                @* <div class="progress mb-3" style="background-color: #6c757d; max-width: 200px">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@group.Key" aria-valuemin="0" aria-valuemax="100" style="width: @group.Key%; background-color: #047cfb;">
+                                        @group.Key%
+                                    </div>
+                                </div> *@
+                                <div class="collapse" id="@collapseId">
+                                    <div class="row">
+                                        @foreach (var image in group)
+                                        {
+                                            var base64 = Convert.ToBase64String(image.ImageData);
+                                            var imgSrc = $"data:{image.ImageContentType};base64,{base64}";
+
+                                            <div class="col-md-4 mb-3" style="border-radius:10px; padding: 5px; max-width: 200px; max-height: 200px; overflow: hidden;">
+                                                <img src="@imgSrc" class="img-thumbnail popup-image" style="width: 100%; height: 100%; object-fit: cover;" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            groupId++;
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <span>No image(s) available.</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </section>

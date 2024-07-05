@@ -11,15 +11,14 @@ namespace SiteOverseer.Models
         public long ProgId { get; set; }
         [DisplayName("Facility Task ID")]
         [Required(ErrorMessage = "Please choose Facility")]
-        public int?  FcilTskId { get; set; }
+        public int? FcilTskId { get; set; }
         [DisplayName("Progress Percent")]
         [Required(ErrorMessage = "Please select Progress Percent")]
         public short? ProgPercent { get; set; }
         [DisplayName("Submitted Date")]
-        [Required(ErrorMessage = "Please choose Submitted Date")]
         public DateTime? SubmitDte { get; set; }
         public double? Longitude { get; set; }
-        public double? Latitude { get; set;}
+        public double? Latitude { get; set; }
         [DisplayName("Company")]
         public short? CmpyId { get; set; }
         [DisplayName("User")]
@@ -31,10 +30,11 @@ namespace SiteOverseer.Models
         public string? ImageContentType { get; set; }
         public ICollection<FacilityProgressImage> Images { get; set; } = new List<FacilityProgressImage>();
         public ICollection<FacilityProgressHistory> ProgressHistory { get; set; } = new List<FacilityProgressHistory>();
-    
 
-    //Custom
-    [NotMapped]
+
+        //Custom
+     
+        [NotMapped]
         public int? FcilId { get; set; }
         [NotMapped]
         [DisplayName("Facility")]
@@ -68,7 +68,7 @@ namespace SiteOverseer.Models
         [NotMapped]
 
         [DisplayName("Task Complete")]
-        public  bool TaskCompleteFlg { get; set; }
+        public bool TaskCompleteFlg { get; set; }
         [NotMapped]
         public decimal? Budget { get; set; }
         [DisplayName("Company")]
@@ -89,7 +89,8 @@ namespace SiteOverseer.Models
         public int? FU_Id { get; set; }
         [NotMapped]
         [DisplayName("Revised Datetime")]
-        public DateTime? RevdTetime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy hh:mm:ss tt}", ApplyFormatInEditMode = true)]
+        public DateTime RevdTetime { get; set; }
         [NotMapped]
         [DisplayName("Selection Type")]
         public string? SelectionTyp { get; set; }

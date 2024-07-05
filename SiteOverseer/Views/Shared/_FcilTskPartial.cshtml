@@ -4,118 +4,154 @@
     ViewData["Title"] = "Facility Task";
 }
 
-<section class="content">
-    <dl class="row">
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.FcilTskId)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.FcilTskId)
-        </dd>
+<script src="~/js/fcilTsk.js"></script>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.FcilNme)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.FcilNme)
-        </dd>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.WbsId)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.WbsCde)
-        </dd>
+@* <section class="content">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ProgId" /> *@
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.Budget)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Budget)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="FcilTskId" class="col-sm-3 col-form-label control-label">Facility Task ID</label>
+            <div class="col-sm-9">
+                <input asp-for="FcilTskId" class="form-control" readonly />
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.CntorNme)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.CntorNme)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="FcilId" class="col-sm-3 col-form-label control-label">Facility</label>
+            <div class="col-sm-9">
+                <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FcliNmeList">
+                    <option value="">- Select One -</option>
+                </select>
+                <span asp-validation-for="FcilId" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.SelectionTyp)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.SelectionTyp)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="WbsId" class="col-sm-3 col-form-label control-label">WBS Code/Detail</label>
+            <div class="col-sm-4">
+                <select asp-for="WbsId" class="form-select" id="wbsCodeDropdown" onchange="changeWBSDetails()" asp-items="@ViewBag.WbsCdeList">
+                    <option value="">- Select One -</option>
+                </select>
+                <span asp-validation-for="WbsId" class="text-danger"></span>
+            </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.WorkstartDte)
-        </dt>
-        <dd class="col-sm-8">
-            @Convert.ToDateTime(Model.WorkstartDte).ToString("dd MMM yyyy")
-        </dd>
+            <div class="col-sm-5">
+                <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown" asp-items="@ViewBag.WbsDtlList">
+                    <option value="">- Select One -</option>
+                </select>
+                <span asp-validation-for="WbsdId" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.WorkendDte)
-        </dt>
-        <dd class="col-sm-8">
-            @Convert.ToDateTime(Model.WorkendDte).ToString("dd MMM yyyy")
-        </dd>
+        <div class="form-group row">
+            <label asp-for="Budget" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="Budget" class="form-control" />
+                <span asp-validation-for="Budget" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.AwardedValue)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.AwardedValue)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="CntorId" class="col-sm-3 col-form-label control-label">Contractor</label>
+            <div class="col-sm-9">
+                <select asp-for="CntorId" class="form-select" asp-items="@ViewBag.CntorNmeList">
+                    <option value="">- Select One -</option>
+                </select>
+                <span asp-validation-for="CntorId" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ProgpayId)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ProgpayId)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="SelectionTyp" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="SelectionTyp" class="form-control" />
+                <span asp-validation-for="SelectionTyp" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.AllowSubmitExpense)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.AllowSubmitExpense)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="WorkstartDte" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="WorkstartDte" class="form-control" type="date" />
+                <span asp-validation-for="WorkstartDte" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.TaskCompleteFlg)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.TaskCompleteFlg)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="WorkendDte" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="WorkendDte" class="form-control" type="date" />
+                <span asp-validation-for="WorkendDte" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.Remark)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.Remark)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="AwardedValue" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="AwardedValue" class="form-control" />
+                <span asp-validation-for="AwardedValue" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.FCompany)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.FCompany)
-        </dd>
+        <div class="form-group row">
+            <label asp-for="ProgpayId" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="ProgpayId" class="form-control" />
+                <span asp-validation-for="ProgpayId" class="text-danger"></span>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.RevdTetime)
-        </dt>
-        <dd class="col-sm-8">
-            @Convert.ToDateTime(Model.RevdTetime).ToString("dd MMM yyy hh:mm:ss tt")
-        </dd>
+        <div class="form-group row">
+            <label asp-for="AllowSubmitExpense" class="col-sm-3 col-form-label control-label">Submit Expense</label>
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="AllowSubmitExpense" />
+                </div>
+            </div>
+        </div>
 
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.FUser)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.FUser)
-        </dd>
-    </dl>
-</section>
+        <div class="form-group row">
+            <label asp-for="TaskCompleteFlg" class="col-sm-3 col-form-label control-label">@Html.DisplayNameFor(model => model.TaskCompleteFlg)</label>
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="TaskCompleteFlg" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Remark" class="col-sm-3 col-form-label control-label"></label>
+            <div class="col-sm-9">
+                <input asp-for="Remark" class="form-control" />
+                <span asp-validation-for="Remark" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="FCompany" class="col-sm-3 col-form-label control-label">Company</label>
+            <div class="col-sm-9">
+                <input asp-for="FCompany" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="RevdTetime" class="col-sm-3 col-form-label control-label">Revised Datetime</label>
+            <div class="col-sm-9">
+                <input class="form-control" readonly value="@Model.RevdTetime.ToString("dd MMM yyyy hh:mm:ss tt")" />
+            </div>
+        </div>
+
+
+
+        <div class="form-group row">
+            <label asp-for="FUser" class="col-sm-3 col-form-label control-label">User</label>
+            <div class="col-sm-9">
+                <input asp-for="FUser" class="form-control" readonly />
+            </div>
+        </div>
+@* 
+    </form>
+</section> *@

@@ -36,8 +36,8 @@ namespace SiteOverseer.Controllers
                 prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
                 prog.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == prog.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
                 prog.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
+                prog.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
                 prog.WbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
-                prog.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsId == prog.WbsId).Select(gp => gp.WbsdCde).FirstOrDefault();
                 prog.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == prog.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
                 prog.WorkstartDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkstartDte).FirstOrDefault();
                 prog.WorkendDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkendDte).FirstOrDefault();
@@ -50,7 +50,7 @@ namespace SiteOverseer.Controllers
 
         }
 
-       
+
         public async Task<IActionResult> Details(long? id)
         {
             SetLayOutData();
@@ -60,8 +60,11 @@ namespace SiteOverseer.Controllers
             }
 
             var facilityProgress = await _context.PMS_Facilityprogress
-                  .Include(fp => fp.Images)
-                  .FirstOrDefaultAsync(fp => fp.ProgId == id);
+            .Include(fp => fp.Images)
+            .Include(fp => fp.ProgressHistory)
+            .FirstOrDefaultAsync(fp => fp.ProgId == id);
+
+
             if (facilityProgress == null)
             {
                 return NotFound();
@@ -72,11 +75,11 @@ namespace SiteOverseer.Controllers
             return View(facilityProgress);
         }
 
-        
+
         public IActionResult Create()
         {
             SetLayOutData();
-            
+
             return View();
         }
 
@@ -155,8 +158,8 @@ namespace SiteOverseer.Controllers
             facilityProgress.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
             facilityProgress.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityProgress.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
             facilityProgress.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
+            facilityProgress.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityProgress.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
             facilityProgress.WbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityProgress.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
-            facilityProgress.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsId == facilityProgress.WbsId).Select(gp => gp.WbsdCde).FirstOrDefault();
             facilityProgress.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == facilityProgress.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
             facilityProgress.WorkstartDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.WorkstartDte).FirstOrDefault();
             facilityProgress.WorkendDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.WorkendDte).FirstOrDefault();
@@ -167,22 +170,25 @@ namespace SiteOverseer.Controllers
             facilityProgress.AllowSubmitExpense = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.AllowSubmitExpense).FirstOrDefault();
             facilityProgress.TaskCompleteFlg = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.TaskCompleteFlg).FirstOrDefault();
             facilityProgress.Remark = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.Remark).FirstOrDefault();
+            facilityProgress.RevdTetime = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.RevdTetime).FirstOrDefault();
             facilityProgress.FC_Id = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.CmpyId).FirstOrDefault();
             facilityProgress.FU_Id = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.UserId).FirstOrDefault();
             facilityProgress.FCompany = _context.MS_Company.Where(gp => gp.CmpyId == facilityProgress.FC_Id).Select(gp => gp.CmpyNme).FirstOrDefault();
             facilityProgress.FUser = _context.MS_User.Where(gp => gp.UserId == facilityProgress.FU_Id).Select(gp => gp.UserNme).FirstOrDefault();
             #endregion
 
+
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
+            ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["WbsDtlList"] = new SelectList(_context.MS_Wbsdetail.Where(d => d.WbsId == facilityProgress.WbsId).ToList(), "WbsdId", "WbsdCde");
             return View(facilityProgress);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, FacilityProgress facilityProgress, IFormFileCollection images)
+        public async Task<IActionResult> Edit(long id, FacilityProgress facilityProgress, List<IFormFile> images)
         {
-            ModelState.Remove("FcilTskId");
-            ModelState.Remove("ProgPercent");
-            ModelState.Remove("SubmitDte");
             if (id != facilityProgress.ProgId)
             {
                 return NotFound();
@@ -204,37 +210,76 @@ namespace SiteOverseer.Controllers
                     // Check if ProgPercent has changed
                     if (existingProgress.ProgPercent != facilityProgress.ProgPercent)
                     {
-                        // Serialize images
-                        string serializedImageData = string.Empty;
-                        string serializedImageNames = string.Empty;
-                        string serializedImageContentTypes = string.Empty;
-
+                        // Create a history entry for each image
                         if (existingProgress.Images != null && existingProgress.Images.Any())
                         {
                             foreach (var image in existingProgress.Images)
                             {
-                                serializedImageData += Convert.ToBase64String(image.ImageData) + ";";
-                                serializedImageNames += image.ImageName + ";";
-                                serializedImageContentTypes += image.ImageContentType + ";";
+                                var historyEntry = new FacilityProgressHistory
+                                {
+                                    FacilityProgressId = existingProgress.ProgId,
+                                    ProgPercent = existingProgress.ProgPercent ?? 0,
+                                    UpdatedAt = DateTime.Now,
+                                    ImageData = image.ImageData,
+                                    ImageName = image.ImageName,
+                                    ImageContentType = image.ImageContentType
+                                };
+                                _context.FacilityProgressHistory.Add(historyEntry);
                             }
                         }
-
-                        // Create a new history entry before updating
-                        var historyEntry = new FacilityProgressHistory
-                        {
-                            FacilityProgressId = existingProgress.ProgId,
-                            ProgPercent = existingProgress.ProgPercent ?? 0,
-                            UpdatedAt = DateTime.Now,
-                            ImageData = serializedImageData.Length > 0 ? Encoding.UTF8.GetBytes(serializedImageData) : null,
-                            ImageName = serializedImageNames,
-                            ImageContentType = serializedImageContentTypes
-                        };
-                        _context.Add(historyEntry);
                     }
 
+                    /*
+                                       if (existingProgress.ProgPercent != facilityProgress.ProgPercent)
+                                       {
+                                           // Serialize images
+                                           string serializedImageData = string.Empty;
+                                           string serializedImageNames = string.Empty;
+                                           string serializedImageContentTypes = string.Empty;
+
+                                           if (existingProgress.Images != null && existingProgress.Images.Any())
+                                           {
+                                               foreach (var image in existingProgress.Images)
+                                               {
+                                                   serializedImageData += Convert.ToBase64String(image.ImageData) + ";";
+                                                   serializedImageNames += image.ImageName + ";";
+                                                   serializedImageContentTypes += image.ImageContentType + ";";
+                                               }
+                                           }
+
+                                           // Create a new history entry before updating
+                                           var historyEntry = new FacilityProgressHistory
+                                           {
+                                               FacilityProgressId = existingProgress.ProgId,
+                                               ProgPercent = existingProgress.ProgPercent ?? 0,
+                                               UpdatedAt = DateTime.Now,
+                                               ImageData = serializedImageData.Length > 0 ? Encoding.UTF8.GetBytes(serializedImageData) : null,
+                                               ImageName = serializedImageNames,
+                                               ImageContentType = serializedImageContentTypes
+                                           };
+                                           _context.FacilityProgressHistory.Add(historyEntry);
+                                       }
+                   */
+                    #region // Existing Progress Save //
                     existingProgress.Longitude = facilityProgress.Longitude;
                     existingProgress.Latitude = facilityProgress.Latitude;
                     existingProgress.ProgPercent = facilityProgress.ProgPercent;
+
+
+                    /*existingProgress.FcilId = facilityProgress.FcilId;
+                    existingProgress.WbsId = facilityProgress.WbsId;
+                    existingProgress.WbsdId = facilityProgress.WbsdId;
+                    existingProgress.Budget = facilityProgress.Budget;
+                    existingProgress.CntorId = facilityProgress.CntorId;
+                    existingProgress.SelectionTyp = facilityProgress.SelectionTyp;
+                    existingProgress.WorkstartDte = facilityProgress.WorkstartDte;
+                    existingProgress.WorkendDte = facilityProgress.WorkendDte;
+                    existingProgress.AwardedValue = facilityProgress.AwardedValue;
+                    existingProgress.ProgpayId = facilityProgress.ProgpayId;
+                    existingProgress.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
+                    existingProgress.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
+                    existingProgress.Remark = facilityProgress.Remark;*/
+                    #endregion
 
                     // Handle image upload
                     if (images != null && images.Count > 0)
@@ -256,7 +301,7 @@ namespace SiteOverseer.Controllers
                         }
                     }
 
-                    _context.Update(existingProgress);
+                    _context.PMS_Facilityprogress.Update(existingProgress);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -270,8 +315,33 @@ namespace SiteOverseer.Controllers
                         throw;
                     }
                 }
+
+                // Update facility task
+                var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
+                
+                    facilityTask.FcilId = facilityProgress.FcilId;
+                    facilityTask.WbsId = facilityProgress.WbsId;
+                    facilityTask.Budget = facilityProgress.Budget;
+                    facilityTask.CntorId = facilityProgress.CntorId;
+                    facilityTask.SelectionTyp = facilityProgress.SelectionTyp;
+                    facilityTask.WorkstartDte = facilityProgress.WorkstartDte;
+                    facilityTask.WorkendDte = facilityProgress.WorkendDte;
+                    facilityTask.AwardedValue = facilityProgress.AwardedValue;
+                    facilityTask.ProgpayId = facilityProgress.ProgpayId;
+                    facilityTask.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
+                    facilityTask.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
+                    facilityTask.Remark = facilityProgress.Remark;
+
+
+                    _context.Update(facilityTask);
+                
+
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
+            ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             return View(facilityProgress);
         }
 
@@ -293,7 +363,7 @@ namespace SiteOverseer.Controllers
             return View(facilityProgress);
         }
 
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -347,6 +417,17 @@ namespace SiteOverseer.Controllers
 
                 ViewData["Username"] = userName;
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetWbsDetails(int wbsId)
+        {
+            var wbsDetails = await _context.MS_Wbsdetail
+                .Where(w => w.WbsId == wbsId)
+                .Select(w => new { value = w.WbsdId, text = w.WbsdCde })
+                .ToListAsync();
+
+            return Json(wbsDetails);
         }
         #endregion
     }

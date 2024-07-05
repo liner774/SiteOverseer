@@ -4,8 +4,7 @@
     ViewData["Title"] = "Facility Progress";
 }
 
-@section scripts
-{
+@section Scripts {
     <script>
         document.getElementById('imageUpload').addEventListener('change', function (event) {
             const files = event.target.files;
@@ -21,8 +20,8 @@
                     return;
                 }
 
-                if (file.size > 1048576) {
-                    imageError.textContent = 'Each image must be under 1 MB.';
+                if (file.size > 524288) {
+                    imageError.textContent = 'Each image must be under 500 KB.';
                     event.target.value = '';
                     return;
                 }
@@ -62,6 +61,17 @@
             document.querySelector('.custom-file-label').textContent = fileNames;
         });
     </script>
+    <script>
+        function updateRangeValue(value) {
+            var rangeInput = document.querySelector('input[type=range]');
+            rangeInput.value = Math.max(rangeInput.min, Math.min(rangeInput.max, value));
+        }
+
+        function updateNumberValue(value) {
+            var numberInput = document.getElementById('progressValue');
+            numberInput.value = Math.max(numberInput.min, Math.min(numberInput.max, value));
+        }
+    </script>
 }
 
 <section class="content-header">
@@ -89,11 +99,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form asp-action="Edit" enctype="multipart/form-data">
+                        <form asp-action="Edit" asp-controller="FacilityProgresses" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input asp-for="ProgId" type="hidden" />
-                            <input asp-for="ProgId" type="hidden" />
                             <input asp-for="FcilTskId" type="hidden" />
+
                             <div class="form-group">
                                 <button class="btn btn-primary" onclick="ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                     View Facility Task Detail
@@ -106,41 +116,43 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Longitude" class="control-label">Longitude</label>
-                                <input asp-for="Longitude" class="form-control">
+                                <input asp-for="Longitude" class="form-control" />
                                 <span asp-validation-for="Longitude" class="text-danger"></span>
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Latitude" class="control-label">Latitude</label>
-                                <input asp-for="Latitude" class="form-control">
+                                <input asp-for="Latitude" class="form-control" />
                                 <span asp-validation-for="Latitude" class="text-danger"></span>
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="ProgPercent" class="control-label">Progress Percent</label>
                                 <div class="d-flex align-items-center">
-                                    <input asp-for="ProgPercent" id="progressValue" type="number" class="form-control" style="width: 70px;"
-                                           min="@Model.ProgPercent" max="100" step="1" oninput="updateRangeValue(this.value)" />
+                                    <input asp-for="ProgPercent" id="progressValue" type="number" class="form-control" style="width: 70px;" min="@Model.ProgPercent" max="100" step="1" oninput="updateRangeValue(this.value)" />
                                     <span class="ml-1">%</span>
-
-                                    <input asp-for="ProgPercent" type="range" class="form-control-range ml-2" min="@Model.ProgPercent" max="100" step="1"
-                                           value="@Model.ProgPercent" oninput="updateNumberValue(this.value)" />
+                                    <input asp-for="ProgPercent" type="range" class="form-control-range ml-2" min="@Model.ProgPercent" max="100" step="1" value="@Model.ProgPercent" oninput="updateNumberValue(this.value)" />
                                 </div>
                                 <span asp-validation-for="ProgPercent" class="text-danger"></span>
                             </div>
+
                             <div class="form-group">
                                 <label for="imageUpload" class="d-flex justify-content-between align-items-center">
                                     <span>Select Image(s)</span>
-                                    <span class="text-primary" style="font-size: 14px;">Note: Each image size must be smaller than 1MB</span>
+                                    <span class="text-primary" style="font-size: 14px;">Note: Each image size must be smaller than 500 KB</span>
                                 </label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="imageUpload" name="images" accept="image/*" multiple />
-                                    <label class="custom-file-label" for="imageUpload">Choose files</label>
+                                    <label class="custom-file-label" for="imageUpload">Choose file(s)</label>
                                 </div>
                                 <div id="imageError" class="text-danger mt-2"></div>
                             </div>
+
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <input type="submit" value="Save" class="btn btn-primary" />
                             </div>
                         </form>
                     </div>
@@ -155,7 +167,6 @@
                             }
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
