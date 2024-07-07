@@ -1,32 +1,33 @@
-﻿@model IEnumerable<SiteOverseer.Models.Contractor>
+﻿@model IEnumerable<SiteOverseer.Models.ProgressPayment>
 
 @{
-    ViewData["Title"] = "Contractor";
-}
+    ViewData["Title"] = "Progress Payment";
 
+}
 
 @section links {
     <!-- DataTables -->
-    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.css">
+
 }
 
 @section scripts
 {
     <!-- DataTables  & Plugins -->
-    <script src="~/lib/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/jszip/jszip.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.js"></script>
+    <script src="~/lib/AdminLTE/plugins/jszip/jszip.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/pdfmake.js"></script>
     <script src="~/lib/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.js"></script>
 
     <script>
         $(function () {
@@ -35,7 +36,7 @@
                 "buttons": [{
                     extend: 'copy',
                     text: window.csvButtonTrans,
-                    title: "Contractor",
+                    title: "Progress Payment List",
                     exportOptions: {
                         columns: ':not(:nth-last-child(-n + 3))'
                     }
@@ -43,8 +44,7 @@
                 {
                     extend: 'excel',
                     text: window.csvButtonTrans,
-                    title: "Contractor",
-                    title: "",
+                    title: "Progress Payment List",
                     exportOptions: {
                         columns: ':not(:nth-last-child(-n + 3))'
                     }
@@ -52,7 +52,7 @@
                 {
                     extend: 'pdf',
                     text: window.csvButtonTrans,
-                    title: "Contractor",
+                    title: "Progress Payment List",
                     exportOptions: {
                         columns: ':not(:nth-last-child(-n + 3))'
                     }
@@ -60,7 +60,7 @@
                 {
                     extend: 'print',
                     text: window.csvButtonTrans,
-                    title: "Contractor",
+                    title: "Progress Payment List",
                     exportOptions: {
                         columns: ':not(:nth-last-child(-n + 3))'
                     }
@@ -69,7 +69,6 @@
         });
     </script>
 }
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -78,13 +77,13 @@
             </div>
             <div class="col-6">
                 <div class="breadcrumb float-right active">
-                    <a asp-action="Create" class="btn btn-primary">Create New <i class="fas fa-plus"></i></a>
+                    <a asp-action="Create" class="btn btn-primary">Create New  <i class="fas fa-plus"></i></a>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
-
 <section class="content">
     <div class="container-fluid">
         <div class="card card-gray">
@@ -98,16 +97,14 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+
                                     <th>
-                                        @Html.DisplayNameFor(model => model.CntorNme)
+                                        @Html.DisplayNameFor(modelItem => modelItem.Currcde)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.FcilityCde)
+                                        @Html.DisplayNameFor(modelItem => modelItem.Currate)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Currcde)
-                                    </th>
-                                    
+
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -121,24 +118,21 @@
                                 {
                                     <tr>
                                         <td>@counter</td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CntorNme)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FcilityCde)
-                                        </td>
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Currcde)
                                         </td>
-
-                                        <td style="text-align: center">
-                                            <a asp-action="Details" asp-route-id="@item.CntorId"><i class="fas fa-info-circle"></i></a>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Currate)
                                         </td>
                                         <td style="text-align: center">
-                                            <a asp-action="Edit" asp-route-id="@item.CntorId"><i class="fas fa-edit"></i></a>
+                                            <a asp-action="Details" asp-route-id="@item.Progpayid"><i class="fas fa-info-circle"></i></a>
                                         </td>
                                         <td style="text-align: center">
-                                            <a asp-action="Delete" asp-route-id="@item.CntorId"><i class="fas fa-trash"></i></a>
+                                            <a asp-action="Edit" asp-route-id="@item.Progpayid"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a asp-action="Delete" asp-route-id="@item.Progpayid"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     counter++;
@@ -151,4 +145,3 @@
         </div>
     </div>
 </section>
-

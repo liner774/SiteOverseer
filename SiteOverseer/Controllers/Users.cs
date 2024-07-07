@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using SiteOverseer.Common.EncryptDecryptService;
 using SiteOverseer.Data;
@@ -19,6 +20,7 @@ namespace SiteOverseer.Controllers
         private readonly SiteDbContext _context;
         private readonly EncryptDecryptService _encryptDecryptService;
 
+        // for github push
         public Users(SiteDbContext context)
         {
             _context = context;
@@ -33,7 +35,7 @@ namespace SiteOverseer.Controllers
             //Testing 
             return View(await _context.MS_User.ToListAsync());
         }
-     
+
         public async Task<IActionResult> Details(int? id)
         {
             SetLayOutData();
@@ -52,7 +54,7 @@ namespace SiteOverseer.Controllers
             return View(user);
         }
 
-
+        
         public IActionResult Create()
         {
             SetLayOutData();
@@ -66,7 +68,9 @@ namespace SiteOverseer.Controllers
         public async Task<IActionResult> Create([Bind("UserCde,UserNme,CmpyId,Position,Gender,Password,ConfirmPassword")] User user)
         {
             SetLayOutData();
-            if (ModelState.IsValid)
+
+
+            if (ModelState.IsValid && user.Password == user.ConfirmPassword)
             {
                 user.Password ??= "User@123";
                 string encodedString = _encryptDecryptService.EncryptString(user.Password);
@@ -76,10 +80,15 @@ namespace SiteOverseer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
-            ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
-            return View(user);
+            else 
+            {
+                ModelState.AddModelError("NewPassword", "The new password and confirm password do not match.");
+                ModelState.AddModelError("ConfirmPassword", "The new password and confirm password do not match.");
+                ViewData["Positions"] = new SelectList(_context.MS_Menugp.ToList(), "MnugrpNme", "MnugrpNme");
+                ViewData["Companies"] = new SelectList(_context.MS_Company.ToList(), "CmpyId", "CmpyNme");
+                return View(user);
+            }                        
+            
         }
 
 
@@ -185,7 +194,7 @@ namespace SiteOverseer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-    
+
 
         private bool UserExists(int id)
         {

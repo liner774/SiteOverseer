@@ -33,18 +33,19 @@ namespace SiteOverseer.Controllers
             return View();
         }
 
-
+            
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(LogInUser user)
         {
             if ((!string.IsNullOrEmpty(user.UserCde)) && (!string.IsNullOrEmpty(user.Pwd)))
             {
-                var encryptedPwd = _encryptDecryptService.EncryptString(user.Pwd);
+                    
                 try
                 {
                     var dbUser = _context.MS_User.FirstOrDefault(u => u.UserCde.ToLower() == user.UserCde.ToLower());
 
+                    //if (dbUser != null)
                     if (dbUser != null && dbUser.Pwd != null)
                     {
 

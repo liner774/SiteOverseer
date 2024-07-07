@@ -84,7 +84,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="WbsdId" class="control-label">WBS Detail:</label>
-                                        <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown" >
+                                        <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown"> 
                                             <option value="">- Select One -</option>
                                         </select>
                                         <span asp-validation-for="WbsdId" class="text-danger"></span>
@@ -127,20 +127,17 @@
                                 <span asp-validation-for="AwardedValue" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ProgpayId" class="control-label"></label>
-                                <input asp-for="ProgpayId" class="form-control" />
+                                <label asp-for="ProgpayId" class="control-label">Progress Payment</label>
+                                <select asp-for="ProgpayId" class="form-select" asp-items="@ViewBag.Progid">
+                                    <option value="">- Select One -</option>
+                                </select>
                                 <span asp-validation-for="ProgpayId" class="text-danger"></span>
                             </div>
                             <div class="form-group form-check">
                                 <label class="form-check-label">
                                     <input class="form-check-input" asp-for="AllowSubmitExpense" /> @Html.DisplayNameFor(model => model.AllowSubmitExpense)
                                 </label>
-                            </div>
-                            @* <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="TaskCompleteFlg" /> @Html.DisplayNameFor(model => model.TaskCompleteFlg)
-                                </label>
-                            </div> *@
+                            </div>                         
                             <div class="form-group">
                                 <label asp-for="Remark" class="control-label"></label>
                                 <input asp-for="Remark" class="form-control" />
