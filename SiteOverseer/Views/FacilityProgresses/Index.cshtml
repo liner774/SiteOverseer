@@ -4,7 +4,6 @@
     ViewData["Title"] = "Facility Progress";
 }
 
-
 @section links {
     <!-- DataTables -->
     <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -31,43 +30,58 @@
     <script>
         $(function () {
             $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 20,
-                "buttons": [{
-                    extend: 'copy',
-                    text: window.csvButtonTrans,
-                    title: "Facility",
-                    exportOptions: {
-                        columns: ':not(:nth-last-child(-n + 3))'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    text: window.csvButtonTrans,
-                    title: "Facility",
-                    exportOptions: {
-                        columns: ':not(:nth-last-child(-n + 3))'
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    text: window.csvButtonTrans,
-                    title: "Facility",
-                    exportOptions: {
-                        columns: ':not(:nth-last-child(-n + 3))'
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: window.csvButtonTrans,
-                    title: "Facility",
-                    exportOptions: {
-                        columns: ':not(:nth-last-child(-n + 3))'
-                    }
-                }],
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 20, "searching": false
+            });
+
+            $('#applyFilters').on('click', function (e) {
+                e.preventDefault();
+                applyFilters();
+            });
+
+            $('#clearFilters').on('click', function (e) {
+                e.preventDefault();
+                clearFilters();
+            });
         });
+
+        function applyFilters() {
+            var facilityId = $('#facilityDropdown').val();
+            var contractorId = $('#contractorDropdown').val();
+            var startDateFrom = $('#startDateFrom').val();
+            var startDateTo = $('#startDateTo').val();
+            var taskComplete = $('#taskCompleteCheckbox').is(':checked');
+
+            var inputData = {
+                facilityId: facilityId,
+                contractorId: contractorId,
+                startDateFrom: startDateFrom,
+                startDateTo: startDateTo,
+                taskComplete: taskComplete
+            };
+
+            console.log("Click Works!")
+            console.log("InputData:", inputData)
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Filter", "FacilityProgresses")',
+                data: inputData,
+                success: function (view) {
+                    $('#mainTable').hide();
+                    $('#filteredTable').html(view).show();
+                },
+                error: function (data) {
+                    alert('Error occurred while filtering data.');
+                }
+            });
+        }
+
+        function clearFilters() {
+            $('#filterForm')[0].reset();
+            $('#mainTable').show();
+            $('#filteredTable').html('');
+        }
     </script>
-    
 }
 
 <section class="content-header">
@@ -91,126 +105,151 @@
             <div class="card-header">
                 <h3 class="card-title">@ViewData["Title"] List</h3>
             </div>
+
             <div class="card-body">
+
+                <form id="filterForm" method="get" asp-action="Index">
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-lg-2 mb-2 mb-lg-0">
+                            <label for="facilityDropdown">Facility:</label>
+                            <select id="facilityDropdown" name="facility" class="form-select" asp-items="ViewBag.FcliNmeList">
+                                <option value="">- Select One -</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 col-lg-2 mb-2 mb-lg-0">
+                            <label for="contractorDropdown">Contractor:</label>
+                            <select id="contractorDropdown" name="contractor" class="form-select" asp-items="ViewBag.CntorNmeList">
+                                <option value="">- Select One -</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-lg-2 mb-2 mb-lg-0">
+                            <label for="startDateFrom">Start Date From:</label>
+                            <input type="date" id="startDateFrom" name="startDateFrom" class="form-control">
+                        </div>
+                        <div class="col-md-6 col-lg-2 mb-2 mb-lg-0">
+                            <label for="startDateTo">Start Date To:</label>
+                            <input type="date" id="startDateTo" name="startDateTo" class="form-control">
+                        </div>
+                        <div class="col-md-6 col-lg-2 mb-2 mb-lg-0">
+                            <label for="taskCompleteCheckbox">Task Complete:</label>
+                            <div class="form-check">
+                                <input type="checkbox" id="taskCompleteCheckbox" name="taskComplete" class="form-check-input">
+                                <label class="form-check-label" for="taskCompleteCheckbox">Completed</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-1 mb-2 mb-lg-0">
+                            <label>&nbsp;</label>
+                            <button type="button" id="applyFilters" class="btn btn-primary btn-block">Apply</button>
+                        </div>
+                        <div class="col-md-6 col-lg-1 mb-2 mb-lg-0">
+                            <label>&nbsp;</label>
+                            <button type="reset" id="clearFilters" class="btn btn-secondary btn-block">Clear</button>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FcilNme)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CntorNme)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.WbsId)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.WorkstartDte)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.WorkendDte)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayName("Day(s) Remain")
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.TaskCompleteFlg)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ProgPercent)
-                                    </th>
-                                    
-                                    <th></th>
-                                    <th></th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    var counter = 1;
-                                }
-                                @foreach (var item in Model)
-                                {
+                        <div id="mainTable" class="table-responsive">
+                            <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                                <thead>
                                     <tr>
-                                        <td>@counter</td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FcilCde) |
-                                            @Html.DisplayFor(modelItem => item.FcilNme)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CntorNme)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WbsCde) |
-                                            @Html.DisplayFor(modelItem => item.WbsdCde)
-                                        </td>
-                                        <td>
-                                            @Convert.ToDateTime(item.WorkstartDte).ToString("dd/MM/yyyy")
-                                        </td>
-                                        <td>
-                                            @Convert.ToDateTime(item.WorkendDte).ToString("dd/MM/yyyy")
-                                        </td>
-                                        
-                                        <td>
+                                        <th>Main No</th>
+                                        <th>@Html.DisplayNameFor(model => model.FcilNme)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CntorNme)</th>
+                                        <th>@Html.DisplayNameFor(model => model.WbsId)</th>
+                                        <th>@Html.DisplayNameFor(model => model.WorkstartDte)</th>
+                                        <th>@Html.DisplayNameFor(model => model.WorkendDte)</th>
+                                        <th>@Html.DisplayName("Day(s) Remain")</th>
+                                        <th>@Html.DisplayNameFor(model => model.TaskCompleteFlg)</th>
+                                        <th>@Html.DisplayNameFor(model => model.ProgPercent)</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var counter = 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr data-facility-id="@item.FcilId" data-contractor-id="@item.CntorId">
+                                            <td>@counter</td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FcilCde) |
+                                                @Html.DisplayFor(modelItem => item.FcilNme)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CntorNme)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WbsCde) |
+                                                @Html.DisplayFor(modelItem => item.WbsdCde)
+                                            </td>
+                                            <td>
+                                                @Convert.ToDateTime(item.WorkstartDte).ToString("MM/dd/yyyy")
+                                            </td>
+                                            <td>
+                                                @Convert.ToDateTime(item.WorkendDte).ToString("MM/dd/yyyy")
+                                            </td>
+                                            <td>
                                                 @{
                                                     var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
                                                     if (daysRemain < 0)
                                                     {
-                                                    <span>Overdue by @daysRemain days</span>
+                                                        <span>Overdue by @daysRemain days</span>
                                                     }
                                                     else
                                                     {
-                                                    <span>@daysRemain days</span>
+                                                        <span>@daysRemain days</span>
                                                     }
                                                 }
-                                        </td>
-
-                                        <td>
-                                            @if (item.TaskCompleteFlg)
-                                            {
-                                                <span>Yes</span>
-                                            }
-                                            else
-                                            {
-                                                <span>No</span>
-                                            }
-                                        </td>
-
-                                        <td>
-                                            <div class="progress mb-3" style="background-color: #6c757d;">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="@item.ProgPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.ProgPercent%; background-color: #047cfb;">
-                                                    @item.ProgPercent%
+                                            </td>
+                                            <td>
+                                                @(item.TaskCompleteFlg? "Yes" : "No")             
+                                            </td>
+                                            <td>
+                                                <div class="progress mb-3" style="background-color: #6c757d;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@item.ProgPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.ProgPercent%; background-color: #047cfb;">
+                                                        @item.ProgPercent%
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a asp-action="Edit" asp-route-id="@item.ProgId">
+                                                    <button type="button" class="btn btn-primary btn-sm" style="display: flex; align-items: center;">
+                                                        Update <i class="fas fa-edit" style="margin-left: 5px;"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a asp-action="Details" asp-route-id="@item.ProgId">
+                                                    <button type="button" class="btn btn-secondary btn-sm" style="display: flex; align-items: center;">
+                                                        View <i class="far fa-images" style="margin-left: 5px;"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        counter++;
+                                    }
+                                </tbody>
 
-                                        <td style="text-align: center">
-                                            <a asp-action="Edit" asp-route-id="@item.ProgId">
-                                                <button type="button" class="btn btn-primary btn-sm" style="display: flex; align-items: center;">
-                                                    Update <i class="fas fa-edit" style="margin-left: 5px;"></i>
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td style="text-align: center">
-                                            <a asp-action="Details" asp-route-id="@item.ProgId">
-                                                <button type="button" class="btn btn-secondary btn-sm" style="display: flex; align-items: center;">
-                                                    View <i class="far fa-images" style="margin-left: 5px;"></i>
-                                                </button>
-                                            </a>
-                                        </td>
-                                        
-                                    </tr>
-                                    counter++;
-                                }
-                            </tbody>
-                        </table>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div id="filteredTable" class="table-responsive">
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-

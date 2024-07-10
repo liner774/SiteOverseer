@@ -24,6 +24,10 @@ namespace SiteOverseer.Data
         public DbSet<FacilityProgressDocument> PMS_Facilityprogressdocument { get; set; }
         public DbSet<FacilityTranLog> PMS_Facilitytranlog { get; set; }
         public DbSet<ProgressPayment> MS_Progresspayment { get; set; }
+        public DbSet<FacilityProgressImage> FacilityProgressImages { get; set; }
+        public DbSet<FacilityProgressHistory> FacilityProgressHistory { get; set; }
+
+
 
 
 

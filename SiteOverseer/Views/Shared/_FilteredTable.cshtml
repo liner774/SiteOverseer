@@ -1,0 +1,133 @@
+﻿@model IEnumerable<SiteOverseer.Models.FacilityProgress>
+
+@section links {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section scripts
+{
+    <!-- DataTables & Plugins -->
+    <script src="~/lib/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 20, "searching": false
+            });
+        });
+    </script>
+}
+
+@if (Model != null && Model.Any())
+{
+
+    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+        <thead>
+            <tr>
+                <th>Filtered No</th>
+                <th>@Html.DisplayNameFor(model => model.FcilNme)</th>
+                <th>@Html.DisplayNameFor(model => model.CntorNme)</th>
+                <th>@Html.DisplayNameFor(model => model.WbsId)</th>
+                <th>@Html.DisplayNameFor(model => model.WorkstartDte)</th>
+                <th>@Html.DisplayNameFor(model => model.WorkendDte)</th>
+                <th>@Html.DisplayName("Day(s) Remain")</th>
+                <th>@Html.DisplayNameFor(model => model.TaskCompleteFlg)</th>
+                <th>@Html.DisplayNameFor(model => model.ProgPercent)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var counter = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FcilCde) |
+                        @Html.DisplayFor(modelItem => item.FcilNme)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CntorNme)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WbsCde) |
+                        @Html.DisplayFor(modelItem => item.WbsdCde)
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.WorkstartDte).ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.WorkendDte).ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @{
+                            var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
+                            if (daysRemain < 0)
+                            {
+                                <span>Overdue by @daysRemain days</span>
+                            }
+                            else
+                            {
+                                <span>@daysRemain days</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (item.TaskCompleteFlg)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="progress mb-3" style="background-color: #6c757d;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="@item.ProgPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.ProgPercent%; background-color: #047cfb;">
+                                @item.ProgPercent%
+                            </div>
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <a asp-action="Edit" asp-route-id="@item.ProgId">
+                            <button type="button" class="btn btn-primary btn-sm" style="display: flex; align-items: center;">
+                                Update <i class="fas fa-edit" style="margin-left: 5px;"></i>
+                            </button>
+                        </a>
+                    </td>
+                    <td style="text-align: center">
+                        <a asp-action="Details" asp-route-id="@item.ProgId">
+                            <button type="button" class="btn btn-secondary btn-sm" style="display: flex; align-items: center;">
+                                View <i class="far fa-images" style="margin-left: 5px;"></i>
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <p>No results found for the given filters.</p>
+}

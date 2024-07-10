@@ -5,7 +5,6 @@
 }
 @section scripts
 {
-    
     <script>
         document.getElementById('imageUpload').addEventListener('change', function (event) {
             const files = event.target.files;
@@ -21,11 +20,41 @@
                     return;
                 }
 
-                if (file.size > 1048576) {
-                    imageError.textContent = 'Each image must be under 1 MB.';
+                if (file.size > 524288) {
+                    imageError.textContent = 'Each image must be under 500 KB.';
                     event.target.value = '';
                     return;
                 }
+            }
+
+            const uploadedImagesContainer = document.getElementById('uploadedImagesContainer');
+            uploadedImagesContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imgElement = document.createElement('img');
+                    imgElement.className = 'img-thumbnail';
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = '100%';
+                    imgElement.style.objectFit = 'cover';
+                    imgElement.src = e.target.result;
+
+                    const divElement = document.createElement('div');
+                    divElement.className = 'col-md-4';
+                    divElement.style.borderRadius = '10px';
+                    divElement.style.padding = '5px';
+                    divElement.style.maxWidth = '200px';
+                    divElement.style.maxHeight = '200px';
+                    divElement.style.overflow = 'hidden';
+                    divElement.appendChild(imgElement);
+
+                    uploadedImagesContainer.appendChild(divElement);
+                };
+
+                reader.readAsDataURL(file);
             }
 
             const fileNames = Array.from(files).map(file => file.name).join(', ');
@@ -84,10 +113,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="imageUpload">Select Image(s)</label>
+                                <label for="imageUpload" class="d-flex justify-content-between align-items-center">
+                                    <span>Select Image(s)</span>
+                                    <span class="text-primary" style="font-size: 14px;">Note: Each image size must be smaller than 500 KB</span>
+                                </label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="imageUpload" name="images" accept="image/*" multiple />
-                                    <label class="custom-file-label" for="imageUpload">Choose files</label>
+                                    <label class="custom-file-label" for="imageUpload">Choose file(s)</label>
                                 </div>
                                 <div id="imageError" class="text-danger mt-2"></div>
                             </div>
@@ -102,6 +134,12 @@
                                 <input type="submit" value="Create" class="btn btn-primary" />
                             </div>
                         </form>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Selected Image(s)</label>
+                        <div class="row" id="uploadedImagesContainer">
+
+                        </div>
                     </div>
                 </div>
             </div>

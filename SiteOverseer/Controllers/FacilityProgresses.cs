@@ -45,11 +45,73 @@ namespace SiteOverseer.Controllers
                 prog.TaskCompleteFlg = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.TaskCompleteFlg).FirstOrDefault();
             }
 
+            ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
+            ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
+
             return View(progList);
+
 
 
         }
 
+        [HttpPost]
+        public IActionResult Filter(int? facilityId, int? contractorId, DateTime? startDateFrom, DateTime? startDateTo, bool taskComplete)
+        {
+            var facilityProgresses = _context.PMS_Facilityprogress
+                .Join(_context.MS_Facilitytask,
+                fp => fp.FcilTskId,
+                ft => ft.FciltskId,
+                (fp, ft) => new { fp, ft })
+                .AsQueryable();
+
+            if (facilityId.HasValue)
+            {
+                facilityProgresses = facilityProgresses.Where(f => f.ft.FcilId == facilityId.Value);
+            }
+
+            if (contractorId.HasValue)
+            {
+                facilityProgresses = facilityProgresses.Where(f => f.ft.CntorId == contractorId.Value);
+            }
+
+            if (startDateFrom.HasValue)
+            {
+                facilityProgresses = facilityProgresses.Where(f => f.ft.WorkstartDte >= startDateFrom.Value);
+            }
+
+            if (startDateTo.HasValue)
+            {
+                facilityProgresses = facilityProgresses.Where(f => f.ft.WorkstartDte <= startDateTo.Value);
+            }
+
+            if (taskComplete)
+            {
+                facilityProgresses = facilityProgresses.Where(f => f.ft.TaskCompleteFlg == taskComplete);
+            }
+
+            var progList = facilityProgresses
+                .Select( f => f.fp)
+                .ToList();
+
+            foreach (var prog in progList)
+            {
+                prog.FcilId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.FcilId).FirstOrDefault();
+                prog.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
+                prog.FcilCde = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilCde).FirstOrDefault();
+                prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
+                prog.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == prog.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
+                prog.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
+                prog.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
+                prog.WbsId = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsId).FirstOrDefault();
+                prog.WbsCde = _context.MS_Wbs.Where(gp => gp.WbsId == prog.WbsId).Select(gp => gp.WbsCde).FirstOrDefault();
+                prog.WorkstartDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkstartDte).FirstOrDefault();
+                prog.WorkendDte = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WorkendDte).FirstOrDefault();
+                prog.Budget = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.Budget).FirstOrDefault();
+                prog.TaskCompleteFlg = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.TaskCompleteFlg).FirstOrDefault();
+            }
+
+            return PartialView("_FilteredTable", progList);
+        }
 
         public async Task<IActionResult> Details(long? id)
         {
@@ -175,6 +237,7 @@ namespace SiteOverseer.Controllers
             facilityProgress.FU_Id = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.UserId).FirstOrDefault();
             facilityProgress.FCompany = _context.MS_Company.Where(gp => gp.CmpyId == facilityProgress.FC_Id).Select(gp => gp.CmpyNme).FirstOrDefault();
             facilityProgress.FUser = _context.MS_User.Where(gp => gp.UserId == facilityProgress.FU_Id).Select(gp => gp.UserNme).FirstOrDefault();
+
             #endregion
 
 
@@ -182,6 +245,8 @@ namespace SiteOverseer.Controllers
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
             ViewData["WbsDtlList"] = new SelectList(_context.MS_Wbsdetail.Where(d => d.WbsId == facilityProgress.WbsId).ToList(), "WbsdId", "WbsdCde");
+            ViewData["PayList"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
+
             return View(facilityProgress);
         }
 

@@ -98,12 +98,15 @@
         </div>
 
         <div class="form-group row">
-            <label asp-for="ProgpayId" class="col-sm-3 col-form-label control-label"></label>
+            <label asp-for="ProgpayId" class="col-sm-3 col-form-label control-label">Progress Payment</label>
             <div class="col-sm-9">
-                <input asp-for="ProgpayId" class="form-control" />
+                <select asp-for="ProgpayId" class="form-select" asp-items="@ViewBag.PayList">
+                    <option value="">- Select One -</option>
+                </select>
                 <span asp-validation-for="ProgpayId" class="text-danger"></span>
             </div>
         </div>
+
 
         <div class="form-group row">
             <label asp-for="AllowSubmitExpense" class="col-sm-3 col-form-label control-label">Submit Expense</label>
