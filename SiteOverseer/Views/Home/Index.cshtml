@@ -1,8 +1,291 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@section scripts {
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Bar Chart
+        var ctx = document.getElementById('progressChart').getContext('2d');
+        var progressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Facility 1', 'Facility 2', 'Facility 3', 'Facility 4', 'Facility 5'],
+                datasets: [{
+                    label: 'Progress Percent',
+                    data: [80, 60, 45, 90, 75],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio:false,
+                plugins: {
+                    tooltip: {
+                        titleFont: { weight: 'bold' },
+                        bodyFont: { weight: 'bold' }
+                    },
+                    legend: { labels: { font: { weight: 'bold' } } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Progress Percent', font: { weight: 'bold' } },
+                        ticks: { font: { weight: 'bold' } }
+                    },
+                    x: {
+                        title: { display: true, text: 'Facilities', font: { weight: 'bold' } },
+                        ticks: { font: { weight: 'bold' } }
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTasks(); // Load tasks from localStorage
+            document.getElementById('addNewTaskBtn').addEventListener('click', addNewTask);
+        });
+
+        function moveTask() {
+            var item = this;
+            if (item.parentElement.id === 'todo-list') {
+                document.getElementById('inprogress-list').appendChild(item.parentElement.removeChild(item));
+            } else if (item.parentElement.id === 'inprogress-list') {
+                document.getElementById('finished-list').appendChild(item.parentElement.removeChild(item));
+            }
+            saveTasks(); // Save tasks after move
+        }
+
+        function addNewTask() {
+            var newTaskInput = document.getElementById('newTaskInput').value.trim();
+            if (newTaskInput !== '') {
+                var newTaskElement = document.createElement('p');
+                newTaskElement.classList.add('movable');
+                newTaskElement.textContent = newTaskInput;
+                newTaskElement.addEventListener('click', moveTask); 
+                document.getElementById('todo-list').appendChild(newTaskElement);
+                document.getElementById('newTaskInput').value = ''; 
+                saveTasks(); 
+            }
+        }
+
+        // Delete task
+        document.getElementById('finished-list').addEventListener('click', event => {
+            if (event.target && event.target.nodeName == 'P') {
+                event.target.remove();
+                saveTasks(); 
+            }
+        });
+
+        // Clear all tasks
+        document.getElementById('clearFinished').addEventListener('click', () => {
+            document.getElementById('finished-list').innerHTML = '';
+            saveTasks();
+        });
+
+        // Toggle new task
+        document.getElementById('toggleNewTaskForm').addEventListener('click', () => {
+            var newTaskForm = document.getElementById('newTaskForm');
+            newTaskForm.style.display = newTaskForm.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Function to save tasks to localStorage
+        function saveTasks() {
+            var todoTasks = document.getElementById('todo-list').innerHTML;
+            var inprogressTasks = document.getElementById('inprogress-list').innerHTML;
+            var finishedTasks = document.getElementById('finished-list').innerHTML;
+            localStorage.setItem('todoTasks', todoTasks);
+            localStorage.setItem('inprogressTasks', inprogressTasks);
+            localStorage.setItem('finishedTasks', finishedTasks);
+        }
+
+        // Function to load tasks from localStorage
+        function loadTasks() {
+            var todoTasks = localStorage.getItem('todoTasks');
+            var inprogressTasks = localStorage.getItem('inprogressTasks');
+            var finishedTasks = localStorage.getItem('finishedTasks');
+            if (todoTasks) {
+                document.getElementById('todo-list').innerHTML = todoTasks;
+                document.querySelectorAll('#todo-list .movable').forEach(item => {
+                    item.addEventListener('click', moveTask);
+                });
+            }
+            if (inprogressTasks) {
+                document.getElementById('inprogress-list').innerHTML = inprogressTasks;
+                document.querySelectorAll('#inprogress-list .movable').forEach(item => {
+                    item.addEventListener('click', moveTask);
+                });
+            }
+            if (finishedTasks) {
+                document.getElementById('finished-list').innerHTML = finishedTasks;
+                document.querySelectorAll('#finished-list .movable').forEach(item => {
+                    item.addEventListener('click', moveTask);
+                });
+            }
+        }
+    </script>
+
+    <style>
+        .movable {
+            cursor: pointer;
+        }
+
+            .movable:hover {
+                background-color: #f0f0f0;
+            }
+    </style>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mt-3">
+    <!-- Bar Chart -->
+    <div class="col-lg-8 col-md-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Progress Percent
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" style="display: block; height: 400px;">
+                <canvas id="progressChart" width="800" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deadlines -->
+    <div class="col-lg-4 col-md-12">
+        <div class="card card-secondary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fa-clock"></i>
+                    Deadlines
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" style="display: block; height: 400px; overflow-y: auto;">
+                <div class="progress-group">
+                    Facility 1
+                    <span class="float-right"><b>5</b> days left out of 10</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 50%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-group">
+                    Facility 2
+                    <span class="float-right"><b>8</b> days left out of 15</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 53%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-group">
+                    Facility 3
+                    <span class="float-right"><b>3</b> days left out of 7</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 43%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-group">
+                    Facility 4
+                    <span class="float-right"><b>10</b> days left out of 12</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 83%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-group">
+                    Facility 5
+                    <span class="float-right"><b>15</b> days left out of 20</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- To Do, In Progress, Finished Sections -->
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="card card-secondary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-tasks"></i>
+                    To Do
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" id="toggleNewTaskForm">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="todo-list">
+                <!-- New task form (hidden initially) -->
+                <div id="newTaskForm" style="display: none;">
+                    <div class="input-group mb-3">
+                        <input type="text" id="newTaskInput" class="form-control" placeholder="Add new task...">
+                        <button class="btn btn-primary" type="button" id="addNewTaskBtn">Add</button>
+                    </div>
+                </div>
+                <!-- Added Tasks -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-spinner"></i>
+                    In Progress
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="inprogress-list">
+                <!-- Added Tasks -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12">
+        <div class="card card-secondary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-check-circle"></i>
+                    Finished
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" id="clearFinished">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="finished-list">
+                <!-- Added Tasks -->
+            </div>
+        </div>
+    </div>
 </div>
