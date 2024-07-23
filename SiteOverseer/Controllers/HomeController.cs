@@ -26,6 +26,7 @@ namespace SiteOverseer.Controllers
             var progressData = (from p in _context.PMS_Facilityprogress
                                 join ft in _context.MS_Facilitytask on p.FcilTskId equals ft.FciltskId
                                 join f in _context.MS_Facility on ft.FcilId equals f.FcilId
+                                orderby ft.WorkendDte descending
                                 select new
                                 {
                                     progPercent = p.ProgPercent,
@@ -34,7 +35,7 @@ namespace SiteOverseer.Controllers
                                     fcilnme = f.FcilNme,
                                     workendDte = ft.WorkendDte,
                                     workstartDte = ft.WorkstartDte
-                                }).ToList();
+                                }).Take(5).ToList();
 
             return View(progressData);
         }

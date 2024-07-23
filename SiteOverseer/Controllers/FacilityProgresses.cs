@@ -33,7 +33,7 @@ namespace SiteOverseer.Controllers
                 prog.FcilId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.FcilId).FirstOrDefault();
                 prog.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
                 prog.FcilCde = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilCde).FirstOrDefault();
-                prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
+                prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault() ?? 0;
                 prog.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == prog.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
                 prog.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
                 prog.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
@@ -98,7 +98,7 @@ namespace SiteOverseer.Controllers
                 prog.FcilId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.FcilId).FirstOrDefault();
                 prog.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
                 prog.FcilCde = _context.MS_Facility.Where(gp => gp.FcilId == prog.FcilId).Select(gp => gp.FcilCde).FirstOrDefault();
-                prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
+                prog.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault() ?? 0;
                 prog.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == prog.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
                 prog.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == prog.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
                 prog.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == prog.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
@@ -141,11 +141,27 @@ namespace SiteOverseer.Controllers
         public IActionResult Create()
         {
             SetLayOutData();
-           
-            ViewData["FciltskidList"] = new SelectList(_context.MS_Facilitytask.ToList(), "FciltskId","FciltskId");
+
+            var facilityTaskList = (from ft in _context.MS_Facilitytask
+                                    join f in _context.MS_Facility on ft.FcilId equals f.FcilId
+                                    select new
+                                    {
+                                        FciltskId = ft.FciltskId,
+                                        FcilCde = f.FcilCde,
+                                        FcilNme = f.FcilNme
+                                    }).ToList();
+
+            var selectList = facilityTaskList.Select(ft => new
+            {
+                FciltskId = ft.FciltskId,
+                Display = $"{ft.FcilCde} | {ft.FcilNme}"
+            }).ToList();
+
+            ViewBag.FciltskidList = new SelectList(selectList, "FciltskId", "Display");
 
             return View();
         }
+
 
 
         [HttpPost]
@@ -221,7 +237,7 @@ namespace SiteOverseer.Controllers
             facilityProgress.FcilId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.FcilId).FirstOrDefault();
             facilityProgress.FcilNme = _context.MS_Facility.Where(gp => gp.FcilId == facilityProgress.FcilId).Select(gp => gp.FcilNme).FirstOrDefault();
             facilityProgress.FcilCde = _context.MS_Facility.Where(gp => gp.FcilId == facilityProgress.FcilId).Select(gp => gp.FcilCde).FirstOrDefault();
-            facilityProgress.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault();
+            facilityProgress.CntorId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.CntorId).FirstOrDefault() ?? 0;
             facilityProgress.CntorNme = _context.MS_Contractor.Where(gp => gp.CntorId == facilityProgress.CntorId).Select(gp => gp.CntorNme).FirstOrDefault();
             facilityProgress.WbsdId = _context.MS_Facilitytask.Where(gp => gp.FciltskId == facilityProgress.FcilTskId).Select(gp => gp.WbsdId).FirstOrDefault();
             facilityProgress.WbsdCde = _context.MS_Wbsdetail.Where(gp => gp.WbsdId == facilityProgress.WbsdId).Select(gp => gp.WbsdCde).FirstOrDefault();
@@ -371,9 +387,10 @@ namespace SiteOverseer.Controllers
                     }
                 }
 
-                // Update facility task
-                var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
                 
+                    // Update facility task
+                    var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
+
                     facilityTask.FcilId = facilityProgress.FcilId;
                     facilityTask.WbsdId = facilityProgress.WbsdId;
                     facilityTask.Budget = facilityProgress.Budget;
@@ -386,18 +403,25 @@ namespace SiteOverseer.Controllers
                     facilityTask.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
                     facilityTask.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
                     facilityTask.Remark = facilityProgress.Remark;
+                    
 
 
                     _context.Update(facilityTask);
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                
+                
                 
 
                 return RedirectToAction(nameof(Index));
             }
-
+            var facilityProg = await _context.PMS_Facilityprogress
+                .Include(fp => fp.Images)
+                .FirstOrDefaultAsync(fp => fp.ProgId == id);
+            facilityProgress.Images = facilityProg.Images;
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
+            ViewData["PayList"] = new SelectList(_context.MS_Progresspayment.ToList(),"Progpayid", "Currcde");
             return View(facilityProgress);
         }
 

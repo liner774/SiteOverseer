@@ -10,7 +10,6 @@ namespace SiteOverseer.Models
         [DisplayName("Progress ID")]
         public long ProgId { get; set; }
         [DisplayName("Facility Task ID")]
-        [Required(ErrorMessage = "Please choose Facility")]
         public int? FcilTskId { get; set; }
         [DisplayName("Progress Percent")]
         [Required(ErrorMessage = "Please select Progress Percent")]
@@ -35,6 +34,8 @@ namespace SiteOverseer.Models
         //Custom
      
         [NotMapped]
+
+        [Required(ErrorMessage = "Please choose Facility")]
         public int? FcilId { get; set; }
         [NotMapped]
         [DisplayName("Facility")]
@@ -43,6 +44,8 @@ namespace SiteOverseer.Models
         public string? FcilCde { get; set; }
 
         [NotMapped]
+
+        [Required(ErrorMessage = "Please choose WBS Detail")]
         public int? WbsdId { get; set; }
         [NotMapped]
         [DisplayName("WBS")]
@@ -53,9 +56,11 @@ namespace SiteOverseer.Models
         public string? WbsdCde { get; set; }
 
         [NotMapped]
+        [Required(ErrorMessage = "Please choose Contractor")]
         public int? CntorId { get; set; }
         [NotMapped]
         [DisplayName("Contractor")]
+        [Required(ErrorMessage = "Please choose Contractor")]
         public string? CntorNme { get; set; }
 
         [NotMapped]
@@ -99,6 +104,8 @@ namespace SiteOverseer.Models
         public decimal? AwardedValue { get; set; }
         [NotMapped]
         [DisplayName("Progress Payment")]
+
+        [Required(ErrorMessage = "Please choose Progress Payment")]
         public int? ProgpayId { get; set; }
         [NotMapped]
         [DisplayName("Allow Submit Expense")]
