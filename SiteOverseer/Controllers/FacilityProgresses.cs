@@ -168,6 +168,11 @@ namespace SiteOverseer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(FacilityProgress facilityProgress, List<IFormFile> images)
         {
+            ModelState.Remove("ProgpayId");
+            ModelState.Remove("CntorNme");
+            ModelState.Remove("CntorId");
+            ModelState.Remove("WbsdId");
+            ModelState.Remove("FcilId");
             if (ModelState.IsValid)
             {
                 try

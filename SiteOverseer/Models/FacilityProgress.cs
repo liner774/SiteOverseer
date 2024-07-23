@@ -14,6 +14,7 @@ namespace SiteOverseer.Models
         [DisplayName("Progress Percent")]
         [Required(ErrorMessage = "Please select Progress Percent")]
         public short? ProgPercent { get; set; }
+        [Required(ErrorMessage = "Please select Submitted Date")]
         [DisplayName("Submitted Date")]
         public DateTime? SubmitDte { get; set; }
         public double? Longitude { get; set; }

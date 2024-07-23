@@ -93,12 +93,12 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             
                             <div class="form-group row">
-                                <label asp-for="FcilId" class=" col-form-label control-label">Facility Progress</label>
+                                <label asp-for="FcilTskId" class=" col-form-label control-label">Facility Progress</label>
                                 <div >
-                                    <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FciltskidList">
+                                    <select asp-for="FcilTskId" class="form-select" asp-items="@ViewBag.FciltskidList">
                                         <option value="">- Select One -</option>
                                     </select>
-                                    <span asp-validation-for="FcilId" class="text-danger"></span>
+                                    <span asp-validation-for="FcilTskId" class="text-danger"></span>
                                 </div>
                             </div>
 
