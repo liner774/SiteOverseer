@@ -90,7 +90,7 @@ namespace SiteOverseer.Controllers
             }
 
             var progList = facilityProgresses
-                .Select( f => f.fp)
+                .Select(f => f.fp)
                 .ToList();
 
             foreach (var prog in progList)
@@ -218,7 +218,23 @@ namespace SiteOverseer.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            
+            SetLayOutData();
+            var facilityTaskList = (from ft in _context.MS_Facilitytask
+                                    join f in _context.MS_Facility on ft.FcilId equals f.FcilId
+                                    select new
+                                    {
+                                        FciltskId = ft.FciltskId,
+                                        FcilCde = f.FcilCde,
+                                        FcilNme = f.FcilNme
+                                    }).ToList();
+
+            var selectList = facilityTaskList.Select(ft => new
+            {
+                FciltskId = ft.FciltskId,
+                Display = $"{ft.FcilCde} | {ft.FcilNme}"
+            }).ToList();
+            ViewBag.FciltskidList = new SelectList(selectList, "FciltskId", "Display");
+
             return View(facilityProgress);
         }
 
@@ -387,30 +403,30 @@ namespace SiteOverseer.Controllers
                     }
                 }
 
-                
-                    // Update facility task
-                    var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
 
-                    facilityTask.FcilId = facilityProgress.FcilId;
-                    facilityTask.WbsdId = facilityProgress.WbsdId;
-                    facilityTask.Budget = facilityProgress.Budget;
-                    facilityTask.CntorId = facilityProgress.CntorId;
-                    facilityTask.SelectionTyp = facilityProgress.SelectionTyp;
-                    facilityTask.WorkstartDte = facilityProgress.WorkstartDte;
-                    facilityTask.WorkendDte = facilityProgress.WorkendDte;
-                    facilityTask.AwardedValue = facilityProgress.AwardedValue;
-                    facilityTask.ProgpayId = facilityProgress.ProgpayId;
-                    facilityTask.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
-                    facilityTask.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
-                    facilityTask.Remark = facilityProgress.Remark;
-                    
+                // Update facility task
+                var facilityTask = await _context.MS_Facilitytask.FirstOrDefaultAsync(ft => ft.FciltskId == facilityProgress.FcilTskId);
+
+                facilityTask.FcilId = facilityProgress.FcilId;
+                facilityTask.WbsdId = facilityProgress.WbsdId;
+                facilityTask.Budget = facilityProgress.Budget;
+                facilityTask.CntorId = facilityProgress.CntorId;
+                facilityTask.SelectionTyp = facilityProgress.SelectionTyp;
+                facilityTask.WorkstartDte = facilityProgress.WorkstartDte;
+                facilityTask.WorkendDte = facilityProgress.WorkendDte;
+                facilityTask.AwardedValue = facilityProgress.AwardedValue;
+                facilityTask.ProgpayId = facilityProgress.ProgpayId;
+                facilityTask.AllowSubmitExpense = facilityProgress.AllowSubmitExpense;
+                facilityTask.TaskCompleteFlg = facilityProgress.TaskCompleteFlg;
+                facilityTask.Remark = facilityProgress.Remark;
 
 
-                    _context.Update(facilityTask);
-                    await _context.SaveChangesAsync();
-                
-                
-                
+
+                _context.Update(facilityTask);
+                await _context.SaveChangesAsync();
+
+
+
 
                 return RedirectToAction(nameof(Index));
             }
@@ -421,7 +437,7 @@ namespace SiteOverseer.Controllers
             ViewData["FcliNmeList"] = new SelectList(_context.MS_Facility.ToList(), "FcilId", "FcilNme");
             ViewData["CntorNmeList"] = new SelectList(_context.MS_Contractor.ToList(), "CntorId", "CntorNme");
             ViewData["WbsCdeList"] = new SelectList(_context.MS_Wbs.ToList(), "WbsId", "WbsCde");
-            ViewData["PayList"] = new SelectList(_context.MS_Progresspayment.ToList(),"Progpayid", "Currcde");
+            ViewData["PayList"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(facilityProgress);
         }
 

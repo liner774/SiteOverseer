@@ -17,7 +17,7 @@
 
                 // Clear existing options
                 wbsDetailDropdown.innerHTML = '<option value="">- Select One -</option>';
-  
+
                 // Fetch WBS Details based on selected WBS Code
                 fetch(`/FacilityTasks/GetWbsDetails?wbsId=${selectedWbsId}`)
                     .then(response => response.json())
@@ -32,7 +32,7 @@
             });
         });
     </script>
-   
+
 }
 
 <section class="content-header">
@@ -59,15 +59,15 @@
             </div>
             <div class="card-body">
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <form asp-action="Edit">
+
+                <form asp-action="Edit">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="FciltskId" />
                             <div class="form-group">
                                 <label asp-for="FcilId" class="control-label">Facility</label>
-
-                                <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FcliNmeList">
+                                <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FcliNmeList" disabled>
                                     <option value="">- Select One -</option>
 
                                 </select>
@@ -92,7 +92,6 @@
                                         <span asp-validation-for="WbsdId" class="text-danger"></span>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="form-group">
                                 <label asp-for="Budget" class="control-label"></label>
@@ -108,20 +107,23 @@
                                 </select>
                                 <span asp-validation-for="CntorId" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="SelectionTyp" class="control-label"></label>
-                                <input asp-for="SelectionTyp" class="form-control" />
-                                <span asp-validation-for="SelectionTyp" class="text-danger"></span>
-                            </div>
+
                             <div class="form-group">
                                 <label asp-for="WorkstartDte" class="control-label"></label>
-                                <input asp-for="WorkstartDte" class="form-control" type="date"/>
+                                <input asp-for="WorkstartDte" class="form-control" type="date" />
                                 <span asp-validation-for="WorkstartDte" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="WorkendDte" class="control-label"></label>
-                                <input asp-for="WorkendDte" class="form-control" type="date"/>
+                                <input asp-for="WorkendDte" class="form-control" type="date" />
                                 <span asp-validation-for="WorkendDte" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="SelectionTyp" class="control-label"></label>
+                                <input asp-for="SelectionTyp" class="form-control" />
+                                <span asp-validation-for="SelectionTyp" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="AwardedValue" class="control-label"></label>
@@ -139,19 +141,21 @@
                                 <label class="form-check-label">
                                     <input class="form-check-input" asp-for="AllowSubmitExpense" /> @Html.DisplayNameFor(model => model.AllowSubmitExpense)
                                 </label>
-                            </div>                           
+                            </div>
                             <div class="form-group">
                                 <label asp-for="Remark" class="control-label"></label>
-                                <input asp-for="Remark" class="form-control" />
+                                <textarea asp-for="Remark" class="form-control"></textarea>
                                 <span asp-validation-for="Remark" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </div>
-                        </form>
+
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
                     </div>
-                </div>
+                </form>
+
             </div>
         </div>
     </div>

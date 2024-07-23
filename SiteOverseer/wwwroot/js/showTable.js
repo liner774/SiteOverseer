@@ -27,7 +27,7 @@ function addWBSCodes() {
     };
 
     // Create new row
-    const $newRow = $('<tr>').css({ 'color': '#31849B', 'font-size': '14px', 'text-align': 'center' });
+    const $newRow = $('<tr>').css({ 'color': '#31849B', 'font-size': '18px', 'text-align': 'center' });
 
     // Input WBSCode
     const $inputWBSCode = $('<input>').css(leftColumnStyles);
@@ -84,7 +84,7 @@ function editWBSCodes(wbsId) {
             list.forEach(function (item) {
                 const newRow = $('<tr>').css({
                     'color': '#31849B',
-                    'font-size': '14px',
+                    'font-size': '18px',
                     'text-align': 'center'
                 });
 

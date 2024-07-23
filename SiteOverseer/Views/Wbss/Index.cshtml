@@ -128,8 +128,8 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.WbsdCde)
                                     </th>
-                                   
-                                    
+
+
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -148,11 +148,13 @@
                                             @Html.DisplayFor(modelItem => item.WbsCde)
                                         </td>
 
-                                        <td>
-                                            <a type="button" style="color: #31849B" onclick="editWBSCodes('@item.WbsId')">...</a>
+                                        <td class="text-center">
+                                            <a class="text-primary" onclick="editWBSCodes('@item.WbsId')">
+                                                <i class="fas fa-ellipsis-h" style="cursor: pointer"></i>
+                                            </a>
                                         </td>
                                         <td style="text-align: center">
-                                            <a asp-action="Details" asp-route-id="@item.WbsId"><i class="fas fa-info-circle"></i></a>
+                                            <a asp-action="Details" asp-route-id="@item.WbsId"><i class="fas fa-info-circle" ></i></a>
                                         </td>
                                         <td style="text-align: center">
                                             <a asp-action="Edit" asp-route-id="@item.WbsId"><i class="fas fa-edit"></i></a>

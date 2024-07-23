@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Facility Task";
 }
- 
+
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -32,7 +32,7 @@
     </script>
 }
 
- 
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -58,13 +58,12 @@
             </div>
             <div class="card-body">
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <form asp-action="Create">
+                <form asp-action="Create">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="FcilId" class="control-label">Facility</label>
-
                                 <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FcliNmeList">
                                     <option value="">- Select One -</option>
 
@@ -84,14 +83,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="WbsdId" class="control-label">WBS Detail:</label>
-                                        <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown"> 
+                                        <select asp-for="WbsdId" class="form-select" id="wbsDetailDropdown">
                                             <option value="">- Select One -</option>
                                         </select>
                                         <span asp-validation-for="WbsdId" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label asp-for="Budget" class="control-label"></label>
                                 <input asp-for="Budget" class="form-control" />
@@ -106,20 +104,23 @@
                                 </select>
                                 <span asp-validation-for="CntorId" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="SelectionTyp" class="control-label"></label>
-                                <input asp-for="SelectionTyp" class="form-control" />
-                                <span asp-validation-for="SelectionTyp" class="text-danger"></span>
-                            </div>
+                            
                             <div class="form-group">
                                 <label asp-for="WorkstartDte" class="control-label"></label>
-                                <input asp-for="WorkstartDte" class="form-control" type="date"/>
+                                <input asp-for="WorkstartDte" class="form-control" type="date" />
                                 <span asp-validation-for="WorkstartDte" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="WorkendDte" class="control-label"></label>
-                                <input asp-for="WorkendDte" class="form-control" type="date"/>
+                                <input asp-for="WorkendDte" class="form-control" type="date" />
                                 <span asp-validation-for="WorkendDte" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="SelectionTyp" class="control-label"></label>
+                                <input asp-for="SelectionTyp" class="form-control" />
+                                <span asp-validation-for="SelectionTyp" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="AwardedValue" class="control-label"></label>
@@ -137,19 +138,20 @@
                                 <label class="form-check-label">
                                     <input class="form-check-input" asp-for="AllowSubmitExpense" /> @Html.DisplayNameFor(model => model.AllowSubmitExpense)
                                 </label>
-                            </div>                         
+                            </div>
                             <div class="form-group">
                                 <label asp-for="Remark" class="control-label"></label>
-                                <input asp-for="Remark" class="form-control" />
+                                <textarea asp-for="Remark" class="form-control"></textarea>
                                 <span asp-validation-for="Remark" class="text-danger"></span>
                             </div>
-                            
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                            </div>
-                        </form>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
                     </div>
-                </div>
+                </form>
+
+
             </div>
         </div>
     </div>
