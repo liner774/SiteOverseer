@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SiteOverseer.Data;
 using SiteOverseer.Models;
@@ -21,8 +22,23 @@ namespace SiteOverseer.Controllers
         public IActionResult Index()
         {
             SetLayOutData();
-            return View();
+
+            var progressData = (from p in _context.PMS_Facilityprogress
+                                join ft in _context.MS_Facilitytask on p.FcilTskId equals ft.FciltskId
+                                join f in _context.MS_Facility on ft.FcilId equals f.FcilId
+                                select new
+                                {
+                                    progPercent = p.ProgPercent,
+                                    fciltskId = p.FcilTskId,
+                                    fcilId = ft.FcilId,
+                                    fcilnme = f.FcilNme,
+                                    workendDte = ft.WorkendDte,
+                                    workstartDte = ft.WorkstartDte
+                                }).ToList();
+
+            return View(progressData);
         }
+
 
         public IActionResult Privacy()
         {

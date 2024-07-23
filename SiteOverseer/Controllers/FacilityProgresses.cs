@@ -141,6 +141,8 @@ namespace SiteOverseer.Controllers
         public IActionResult Create()
         {
             SetLayOutData();
+           
+            ViewData["FciltskidList"] = new SelectList(_context.MS_Facilitytask.ToList(), "FciltskId","FciltskId");
 
             return View();
         }
@@ -199,6 +201,8 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            
             return View(facilityProgress);
         }
 
