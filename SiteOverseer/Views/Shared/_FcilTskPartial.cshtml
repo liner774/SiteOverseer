@@ -7,11 +7,6 @@
 <script src="~/js/fcilTsk.js"></script>
 
 
-@* <section class="content">
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ProgId" /> *@
-
         <div class="form-group row">
             <label asp-for="FcilTskId" class="col-sm-3 col-form-label control-label">Facility Task ID</label>
             <div class="col-sm-9">
@@ -131,33 +126,8 @@
         <div class="form-group row">
             <label asp-for="Remark" class="col-sm-3 col-form-label control-label"></label>
             <div class="col-sm-9">
-                <input asp-for="Remark" class="form-control" />
+                <textarea asp-for="Remark" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Remark" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="form-group row">
-            <label asp-for="FCompany" class="col-sm-3 col-form-label control-label">Company</label>
-            <div class="col-sm-9">
-                <input asp-for="FCompany" class="form-control" readonly />
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="RevdTetime" class="col-sm-3 col-form-label control-label">Revised Datetime</label>
-            <div class="col-sm-9">
-                <input class="form-control" readonly value="@Model.RevdTetime.ToString("dd MMM yyyy hh:mm:ss tt")" />
-            </div>
-        </div>
-
-
-
-        <div class="form-group row">
-            <label asp-for="FUser" class="col-sm-3 col-form-label control-label">User</label>
-            <div class="col-sm-9">
-                <input asp-for="FUser" class="form-control" readonly />
-            </div>
-        </div>
-@* 
-    </form>
-</section> *@

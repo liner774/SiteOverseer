@@ -35,7 +35,7 @@
                         <div class="form-group">
                                 <label asp-for="MnugrpId" class="control-label">Menu Group Name</label>
 
-                                <select asp-for="MnugrpId" class="form-control" asp-items="@ViewBag.MenuGpList">
+                                <select asp-for="MnugrpId" class="form-select" asp-items="@ViewBag.MenuGpList">
                                     <option value="">- Select One -</option>
                                 </select>
                                 <span asp-validation-for="MnugrpId" class="text-danger"></span>

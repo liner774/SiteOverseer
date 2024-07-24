@@ -32,9 +32,9 @@ namespace SiteOverseer.Models
 
         //custom
         
-        [DisplayName("Facility Type Code")]
+        [DisplayName("Facility Type")]
         [NotMapped]
-        public string? FcilityCde{ get; internal set; }
+        public string? FcilityDesc{ get; internal set; }
         [DisplayName("Company")]
         [NotMapped]
         public string? Company { get; internal set; }

@@ -140,29 +140,33 @@ namespace SiteOverseer.Controllers
 
         public IActionResult Create()
         {
+            var facilityProgress = new FacilityProgress
+            {
+                SubmitDte = DateTime.Now // Set default value
+            };
+
             SetLayOutData();
 
             var facilityTaskList = (from ft in _context.MS_Facilitytask
                                     join f in _context.MS_Facility on ft.FcilId equals f.FcilId
+                                    join wd in _context.MS_Wbsdetail on ft.WbsdId equals wd.WbsdId
                                     select new
                                     {
                                         FciltskId = ft.FciltskId,
                                         FcilCde = f.FcilCde,
-                                        FcilNme = f.FcilNme
+                                        FcilNme = f.FcilNme,
+                                        WbsdCde = wd.WbsdCde 
                                     }).ToList();
 
             var selectList = facilityTaskList.Select(ft => new
             {
                 FciltskId = ft.FciltskId,
-                Display = $"{ft.FcilCde} | {ft.FcilNme}"
+                Display = $" {ft.FcilNme} - {ft.WbsdCde}" 
             }).ToList();
-
             ViewBag.FciltskidList = new SelectList(selectList, "FciltskId", "Display");
 
-            return View();
+            return View(facilityProgress);
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -299,6 +303,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
+            ModelState.Remove("SubmitDte");
 
             if (ModelState.IsValid)
             {

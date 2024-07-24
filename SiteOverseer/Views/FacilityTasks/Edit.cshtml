@@ -69,10 +69,11 @@
                                 <label asp-for="FcilId" class="control-label">Facility</label>
                                 <select asp-for="FcilId" class="form-select" asp-items="@ViewBag.FcliNmeList" disabled>
                                     <option value="">- Select One -</option>
-
                                 </select>
+                                <input type="hidden" asp-for="FcilId" />
                                 <span asp-validation-for="FcilId" class="text-danger"></span>
                             </div>
+
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">

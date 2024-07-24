@@ -6,22 +6,18 @@
 }
 
 @section scripts {
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         var progressData = @Html.Raw(progressDataJson);
 
-        console.log('ProgressData',progressData);
+        console.log('ProgressData', progressData);
 
         var labels = progressData.map(item => item.fcilnme);
         var data = progressData.map(item => item.progPercent);
 
-        
-
         console.log('Labels:', labels);
         console.log('Data:', data);
-
 
         // Bar Chart
         var ctx = document.getElementById('progressChart').getContext('2d');
@@ -57,6 +53,14 @@
                     x: {
                         title: { display: true, text: 'Facilities', font: { weight: 'bold' } },
                         ticks: { font: { weight: 'bold' } }
+                    }
+                },
+                onClick: function (event, elements) {
+                    if (elements.length > 0) {
+                        var index = elements[0].index;
+                        var facilityName = labels[index];
+                        var url = '@Url.Action("Index", "FacilityProgresses")' ;
+                        window.location.href = url;
                     }
                 }
             }
@@ -197,26 +201,28 @@
             <div class="card-body" style="display: block; height: 400px; overflow-y: auto;">
                 @foreach (var item in Model)
                 {
-                    var today = DateTime.Now;
-                    var daysLeft = (item.workendDte - today).Days;
-                    var totalDays = (item.workendDte - item.workstartDte).Days;
-                    var daysPassed = (today - item.workstartDte).Days;
-                    var progressPercentage = (totalDays > 0) ? (daysPassed / (double)totalDays) * 100 : 0; 
-                    var width = Math.Min(100, progressPercentage); 
+                    if (item.progPercent < 100)
+                    {
+                        var today = DateTime.Now;
+                        var daysLeft = (item.workendDte - today).Days;
+                        var totalDays = (item.workendDte - item.workstartDte).Days;
+                        var daysPassed = (today - item.workstartDte).Days;
+                        var progressPercentage = (totalDays > 0) ? (daysPassed / (double)totalDays) * 100 : 0;
+                        var width = Math.Min(100, progressPercentage);
 
-                    <div class="progress-group">
-                        <span>@item.fcilnme</span>
-                        <span class="float-right">
-                            <b>
-                                @(daysLeft < 0 ? "Overdue by " + Math.Abs(daysLeft) + " days" : daysLeft + " days")
-                            </b>
-                            left / @totalDays days
-                        </span>
-                        <div class="progress progress-sm">
-                            <div class="progress-bar bg-primary" style="width: @width%"></div>
+                        <div class="progress-group">
+                            <span>@item.fcilnme</span>
+                            <span class="float-right">
+                                @Html.Raw(daysLeft < 0 ?
+                                         "Overdue by <strong>" + Math.Abs(daysLeft) + "</strong> days" :
+                                         "<strong>" + daysLeft + "</strong> days left / " + totalDays + " days")
+                            </span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-primary" style="width: @width%"></div>
+                            </div>
                         </div>
-                    </div>
-
+                        <br />
+                    }
                 }
             </div>
         </div>

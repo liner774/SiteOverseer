@@ -28,7 +28,7 @@ namespace SiteOverseer.Controllers
             var facilityCodeList = await _context.MS_Contractor.ToListAsync();
             foreach (var contractor in facilityCodeList)
             {
-                contractor.FcilityCde = _context.MS_Facilitytype.Where(gp => gp.FciltypId == contractor.FciltypId).Select(gp => gp.FciltypCde).FirstOrDefault();
+                contractor.FcilityDesc = _context.MS_Facilitytype.Where(gp => gp.FciltypId == contractor.FciltypId).Select(gp => gp.FciltypDesc).FirstOrDefault();
                 contractor.Currcde = _context.MS_Progresspayment.Where(gp => gp.Progpayid == contractor.ProgpayId).Select(gp => gp.Currcde).FirstOrDefault();
             }
             return View(facilityCodeList);
@@ -51,7 +51,7 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
-            contractor.FcilityCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == contractor.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
+            contractor.FcilityDesc = _context.MS_Facilitytype.Where(ft => ft.FciltypId == contractor.FciltypId).Select(ft => ft.FciltypDesc).FirstOrDefault();
             contractor.Company = _context.MS_Company.Where(c => c.CmpyId == contractor.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             contractor.User = _context.MS_User.Where(u => u.UserId == contractor.UserId).Select(u => u.UserNme).FirstOrDefault();
             contractor.Currcde = _context.MS_Progresspayment.Where(c => c.Progpayid == contractor.ProgpayId).Select(c => c.Currcde).FirstOrDefault();
@@ -64,7 +64,7 @@ namespace SiteOverseer.Controllers
         public IActionResult Create()
         {
             SetLayOutData();
-            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View();
         }
@@ -84,7 +84,7 @@ namespace SiteOverseer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(contractor);
         }
@@ -102,7 +102,7 @@ namespace SiteOverseer.Controllers
             {
                 return NotFound();
             }
-            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(contractor);
         }
@@ -138,7 +138,7 @@ namespace SiteOverseer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcliList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             ViewData["Progid"] = new SelectList(_context.MS_Progresspayment.ToList(), "Progpayid", "Currcde");
             return View(contractor);
         }
@@ -159,9 +159,9 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
 
-            contractor.FcilityCde = await _context.MS_Facilitytype
+            contractor.FcilityDesc = await _context.MS_Facilitytype
                 .Where(ft => ft.FciltypId == contractor.FciltypId)
-                .Select(ft => ft.FciltypCde)
+                .Select(ft => ft.FciltypDesc)
                 .FirstOrDefaultAsync();           
             contractor.Company = _context.MS_Company.Where(c => c.CmpyId == contractor.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             contractor.User = _context.MS_User.Where(u => u.UserId == contractor.UserId).Select(u => u.UserNme).FirstOrDefault();

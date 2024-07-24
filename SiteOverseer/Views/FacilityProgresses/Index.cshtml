@@ -193,19 +193,28 @@
                                             <td>
                                                 @Convert.ToDateTime(item.WorkendDte).ToString("MM/dd/yyyy")
                                             </td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 @{
-                                                    var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
-                                                    if (daysRemain < 0)
+                                                    if (item.TaskCompleteFlg)
                                                     {
-                                                        <span>Overdue by @daysRemain days</span>
+                                                        <span>-</span>
                                                     }
                                                     else
                                                     {
-                                                        <span>@daysRemain days</span>
+                                                        var daysRemain = (Convert.ToDateTime(item.WorkendDte) - DateTime.Now).Days;
+                                                        if (daysRemain < 0)
+                                                        {
+                                                            <span>@daysRemain days <br /> (Overdue)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@daysRemain days</span>
+                                                        }
                                                     }
                                                 }
                                             </td>
+
+
                                             <td>
                                                 @(item.TaskCompleteFlg? "Yes" : "No")             
                                             </td>

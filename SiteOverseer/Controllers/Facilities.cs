@@ -55,7 +55,7 @@ namespace SiteOverseer.Controllers
             facility.Company = _context.MS_Company.Where(c => c.CmpyId == facility.CmpyId).Select(c => c.CmpyNme).FirstOrDefault();
             facility.User = _context.MS_User.Where(u => u.UserId == facility.UserId).Select(u => u.UserNme).FirstOrDefault();
             facility.CityName = _context.MS_City.Where(ft => ft.CityId == facility.CityId).Select(ft => ft.CityName).FirstOrDefault();
-            facility.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == facility.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
+            facility.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == facility.FciltypId).Select(ft => ft.FciltypDesc).FirstOrDefault();
 
             return View(facility);
         }
@@ -65,7 +65,7 @@ namespace SiteOverseer.Controllers
         {
             SetLayOutData();
             ViewData["CityList"] = new SelectList(_context.MS_City.ToList(), "CityId", "CityName");
-            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             return View();
         }
 
@@ -84,7 +84,7 @@ namespace SiteOverseer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CityList"] = new SelectList(_context.MS_City.ToList(), "CityId", "CityName");
-            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             return View(facility);
         }
 
@@ -103,7 +103,7 @@ namespace SiteOverseer.Controllers
                 return NotFound();
             }
             ViewData["CityList"] = new SelectList(_context.MS_City.ToList(), "CityId", "CityName");
-            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypCde");
+            ViewData["FcilTypList"] = new SelectList(_context.MS_Facilitytype.ToList(), "FciltypId", "FciltypDesc");
             return View(facility);
         }
  
@@ -159,7 +159,7 @@ namespace SiteOverseer.Controllers
             }
 
             facility.CityName = _context.MS_City.Where(ft => ft.CityId == facility.CityId).Select(ft => ft.CityName).FirstOrDefault();
-            facility.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == facility.FciltypId).Select(ft => ft.FciltypCde).FirstOrDefault();
+            facility.FciltypCde = _context.MS_Facilitytype.Where(ft => ft.FciltypId == facility.FciltypId).Select(ft => ft.FciltypDesc).FirstOrDefault();
 
             return View(facility);
         }

@@ -61,7 +61,6 @@ namespace SiteOverseer.Models
         public int? CntorId { get; set; }
         [NotMapped]
         [DisplayName("Contractor")]
-        [Required(ErrorMessage = "Please choose Contractor")]
         public string? CntorNme { get; set; }
 
         [NotMapped]
