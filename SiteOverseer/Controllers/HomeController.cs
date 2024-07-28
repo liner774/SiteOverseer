@@ -29,6 +29,7 @@ namespace SiteOverseer.Controllers
                                 orderby ft.WorkendDte descending
                                 select new
                                 {
+                                    progId = p.ProgId,
                                     progPercent = p.ProgPercent,
                                     fciltskId = p.FcilTskId,
                                     fcilId = ft.FcilId,

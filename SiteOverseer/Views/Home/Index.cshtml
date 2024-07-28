@@ -15,11 +15,13 @@
 
         var labels = progressData.map(item => item.fcilnme);
         var data = progressData.map(item => item.progPercent);
+        var ids = progressData.map(item => item.progId);  
 
         console.log('Labels:', labels);
         console.log('Data:', data);
+        console.log('ProgId:', ids);
 
-        // Bar Chart
+        // Horizontal Bar Chart
         var ctx = document.getElementById('progressChart').getContext('2d');
         var progressChart = new Chart(ctx, {
             type: 'bar',
@@ -34,6 +36,7 @@
                 }]
             },
             options: {
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -44,27 +47,28 @@
                     legend: { labels: { font: { weight: 'bold' } } }
                 },
                 scales: {
-                    y: {
+                    x: {
                         beginAtZero: true,
                         max: 100,
                         title: { display: true, text: 'Progress Percent', font: { weight: 'bold' } },
                         ticks: { font: { weight: 'bold' } }
                     },
-                    x: {
-                        title: { display: true, text: 'Facilities', font: { weight: 'bold' } },
+                    y: {
+                        title: { display: false, text: 'Facilities', font: { weight: 'bold' } },
                         ticks: { font: { weight: 'bold' } }
                     }
                 },
                 onClick: function (event, elements) {
                     if (elements.length > 0) {
                         var index = elements[0].index;
-                        var facilityName = labels[index];
-                        var url = '@Url.Action("Index", "FacilityProgresses")' ;
+                        var progId = ids[index]; 
+                        var url = '@Url.Action("Edit", "FacilityProgresses")/' + progId;
                         window.location.href = url;
                     }
                 }
             }
         });
+
 
         // Load tasks from localStorage
         document.addEventListener('DOMContentLoaded', function () {
