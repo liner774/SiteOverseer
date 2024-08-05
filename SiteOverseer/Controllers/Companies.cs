@@ -153,5 +153,23 @@ namespace SiteOverseer.Controllers
         {
             return _context.MS_Company.Any(e => e.CmpyId == id);
         }
+
+        protected void SetLayOutData()
+        {
+            var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (userCde != null)
+            {
+                var user = _context.MS_User
+                    .Where(u => u.UserCde == userCde)
+                    .Select(u => new { u.UserNme, u.Position })
+                    .FirstOrDefault();
+
+                if (user != null)
+                {
+                    ViewData["Username"] = user.UserNme;
+                    ViewData["Position"] = user.Position;
+                }
+            }
+        }
     }
 }

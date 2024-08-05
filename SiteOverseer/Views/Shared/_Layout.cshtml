@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,7 +20,6 @@
 
     <div class="wrapper">
 
-
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -33,26 +31,25 @@
                 </li>
             </ul>
         </nav>
+
         <!-- Main Sidebar Container -->
-   
         <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-closed sidebar-collapsed">
-                <!-- Sidebar content -->
-                <div class="sidebar sidebar-collapse">
-                    <!-- Sidebar user (optional) -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
-                            <img src="~/lib/AdminLTE/dist/img/user.png" class="elevation-3" alt="User Image">
-                        </div>
-                        <div class="info">
-                            <a class="d-block">@ViewData["Username"]</a>
-                        </div>
+            <!-- Sidebar content -->
+            <div class="sidebar sidebar-collapse">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/lib/AdminLTE/dist/img/user.png" class="elevation-3" alt="User Image">
                     </div>
+                    <div class="info">
+                        <a class="d-block">@ViewData["Username"]</a>
+                    </div>
+                </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-                        
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+
                         <li class="nav-item">
                             <a asp-controller="Home" asp-action="Index" class="nav-link">
                                 <i class="fas fa-home nav-icon"></i>
@@ -67,147 +64,11 @@
                             </a>
                         </li>
 
-                        @* <li class="nav-item">
-                            <a asp-controller="Home" asp-action="Index" class="nav-link">
-                                <i class="fas fa-clipboard-check nav-icon"></i>
-                                <p>Facility Transaction Log</p>
-                            </a>
-                        </li> *@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-hammer"></i>
-                                <p>
-                                    Setups
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="Contractors" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-file-contract nav-icon"></i>
-                                        <p>Contractor</p>
-                                    </a>
-                                    
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Wbss" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-level-down-alt nav-icon"></i>
-                                        <p>Work Breakdown System</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Cities" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-city nav-icon"></i>
-                                        <p>City</p>
-                                    </a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="ProgressPayments" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-credit-card nav-icon"></i>
-                                        <p>Progress Payment</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-cogs"></i>
-                                <p>
-                                    Facility Setups
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="FacilityTasks" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-tasks nav-icon"></i>
-                                        <p>Facility Task</p>
-                                    </a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Facilities" asp-action="Index" class="nav-link">
-                                        <i class="far fa-clipboard nav-icon"></i>
-                                        <p>Facility</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="FacilityTypes" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-clipboard nav-icon"></i>
-                                        <p>Facility Type</p>
-                                    </a>
-
-                                </li>                              
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fab fa-btc"></i>
-                                <p>
-                                    Tran Setups
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="TranTypeCodes" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Tran Code</p>
-                                    </a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="TranTypeReasons" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-code-branch nav-icon"></i>
-                                        <p>Tran Reason</p>
-                                    </a>
-                                </li>
-                                
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-cog"></i>
-                                <p>
-                                    User Setups
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="Users" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-user nav-icon"></i>
-                                        <p>User</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Menugps" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-folder nav-icon"></i>
-                                        <p>Menu Group</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Menuaccesses" asp-action="Index" class="nav-link">
-                                        <i class="fas fa-folder-open nav-icon"></i>
-                                        <p>Menu Access</p>
-                                    </a>
-                                </li>
-                                
-                               
-                            </ul>
-                        </li>
-
-                     
-
-                        @if (new[] { "ACCESS_LEVEL" }.Contains(ViewData["Role"]?.ToString()))
+                        @if (ViewData["Position"]?.ToString() == "Administrator")
                         {
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <i class="nav-icon fas fa-hammer"></i>
                                     <p>
                                         Setups
                                         <i class="right fas fa-angle-left"></i>
@@ -215,19 +76,146 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../../Companies/index" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Company Setup</p>
+                                        <a asp-controller="Contractors" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-file-contract nav-icon"></i>
+                                            <p>Contractor</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../CompanyUsers/index" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Company User Setup</p>
+                                        <a asp-controller="Wbss" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-level-down-alt nav-icon"></i>
+                                            <p>Work Breakdown System</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Cities" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-city nav-icon"></i>
+                                            <p>City</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="ProgressPayments" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-credit-card nav-icon"></i>
+                                            <p>Progress Payment</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>
+                                        Facility Setups
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="FacilityTasks" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-tasks nav-icon"></i>
+                                            <p>Facility Task</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Facilities" asp-action="Index" class="nav-link">
+                                            <i class="far fa-clipboard nav-icon"></i>
+                                            <p>Facility</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="FacilityTypes" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-clipboard nav-icon"></i>
+                                            <p>Facility Type</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fab fa-btc"></i>
+                                    <p>
+                                        Tran Setups
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="TranTypeCodes" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Tran Code</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="TranTypeReasons" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-code-branch nav-icon"></i>
+                                            <p>Tran Reason</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-user-cog"></i>
+                                    <p>
+                                        User Setups
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Users" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-user nav-icon"></i>
+                                            <p>User</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Menugps" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-folder nav-icon"></i>
+                                            <p>Menu Group</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Menuaccesses" asp-action="Index" class="nav-link">
+                                            <i class="fas fa-folder-open nav-icon"></i>
+                                            <p>Menu Access</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @if (new[] { "ACCESS_LEVEL" }.Contains(ViewData["Role"]?.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>
+                                            Setups
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="../../Companies/index" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Company Setup</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../../CompanyUsers/index" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Company User Setup</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                        else if (ViewData["Position"]?.ToString() == "Manager")
+                        {
+                            <!-- Only Home and Facility Progress visible for Managers -->
                         }
                     </ul>
                 </nav>
@@ -237,48 +225,24 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="min-height: 1302.4px;">
-            <!-- Content Header (Page header) -->
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            @RenderBody()
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
+        <div class="content-wrapper">
+            @RenderBody()
         </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
 
-
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 1.1.0
-            </div>
-            <strong>© 2024 Site Overseer - <a href="https://fortifiedcitymyanmar.com/">Fortified City</a></strong>
-        </footer>
-
-        
     </div>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <!-- ./wrapper -->
     <!-- jQuery -->
-    <script src="~/lib/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/lib/AdminLTE/dist/js/adminlte.min.js"></script>
-    <!-- Bootstrap 4 -->
-
-    <script src="~/lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
-
 </html>

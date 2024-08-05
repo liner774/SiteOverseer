@@ -203,12 +203,16 @@ namespace SiteOverseer.Controllers
             var userCde = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userCde != null)
             {
-                var userName = _context.MS_User
+                var user = _context.MS_User
                     .Where(u => u.UserCde == userCde)
-                    .Select(u => u.UserNme)
+                    .Select(u => new { u.UserNme, u.Position })
                     .FirstOrDefault();
 
-                ViewData["Username"] = userName;
+                if (user != null)
+                {
+                    ViewData["Username"] = user.UserNme;
+                    ViewData["Position"] = user.Position;
+                }
             }
         }
         #endregion
