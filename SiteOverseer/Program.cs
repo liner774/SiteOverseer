@@ -1,20 +1,34 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using SiteOverseer.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Configure DbContext with SQL Server
+builder.Services.AddDbContext<SiteDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add authentication dependency injection to authenticate log in user
+// Add authentication with cookie scheme
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/LogIn/Index";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(240);
     });
+
+// Add authorization policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdministratorPolicy", policy =>
+        policy.RequireClaim("Position", "Administrator"));
+
+    options.AddPolicy("ManagerPolicy", policy =>
+        policy.RequireClaim("Position", "Manager"));
+});
 
 var app = builder.Build();
 
@@ -32,7 +46,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -40,6 +53,3 @@ app.MapControllerRoute(
     pattern: "{controller=LogIn}/{action=Index}/{id?}");
 
 app.Run();
-
-
-

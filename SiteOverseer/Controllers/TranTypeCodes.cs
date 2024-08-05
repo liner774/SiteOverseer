@@ -12,7 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class TranTypeCodes : Controller
     {
         private readonly SiteDbContext _context;

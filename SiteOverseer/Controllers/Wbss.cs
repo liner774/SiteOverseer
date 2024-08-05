@@ -12,7 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class Wbss : Controller
     {
         private readonly SiteDbContext _context;

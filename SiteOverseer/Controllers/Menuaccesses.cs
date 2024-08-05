@@ -11,7 +11,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class Menuaccesses : Controller
     {
         private readonly SiteDbContext _context;

@@ -12,7 +12,7 @@ using SiteOverseer.Models;
 
 namespace SiteOverseer.Controllers
 {
-    
+    [Authorize(Roles = "Administrator")]
     public class FacilityTasks : Controller
     {
         private readonly SiteDbContext _context;

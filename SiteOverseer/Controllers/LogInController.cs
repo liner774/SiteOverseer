@@ -60,6 +60,7 @@ namespace SiteOverseer.Controllers
                             {
                                 var claims = new List<Claim>() {
                                 new (ClaimTypes.NameIdentifier,user.UserCde)
+
                                 };
 
                                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
