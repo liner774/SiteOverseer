@@ -250,6 +250,7 @@ namespace SiteOverseer.Controllers
 
         public async Task<IActionResult> Edit(long id)
         {
+            SetLayOutData();
             var facilityProgress = await _context.PMS_Facilityprogress
                 .Include(fp => fp.Images)
                 .FirstOrDefaultAsync(fp => fp.ProgId == id);

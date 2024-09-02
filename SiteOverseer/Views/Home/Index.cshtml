@@ -215,7 +215,7 @@
                         var width = Math.Min(100, progressPercentage);
 
                         <div class="progress-group">
-                            <span>@item.fcilnme</span>
+                            <span>@item.fcilnme (@item.progPercent)%</span>
                             <span class="float-right">
                                 @Html.Raw(daysLeft < 0 ?
                                          "Overdue by <strong>" + Math.Abs(daysLeft) + "</strong> days" :

@@ -132,20 +132,23 @@
                             <input asp-for="ProgId" type="hidden" />
                             <input asp-for="FcilTskId" type="hidden" />
 
-                            <div class="form-group">
-                                <button class="btn btn-primary" onclick="ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    View Facility Task Detail
-                                </button>
-                                <div class="collapse" id="collapseExample">
-                                    <div class="card card-body">
-                                        <div id="partialContainer">
-                                            <partial name="_FcilTskPartial" />
+                           @if (User.IsInRole("Administrator"))
+                            {
+                                <div class="form-group">
+                                    <button class="btn btn-primary" onclick="ShowFcilTskDetails(FcilTskId)" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                        View Facility Task Detail
+                                    </button>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            <div id="partialContainer">
+                                                <partial name="_FcilTskPartial" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
 
-                            <div class="form-group">
+                           @*  <div class="form-group">
                                 <label asp-for="Longitude" class="control-label">Longitude</label>
                                 <input asp-for="Longitude" class="form-control" />
                                 <span asp-validation-for="Longitude" class="text-danger"></span>
@@ -155,7 +158,7 @@
                                 <label asp-for="Latitude" class="control-label">Latitude</label>
                                 <input asp-for="Latitude" class="form-control" />
                                 <span asp-validation-for="Latitude" class="text-danger"></span>
-                            </div>
+                            </div> *@
 
                             <div class="form-group">
                                 <label asp-for="ProgPercent" class="control-label">Progress Percent</label>
